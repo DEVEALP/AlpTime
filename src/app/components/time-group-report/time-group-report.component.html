@@ -1,0 +1,86 @@
+<app-menu [title]="'Horas Trabajadas'" [urlReturn]="'reports'" [loading]="loading">
+   <div class="cont background1">
+      <div class="head" [class.head_mobile]="mobile">
+         <div class="row">
+            <button matRipple class="contItemsButtoms background" style="padding: 0px 8px;" [matMenuTriggerFor]="donwload">
+               <span class="material-icons iconitemtextbutton color3">file_download</span>
+               <span class="titleitemtextbutton color1" *ngIf="!mobile">Descargar</span>
+            </button>
+            <button class="btnfilter background" matRipple (click)="setFilters()">
+               <span class="material-icons btnfilter_icon color3">filter_alt</span>
+               <span class="btnfilter_text color1">Filtrar</span>
+               <div class="btnfilter_actived bg_color"
+                  *ngIf="!filters_laoding && filters_actived">{{filters_actived}}</div>
+               <mat-spinner class="loading_color" *ngIf="filters_laoding"
+                  strokeWidth="2" diameter="15"
+                  style="margin-left: 7px;"></mat-spinner>
+            </button>
+            <!-- <button matRipple class="contItemsButtoms" style="padding: 0px 8px;" (click)="change_view_graph()"> -->
+               <!-- <span class="material-icons iconitemtextbutton">{{view_graph ? 'subject' : 'show_chart'}}</span> -->
+               <!-- <span class="titleitemtextbutton" *ngIf="!mobile">{{view_graph ? 'Ver datos' : 'Ver grafico'}}</span> -->
+            <!-- </button> -->
+            <mat-menu #donwload="matMenu">
+               <button mat-menu-item (click)="donwload_pdf()">Descargar Pdf</button>
+               <button mat-menu-item (click)="donwload_excel()">Descargar Excel</button>
+             </mat-menu>
+         </div>
+         <div class="inpput_cont background" [class.width2]="mobile" style="width: 110px;" *ngIf="menzualizado">
+            <span class="material-icons iconinput">event</span>
+            <input class="input_monh color1" [value]="date.value" type="text">
+            <input class="input_monh_hidden color1" [matDatepicker]="dp" [formControl]="start">
+            <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp startView="year" (monthSelected)="setMonthAndYear($event, dp)" panelClass="example-month-picker">
+            </mat-datepicker>
+         </div>
+         <div class="inpput_cont" [class.width2]="mobile" style="width: 200px;" *ngIf="!menzualizado">
+            <span class="material-icons iconinput">search</span>
+            <mat-date-range-input [rangePicker]="picker">
+               <input type="text" #startI matStartDate [value]="start.value" autocomplete="off" placeholder="DD/MM/AAAA" (dateChange)="changedate(startI.value, 'start')" (keyup.enter)="changedate(startI.value, 'start')" (blur)="changedate(startI.value, 'start')">
+               <input hidden [formControl]="start">
+               <input type="text" #endI matEndDate [value]="end.value" autocomplete="off" placeholder="DD/MM/AAAA" (dateChange)="changedate(endI.value, 'end')" (keyup.enter)="changedate(endI.value, 'end')" (blur)="changedate(endI.value, 'end')">
+               <input hidden [formControl]="end">
+            </mat-date-range-input>
+            <mat-datepicker-toggle style="transform: scale(0.8);" matSuffix
+               [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+         </div>
+      </div>
+      <div class="body" [class.body_mobile]="mobile">
+         <div class="table" *ngIf="!view_graph">
+            <div class="tablehead background" style="min-width: 1210px;">
+               <div class="tableMenu color3">Días</div>
+               <div class="tableMenu color3 size200" style="width: calc(100% - 900px);">Nombre</div>
+               <div class="tableMenu color3">Subtotal</div>
+               <div class="tableMenu color3">Atrasos</div>
+               <div class="tableMenu color3">Permisos</div>
+               <div class="tableMenu color3">Vacaciones</div>
+               <div class="tableMenu color3">H Falta</div>
+               <div class="tableMenu color3">Total</div>
+               <div class="tableMenu color3">H25%</div> 
+               <div class="tableMenu color3">H50%</div>
+               <div class="tableMenu color3">H100%</div>
+               <div class="tableMenu color3 size10"></div>
+            </div>
+            <div class="tablebody" style="min-width: 1210px;width: 100%;">
+                  <div class="tabletd" *ngFor="let x of records;let i = index" (click)="viewUser(x)" [style]="'min-width: 1200px;width: 100%;animation-delay:' + (i/25) + 's;'">
+                     <div class="tableItem color1">{{x.dias}}</div>
+                     <div class="tableItem color1 size200" style="width: calc(100% - 900px);text-align: start;justify-content: flex-start;">{{x.nombre | titlecase}}</div>
+                     <div class="tableItem color1">{{x.subtotal}}</div>
+                     <div class="tableItem color1">{{x.atraso}}</div>
+                     <div class="tableItem color1">{{x.permisos}}</div>
+                     <div class="tableItem color1">{{x.vacaciones}}</div>
+                     <div class="tableItem color1">{{x.falta}}</div>
+                     <div class="tableItem color1">{{x.total}}</div>
+                     <div class="tableItem color1">{{x.h25}}</div>
+                     <div class="tableItem color1">{{x.h50}}</div>
+                     <div class="tableItem color1">{{x.h100}}</div>
+                  </div>
+               </div>
+               <div class="not_results" *ngIf="records.length == 0 && !loading">No se encontraron resultados</div>
+         </div>
+         <div class="contGrap" *ngIf="view_graph">
+            <div id="chartdiv" style="width: 100%;"></div>
+         </div>
+      </div>
+   </div>
+</app-menu>

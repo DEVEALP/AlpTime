@@ -1,0 +1,197 @@
+.cont{
+   width: 100%;
+   height: calc(100vh - 50px);
+   padding-top: 50px;
+   display: flex;
+   flex-direction: column;
+   background: rgb(236, 237, 238);
+   position: relative;
+}
+.loading{
+   position: absolute;
+   left: 0px;
+   top: 0px;
+   z-index: 100;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 100%;
+   background: rgba(0,0,0,0.2);
+   backdrop-filter: blur(1px);
+}
+.menu{
+   width: calc(100% - 20px);
+   height: 45px;
+   z-index: 200;
+   padding: 0px 10px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   flex-direction: row;
+   position: fixed;
+   left: 0px;
+   top: 0px;
+   -webkit-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.1);
+-moz-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.1);
+box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.1);
+}
+.title_menu{
+   color: #111;
+   font-size: 14px;
+   font-weight: 500;
+   margin-left: 6px;
+   margin-top: 2px;
+}
+.buttonmenuuser{
+   padding: 2px 15px;
+   padding-right: 4px;
+   border-radius: 17px;
+   height: 34px;
+   transition: all ease-out .3s;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   border: none;
+   outline: none;
+   background: transparent;
+   cursor: pointer;
+}
+.buttonmenuuser:hover, .buttonmenuuser:focus{
+   background: rgba(0, 0, 0, 0.08);
+}
+.textprofile{
+   font-size: 12px;
+   font-weight: 600;
+   opacity: 0.8;
+   margin-top: 2px;
+}
+.contimageprofile{
+   width: 28px;
+   height: 28px;
+   margin: 1px;
+   overflow: hidden;
+   border-radius: 15px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-left: 9px;
+}
+.profile{
+   width: 100%;
+}
+
+.btnmenutext{
+   font-size: 13px;
+   font-weight: 600;
+   color: #222;
+}
+.btnmenuitems{
+   width: 20px;
+   height: 3px;
+   border-radius: 2px;
+   background: #6cbf8f;
+   position: absolute;
+   left: 50%;
+   margin-left: -10px;
+   bottom: 0px;
+}
+.seletedMenu{
+   opacity: 1;
+}
+::ng-deep.mat-progress-spinner circle, .mat-spinner circle {
+   stroke: #46bb77;
+} 
+.titlehead{
+   font-size: 14px;
+   font-weight: 500;
+   margin-left: 5px;
+   margin-top: 2px;
+}
+.menuvert{
+   width: 200px;
+   height: calc(100% - 50px);
+   position: fixed;
+   left: -200px;
+   z-index: 109;
+   top: 0px;
+   padding-top: 50px;
+   transition: all ease-out .4s;
+}
+.submenuvert{
+   width: 100%;
+   height: 100%;
+   position: relative;
+   display: flex;
+   flex-direction: column;
+}
+.menuactived{
+   left: 0px;
+   -webkit-box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.1);
+-moz-box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.1);
+box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.1);
+}
+.itemmenuvert{
+   border: none;
+   outline: none;
+   cursor: pointer;
+   width: 100%;
+   padding: 0px 15px;
+   height: 45px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   background: none;
+   opacity: 0;
+   transition: all ease-out .2s;
+}
+.anit{
+   animation: opacity7 ease-out .4s forwards;
+}
+.itemmenuvert:hover, .itemmenuvert:focus{
+   opacity: 0.9 !important;
+   background: rgba(0, 0, 0, 0.08);
+}
+.selected{
+   background: rgba(0, 0, 0, 0.1) !important;
+   opacity: 1 !important;
+}
+.textmenuvert{
+   color: white;
+   font-size: 12px;
+   font-weight: 500;
+   margin-left: 10px;
+}
+.iconmenuvert{
+   color: white;
+   font-size: 18px;
+}
+::ng-deep.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb{
+   background-color:#1cac58
+ }
+ ::ng-deep.mat-slide-toggle.mat-checked .mat-slide-toggle-bar{
+   background-color:#58d18a
+ }
+ ::ng-deep.mat-form-field.mat-focused .mat-form-field-label{
+   color:#00943e
+ }
+ ::ng-deep.mat-form-field.mat-focused .mat-form-field-ripple{
+   background-color: #1cac58
+ }
+ ::ng-deep.mat-primary .mat-option.mat-selected:not(.mat-option-disabled){
+   color: #1cac58;
+}
+::ng-deep.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick{
+ color: #1cac58;
+}
+.version{
+   position: absolute;
+   left: 12px;
+   bottom: 8px;
+   font-weight: 500;
+   color: white;
+   font-size: 12px;
+   opacity: .6;
+}

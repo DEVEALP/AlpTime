@@ -1,0 +1,197 @@
+.cont{
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+   display: flex;
+   flex-direction: row;
+   align-items: flex-start;
+   justify-content: flex-start;
+   position: relative;
+   transition: all ease-out .3s;
+}
+.card{
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   top: 0px;
+   left: 100%;
+   transition: all ease-out .4s;
+   opacity: .0;
+}
+.view_card{
+   opacity: 1;
+   left: 0%;
+}
+.old_card{
+   left: -100%;
+}
+.home{
+   width: calc(100% - 30px);
+   height: calc(100% - 20px);
+   max-height: calc(100% - 20px);
+   overflow-y: scroll;
+   display: flex;
+   padding: 10px 15px;
+   flex-direction: column;
+}
+.btn_home{
+   width: 100%;
+   height: 60px;
+   border-radius: 8px;
+   display: flex;
+   margin: 5px 0px;
+   flex-direction: row;
+   align-items: center;
+   padding: 0px 15px;
+   position: relative;
+   border: none;
+   outline: none;
+   cursor: pointer;
+   -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.08);
+-moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.08);
+box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.08);
+}
+.btn_home_icon{
+   font-size: 22px;
+}
+.btn_home_arrow{
+   font-size: 20px;
+   position: absolute;
+   right: 15px;
+   transition: all ease-out .3s;
+}
+.btn_home_text{
+   font-size: 14px;
+   font-weight: 500;
+   margin-left: 15px;
+}
+.item_one{
+   width: calc(100% - 36px);
+   height: 70px;
+   min-height: 70px;
+   margin: 5px 0px;
+   border-radius: 10px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   padding: 0px 18px;
+   justify-content: space-between;
+   position: relative;
+   border: none;
+   outline: none;
+   cursor: pointer;
+   -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.08);
+-moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.08);
+box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.08);
+}
+.item_one_60{
+   height: 60px;
+}
+.row{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+.btn_home_loading{
+   position: absolute;
+   right: 20px;
+}
+.itemImage{
+   margin-left: 1px;
+   opacity: .7;
+   width: 20px;
+}
+.subtitle{
+   padding: 0px 10px;
+   width: calc(100% - 20px);
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   height: 40px;
+   margin-top: 5px;
+   font-size: 13px;
+   font-weight: 500;
+}
+.card_extend{
+   width: calc(100% - 0px);
+   height: 70px;
+   margin: 5px 0px;
+   border-radius: 10px;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   padding: 0px;
+   justify-content: flex-start;
+   position: relative;
+   border: none;
+   outline: none;
+   -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.08);
+-moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.08);
+box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.08);
+   max-height: 70px;
+   overflow: hidden;
+   transition:  all ease-out .3s;
+}
+.arrow_rotate{
+   transform: rotate(180deg);
+}
+.card_fullextend{
+   -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+   height: 400px;
+   max-height: 400px;
+}
+.card_fullextend_100{
+   -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+   height: 150px;
+   max-height: 150px;
+}
+.card_fullextend_500{
+   -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+   height: 460px;
+   max-height: 460px;
+}
+.card_fullextend_250{
+   -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+   height: 250px;
+   max-height: 250px;
+}
+.card_body{
+   width: calc(100% - 30px);
+   padding: 10px 15px;
+   display: flex;
+   flex-direction: column;
+   animation: opacity ease-out .3s;
+}
+.card_checkbox{
+   margin: 3px 0px;
+   width: 100%;
+   height: 45px;
+   min-height: 45px;
+   background: transparent;
+   border: none;
+   outline: none;
+   border-radius: 6px;
+   cursor: pointer;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   padding: 0px 20px;
+   opacity: .6;
+   transition: all ease-out .3s;
+}
+.card_checkbox_text{
+   font-size: 12px;
+}
+.card_checkbox_actived{
+   opacity: 1;
+}

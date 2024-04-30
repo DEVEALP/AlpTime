@@ -1,0 +1,199 @@
+.cont{
+   width: calc(100% - 30px);
+   height: calc(100% - 25px);
+   padding: 15px;
+   padding-top: 10px;
+   display: flex;
+   flex-direction: column;
+}
+.head{
+   width: 100%;
+   height: 40px;
+   padding-bottom: 5px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+}
+.inverthead{
+   justify-content: space-around;
+   align-items:  flex-start;
+   flex-direction: column-reverse;
+   height: 80px;
+}
+.body{
+   width: 100%;
+   max-width: 100%;
+   height: calc(100% - 45px);
+   display: flex;
+   flex-direction: column;
+   overflow-x: scroll;
+}
+.bhead{
+   width: 100%;
+   border-radius: 8px 8px 0px 0px;
+   display: flex;
+   flex-direction: row;
+}
+.bbody{
+   width: 100%;
+   overflow-y: scroll;
+   overflow-x: hidden;
+   max-height: calc(100vh - 170px);
+   height: calc(100% - 45px);
+   background: white;
+   border-radius: 0px 0px 8px 8px;
+}
+.row{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+.inpput_cont{
+   width: 200px;
+   height: 32px;
+   border-radius: 16px;
+   padding-left: 27px;
+   position: relative;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   background: white;
+   -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+-moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+}
+.width{
+   width: calc(100% - 30px);
+}
+.input{
+   width: 100%;
+   padding-bottom: 1px;
+   height: calc(100% - 1px);
+   background: none;
+   outline: none;
+   border: none;
+}
+.iconinput{
+   font-size: 17px;
+   color: #333;
+   opacity: 0.4;
+   position: absolute;
+   left: 6px;
+   top: 7px;
+}
+.contItemsButtoms{
+   padding: 0px 15px;
+   padding-left: 10px;
+   border-radius: 16px;
+   height: 30px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   background: none;
+   cursor: pointer;
+   outline: none;
+   margin-right: 5px;
+   border: none;
+   transition: all ease-out .2s;
+   background: white;
+   opacity: 0.8;
+}
+.contItemsButtoms:focus, .contItemsButtoms:hover{
+   opacity: 1;
+   -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+}
+.contItemsButtoms:disabled{
+   opacity: 0.6 !important;
+   cursor: not-allowed;
+}
+.iconitemtextbutton{
+   font-size: 18px;
+   color: #666;
+}
+.textitemtextbutton{
+   margin-left: 5px;
+   padding-bottom: 1px;
+   font-size: 12px;
+   font-weight: 400;
+   color: #333;
+}
+.titleitemtextbutton{
+   margin-left: 5px;
+   padding-bottom: 1px;
+   font-size: 12px;
+   font-weight: 600;
+   color: #333;
+}
+.bhtitle{
+   height: 40px;
+   padding: 0px 5px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 11px;
+   font-weight: 500;
+   color: #ffffff;
+   line-height: 14px;
+   text-align: center;
+}
+.bhtext{
+   height: 50px;
+   padding: 0px 5px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 12px;
+   font-weight: 400;
+   color: #030303;
+   line-height: 14px;
+   text-align: center;
+}
+.div70{
+   width: 60px;
+   min-width: 60px;
+ }
+ .div200{
+   width: 190px;
+   min-width: 190px;
+ }
+ .div150{
+   width: 135px;
+   min-width: 135px;
+ }
+ .bitems{
+   width: 100%;
+   height: 50px;
+   cursor: pointer;
+   display: flex;
+   margin: 0px;
+   padding: 0px;
+   flex-direction: row;
+   align-items: center;
+   transition: all ease-out .3s;
+   opacity: 0;
+   animation: opacity ease-out .2s forwards;
+}
+.bitems:hover, .bitems:focus{
+   background: rgba(0, 0, 0, 0.05);
+}
+  ::ng-deep.mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element, .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element{
+   background: rgb(23, 151, 77) !important;
+}
+::ng-deep.mat-checkbox-checked .mat-checkbox-background{
+   background-color: rgb(93,187,132) !important;
+  }
+::ng-deep.mat-calendar-body-cell:hover > .mat-calendar-body-cell-content.mat-focus-indicator, ::ng-deep.mat-calendar-body-cell:focus > .mat-calendar-body-cell-content.mat-focus-indicator{
+   background-color: rgba(93, 187, 132, 0.3) !important;
+}
+::ng-deep.mat-calendar-body-in-range:focus > .mat-calendar-body-cell-content.mat-focus-indicator{
+   background-color: rgb(23, 151, 77) !important;
+}
+::ng-deep.mat-calendar-body-selected{
+   background-color: rgb(23, 151, 77) !important;
+}
+::ng-deep.mat-calendar-body-in-range::before{
+   background-color: rgba(23, 151, 77, 0.2) !important;
+}

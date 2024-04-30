@@ -1,0 +1,130 @@
+<div class="cont background1">
+   <div class="info background">
+      <div class="contimage">
+         <img class="image" [src]="device.image">
+      </div>
+      <div class="continfos">
+         <div class="continfo">
+            <div class="titleinfo color3">Nombre</div>
+            <div class="textinfo color1">{{device.name}}</div>
+         </div>
+         <div class="continfo">
+            <div class="titleinfo color3">Ubicación</div>
+            <div class="textinfo color1">{{device.ubication}}</div>
+         </div>
+      </div>
+      <div class="continfos">
+         <div class="continfo">
+            <div class="titleinfo color3">Estado</div>
+            <div class="textinfo color1">{{device.allow ? 'Habilitado' : 'Deshabiliado' }}</div>
+         </div>
+         <div class="continfo">
+            <div class="titleinfo color3">Conexión</div>
+            <div class="textinfo color1">{{device.state_device_title}}</div>
+         </div>
+      </div>
+      <div class="continfos">
+         <div class="continfo">
+            <div class="titleinfo color3">Lenguaje </div>
+            <div class="textinfo color1">{{device.language}}</div>
+         </div>
+         <div class="continfo">
+            <div class="titleinfo color3">Volumen</div>
+            <div class="textinfo color1">{{device.volume}}%</div>
+         </div>
+      </div>
+   </div>
+   <div class="continfocolum background" [class.sizei100]="mobile">
+      <div class="infotitle">Información del modelo</div>
+      <div class="citextscont">
+         <div class="citexts">
+            <div class="titleinfo color3">Marca del dispositivo</div>
+            <div class="textinfo color1">{{device.mark}}</div>
+         </div>
+         <button matRipple class="btnitem" (click)="copydata(device.mark)"><span class="material-icons iconbtn">content_copy</span></button>
+      </div>
+      <div class="citextscont">
+         <div class="citexts">
+            <div class="titleinfo color3">Modelo del dispositivo</div>
+            <div class="textinfo color1">{{device.model}}</div>
+         </div>
+         <button matRipple class="btnitem" (click)="copydata(device.model)"><span class="material-icons iconbtn">content_copy</span></button>
+      </div>
+      <div class="citextscont">
+         <div class="citexts">
+            <div class="titleinfo color3">Serie del dispositivo</div>
+            <div class="textinfo color1">{{device.serial}}</div>
+         </div>
+         <button matRipple class="btnitem" (click)="copydata(device.serial)"><span class="material-icons iconbtn">content_copy</span></button>
+      </div>
+   </div>
+
+   <div class="continfocolum background" [class.sizei100]="mobile">
+      <div class="infotitle">Red</div>
+      <div class="citextscont">
+         <div class="citexts">
+            <div class="titleinfo color3">Ip del dispositov</div>
+            <div class="textinfo color1">{{device.ip}}</div>
+         </div>
+         <button matRipple class="btnitem" (click)="copydata(device.ip)"><span class="material-icons iconbtn">content_copy</span></button>
+      </div>
+      <div class="citextscont">
+         <div class="citexts">
+            <div class="titleinfo color3">Puerto</div>
+            <div class="textinfo color1">{{device.port}}</div>
+         </div>
+         <button matRipple class="btnitem" (click)="copydata(device.port)"><span class="material-icons iconbtn">content_copy</span></button>
+      </div>
+      <div class="citextscont">
+         <div class="citexts">
+            <div class="titleinfo color3">Dirección mac</div>
+            <div class="textinfo color1">{{device.mac}}</div>
+         </div>
+         <button matRipple class="btnitem" (click)="copydata(device.mac)"><span class="material-icons iconbtn">content_copy</span></button>
+      </div>
+   </div>
+   <div class="continfocolum background" [class.sizei100]="mobile">
+      <div class="infotitle">Capacidad del equipo</div>
+      <div class="citextscont citextscont50">
+         <div class="citexts">
+            <div class="titleinfo color3">Cantidad de registros</div>
+            <div class="textinfo color1">{{device.logs_counts}}</div>
+         </div>
+      </div>
+      <div class="citextscont citextscont50">
+         <div class="citexts">
+            <div class="titleinfo color3">Cantidad de usuarios</div>
+            <div class="textinfo color1">{{device.users_counts}}</div>
+         </div>
+      </div>
+      <div class="citextscont citextscont50">
+         <div class="citexts">
+            <div class="titleinfo color3">Cantidad de rostros</div>
+            <div class="textinfo color1">{{device.face_counts}}</div>
+         </div>
+      </div>
+      <div class="citextscont citextscont50">
+         <div class="citexts">
+            <div class="titleinfo color3">Cantidad de huellas</div>
+            <div class="textinfo color1">{{device.fingerprint_counts}}</div>
+         </div>
+      </div>
+   </div>
+   <div class="continfocolum background" [class.sizei100]="mobile">
+      <div class="infotitle">Versión</div>
+      <div class="citextscont">
+         <div class="citexts">
+            <div class="titleinfo color3">Versión FW</div>
+            <div class="textinfo color1">{{device.fwversion}}</div>
+         </div>
+         <button matRipple class="btnitem" (click)="copydata(device.fwversion)"><span class="material-icons iconbtn">content_copy</span></button>
+      </div>
+      <div class="citextscont">
+         <div class="citexts">
+            <div class="titleinfo color3">Versión push</div>
+            <div class="textinfo color1">{{device.pushversion}}</div>
+         </div>
+         <button matRipple class="btnitem" (click)="copydata(device.pushversion)"><span class="material-icons iconbtn">content_copy</span></button>
+      </div>
+   </div>
+</div>

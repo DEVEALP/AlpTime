@@ -1,0 +1,53 @@
+<app-menu [title]="records.length + ' registros del dia ' + formatearFecha(user.date)" urlReturn="reports/attendance_delays">
+   <div class="cont">
+      <div class="head">
+         <div class="title"></div>
+         <!-- <button matRipple class="contItemsButtoms" (click)="setFilter()" disabled>
+            <span *ngIf="!loadFilter" class="material-icons iconitemtextbutton">filter_alt</span>
+            <mat-spinner strokeWidth="2" *ngIf="loadFilter" [diameter]="15"></mat-spinner>
+            <span class="titleitemtextbutton">Filtrar</span>
+            <div class="iconfilter backcolor" *ngIf="filtercount">{{filtercount}}</div>
+         </button>  -->
+         <div class="row"> 
+            <!-- <div class="inpput_cont" [class.width]="mobile" style="margin: 0px 5px;">
+               <span class="material-icons iconinput">search</span>
+               <input type="text" placeholder="Buscar por Nombre o Cedula" class="input" [formControl]="text" (keyup)="writing()">
+            </div>  -->
+            <!-- <div class="inpput_cont" [class.width2]="mobile">
+               <span class="material-icons iconinput">search</span>
+               <mat-date-range-input [rangePicker]="picker">
+                  <input (dateChange)="changedate()" matStartDate placeholder="MM/DD/AÑO" [formControl]="start">
+                  <input (dateChange)="changedate()" matEndDate placeholder="MM/DD/AÑO" [formControl]="end">
+                </mat-date-range-input>
+                <mat-datepicker-toggle style="transform: scale(0.8);" matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </div>  -->
+         </div>
+      </div>
+      <div class="body">
+         <div class="table"> 
+            <div class="tablehead" style="min-width: 860px;">
+               <div class="tableMenu">Tipo</div>
+               <div class="tableMenu size200" style="width: calc(100% - 650px);">Nombres</div>
+               <div class="tableMenu">Fecha</div>
+               <div class="tableMenu">Hora</div>
+               <div class="tableMenu">Cedula</div>
+               <div class="tableMenu size150">Departamento/Sector</div>
+               <div class="tableMenu">Biometrico</div>
+               <div class="tableMenu size10"></div>
+            </div>
+            <div class="tablebody" style="min-width: 860px;">
+                  <div class="tabletd" *ngFor="let y of records">
+                     <div class="tableItem">{{y.Tipo}}</div>
+                     <div class="tableItem size200 textstart" style="width: calc(100% - 650px);">{{y.Nombres}}</div>
+                     <div class="tableItem">{{formatearFecha(y.Fecha)}}</div>
+                     <div class="tableItem">{{y.Hora}}</div>
+                     <div class="tableItem">{{y.Cedula}}</div>
+                     <div class="tableItem size150" style="font-size: 12px;">{{y.dpt | titlecase}}</div>
+                     <div class="tableItem">{{y.biometrico}}</div>
+                  </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</app-menu>

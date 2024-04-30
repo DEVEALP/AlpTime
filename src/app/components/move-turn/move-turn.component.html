@@ -1,0 +1,69 @@
+<div class="cont">
+   <div class="subcont" [class.cont_view]="tab == 1" [class.cont_old]="tab > 1">
+      <div class="title"><span class="title_text">{{data.action == 'change' ? 'Cambiar' : 'Asignar'}} turno</span> </div>
+      <div class="con_body">
+         <button class="user" matRipple (click)="tab = 3" [disabled]="data.action == 'change'">
+            <img [src]="user?.imagen ? ('data:image/png;base64,' + user.imagen) : '../../../assets/notprofile.jpg'" class="profile">
+            <div class="datauser">
+               <span class="username">{{ user?.name ? formatearCapitalizarTexto(user?.name) : 'Selecciona usuario' }}</span>
+               <span class="userid" *ngIf="user?.userid">{{user?.userid}}</span>
+            </div>
+            <span class="material-icons turnarrow" *ngIf="data.action == 'add'">arrow_forward_ios</span>
+         </button>   
+         <div class="line"></div>
+         <button class="user" matRipple (click)="tab = 2">
+            <div class="turndiv"><span class="material-icons turnicon">calendar_today</span></div>
+            <div class="datauser">
+               <span class="username">{{ turn?.turn_name ? turn?.turn_name : 'Selecciona turno' }}</span>
+               <span class="userid" *ngIf="turn?.he1">{{turn?.he1}} - {{turn?.hs2}}</span>
+            </div>
+            <span class="material-icons turnarrow">arrow_forward_ios</span>
+         </button>  
+      </div>
+      <div class="cont_btns">
+         <button class="btn_cancel" matRipple (click)="closed()">Cerrar</button>
+         <button class="btn_save bg_color" matRipple (click)="save()">
+            <span class="btn_save_text" *ngIf="!loading">{{data.action == 'change' ? 'Cambiar' : 'Asignar'}}</span>
+            <mat-spinner *ngIf="loading" diameter="16" strokeWidth="3" class="loading_white"></mat-spinner>
+         </button>
+      </div>
+   </div>
+   <div class="subcont" [class.cont_view]="tab == 2" [class.cont_old]="tab > 2">
+      <div class="title">
+         <button class="btn_circle" matRipple title="Ver dia anterior" (click)="tab = 1"><span class="material-icons btn_circle_icon">chevron_left</span></button>
+         <span class="title_text">Selecciona el turno</span>
+      </div>
+      <div class="search">
+         <span class="material-icons search_icon">search</span>
+         <input type="text" class="search_input" placeholder="Buscar turno" [(ngModel)]="turn_search" (keyup)="writing_turns()" (keyup.enter)="load_turns()">
+      </div>
+      <div class="con_body cont_turns" [class.cont_turns_scroll]="turns.length > 4">
+         <button class="turn" matRipple *ngFor="let x of turns" (click)="turn = x; tab = 1" [class.turn_seleted]="x.id == turn?.id">
+            <span class="turnname">{{x.turn_name}}</span>
+            <span class="turnhour">{{x.he1}} - {{x.hs2}}</span>
+            <span class="material-icons cont_seleted" *ngIf="x.id == turn?.id">check_circle</span>
+         </button>
+      </div>
+   </div>
+   <div class="subcont" [class.cont_view]="tab == 3" [class.cont_old]="tab > 3">
+      <div class="title">
+         <button class="btn_circle" matRipple title="Ver dia anterior" (click)="tab = 1"><span class="material-icons btn_circle_icon">chevron_left</span></button>
+         <span class="title_text">Seleciona el usuario</span>
+      </div>
+      <div class="search">
+         <span class="material-icons search_icon">search</span>
+         <input type="text" class="search_input" placeholder="Buscar usuario" (keyup)="writing_users()" (keyup.enter)="load_users()" [(ngModel)]="user_search">
+      </div>
+      <div class="con_body cont_users">
+         <button class="user min_user" matRipple *ngFor="let x of users" (click)="user = x; tab = 1" [class.user_seleted]="x.id == user?.id">
+            <img [src]="x?.imagen ? ('data:image/png;base64,' + x.imagen) : '../../../assets/notprofile.jpg'" class="profile profile_min">
+            <div class="datauser">
+               <span class="username username_min">{{formatearCapitalizarTexto(x.name)}}</span>
+               <span class="userid">{{x.userid}}</span>
+            </div>
+            <span class="material-icons cont_seleted" *ngIf="x.userid == user?.userid">check_circle</span>
+         </button>
+         <div class="loading_list" *ngIf="loading_users"><mat-spinner diameter="28" strokeWidth="4" class="loading_color"></mat-spinner></div>
+      </div>
+   </div>
+</div>   

@@ -1,0 +1,26 @@
+<div class="cont">
+  <div class="title">{{left ?  'Seleciona el periodo' : data.title}}</div>
+   <button matRipple class="btncircle btnfixed"  (click)="closing()"><span class="material-icons iconbtncircle">close</span></button>
+   <div class="body">
+    <div class="subbody" [class.itemleft]="left">
+      <mat-form-field class="input" appearance="outline">
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="search($event)"  id="input">
+      </mat-form-field>
+      <div class="contItems">
+        <button class="item" *ngIf="data.all" matRipple (click)="selected(data.value_all)">
+          <span>Todos</span><span></span>
+        </button>
+        <button class="item" matRipple *ngFor="let x of items" [class.borderall2]="turn?.id == x.id" (click)="selected(x)">   
+          <span>{{x.turn_name}}</span>
+          <span *ngIf="x?.he1 || x?.hs2">{{x.he1}} - {{x.hs2}}</span>
+        </button>
+      </div>
+    </div>
+    <mat-calendar (selectedChange)="_onSelectedChange($event)" class="calendar" [selected]="selectedDateRange"></mat-calendar>
+   </div>
+   <div class="contbuttons" *ngIf="left">
+    <button matRipple class="btn" (click)="left = false">Atras</button>
+    <button matRipple class="btn_color" id="btnnext" style="opacity: 0;animation: opacity ease-out .2s forwards;animation-delay: .2s;" (click)="save()" [disabled]="!this.selectedDateRange?.start || !this.selectedDateRange?.end">Guardar</button>
+  </div>
+</div>

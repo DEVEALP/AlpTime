@@ -1,0 +1,86 @@
+<div class="cont background1">
+   <div class="title color2">Acciones del biométrico</div>
+   <div class="items background">
+      <div class="controw">
+         <span class="material-icons iconitemrow color3">cloud_done</span>            
+         <div class="itemstexts">
+            <div class="itemtitle color1">Verificar comunicación</div>
+            <div class="itemtxt color3">Verifica que el biométrico esté en línea</div>
+         </div>
+      </div>
+      <button matRipple class="btnsave" (click)="sync_device()" [title]="!device.allow ? 'Habilite el biométrico' : ''">
+         <mat-spinner diameter="18" strokeWidth="3" class="loading_white" *ngIf="loading_async"></mat-spinner>
+         <span *ngIf="!loading_async">Verificar</span>
+      </button>
+   </div>
+   <div class="items_ple background3" [class.showdia]="dialog">
+      <button matRipple class="item_pla background" [class.sondiag]="dialog" (click)="dialog = !dialog" >
+         <div class="controw">
+            <span class="material-icons iconitemrow color3">cloud_sync</span> 
+            <div class="itemstexts">
+               <div class="itemtitle color1">Cargar registros</div>
+               <div class="itemtxt color3">Actualiza los registros a la base de datos</div>
+            </div>           
+         </div>
+         <span class="material-icons iconwrros color4">expand_more</span>
+      </button>
+      <div class="continputdig" *ngIf="dialog">
+         <div class="controw">
+            <mat-form-field appearance="outline" class="input">
+               <mat-select value="time">
+                 <mat-option *ngFor="let type of types" (click)="selectdType(type)" [value]="type.value">{{type.name}}</mat-option>
+               </mat-select>
+             </mat-form-field>
+             <mat-form-field appearance="outline"  class="input2" *ngIf="calendar">
+               <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                 <input matStartDate formControlName="start" placeholder="Start date">
+                 <input matEndDate formControlName="end" placeholder="End date">
+               </mat-date-range-input>
+               <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+               <mat-date-range-picker #picker></mat-date-range-picker>
+             </mat-form-field>
+         </div>
+         <button matRipple class="btnsave" (click)="data_device()" [title]="!device.allow ? 'Habilite el biométrico' : ''">
+            <mat-spinner diameter="18" strokeWidth="3" class="loading_white" *ngIf="loading_data"></mat-spinner>
+            <span *ngIf="!loading_data">Syncronizar</span>
+         </button>
+      </div>
+   </div>
+   <div class="items background">
+      <div class="controw">
+         <span class="material-icons iconitemrow color3">sync</span> 
+         <div class="itemstexts">
+            <div class="itemtitle color1">Reiniciar</div>
+            <div class="itemtxt color3">Reinicio del biométrico</div>
+         </div>
+      </div>
+      <button matRipple class="btnsave" (click)="reboot_device()" style="min-width: 86px" [title]="!device.allow ? 'Habilite el biométrico' : ''">
+         <mat-spinner diameter="18" strokeWidth="3" class="loading_white" *ngIf="loading_reboot"></mat-spinner>
+         <span *ngIf="!loading_reboot">Reiniciar</span>
+      </button>
+   </div>
+   <div class="items background">
+      <div class="controw">
+         <span class="material-icons iconitemrow color3">people</span> 
+         <div class="itemstexts">
+            <div class="itemtitle color1">Sincronizar usuarios</div>
+            <div class="itemtxt color3">Cargar todos los usuarios del biométrico</div>
+         </div>
+      </div>
+      <button matRipple class="btnsave" (click)="user_device()" [title]="!device.allow ? 'Habilite el biométrico' : ''">
+         <mat-spinner diameter="18" strokeWidth="3" class="loading_white" *ngIf="loading_user"></mat-spinner>
+         <span *ngIf="!loading_user">Syncronizar</span>
+      </button>
+   </div>
+   <div class="items background">
+      <div class="controw">
+         <span class="material-icons iconitemrow color3">delete</span> 
+         <div class="itemstexts">
+            <div class="itemtitle color1">Borrar todos los registros</div>
+            <div class="itemtxt color3">Borrado permanente de los registros en el biometrico</div>
+         </div>
+      </div>
+      <button matRipple class="btnred" [disabled]="true" style="min-width: 76px" [title]="!device.allow ? 'Habilite el biométrico' : ''" >Borrar</button>
+   </div>
+</div>

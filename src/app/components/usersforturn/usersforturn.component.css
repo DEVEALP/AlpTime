@@ -1,0 +1,142 @@
+.cont{
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   position: relative;
+}
+.title{
+   width: 100%;
+   height: 20px;
+   font-size: 14px;
+   font-weight: 500;
+   color: #666;
+   padding-bottom: 0px;
+}
+.subtitle{
+   width: 100%;
+   height: 20px;
+   font-size: 12px;
+   margin-left: 2px;
+   font-weight: 500;
+   color: #a3a3a3;
+}
+.contsItem:hover, .contsItem:focus{
+   overflow-y: scroll;
+}
+.contsItem{
+   width: 100%;
+   overflow-y: hidden;
+   transition: all ease-out .3s;
+   max-height: 450px;
+}
+.contsItem::-webkit-scrollbar {
+   width: 5px;
+   height: 5px;
+  }
+  .contsItem::-webkit-scrollbar-track {
+   background-color: transparent;
+ }
+  
+.contItem{
+   width: 100%;
+   margin-top: 14px;
+   display: flex;
+   flex-direction: column;
+}
+.turnname{
+   width: calc(100% - 30px);
+   padding: 5px 15px;
+   border-radius: 5px;
+   transition: all ease-out .3s;
+   height: 35px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.07);
+   -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.07);
+   box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.07);
+}
+.turnnametitle{
+   font-weight: 500;
+   color: #000;
+   font-size: 13px;
+}
+.turnnametext{
+   font-weight: 400;
+   color: #333;
+   font-size: 12px;
+}
+.turnuser{
+   width: calc(100% - 40px);
+   padding: 5px 15px;
+   margin: 3px 0px;
+   margin-left: 10px;
+   border-radius: 5px;
+   height: 40px;
+   background: white;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   position: relative;
+   -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.07);
+-moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.07);
+box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.07);
+}
+.row{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+.turnusercolor{
+   width: 6px;
+   height: 6px;
+   border-radius: 50%;
+   position: absolute;
+   left: 7px;
+   top: 7px;
+}
+.turnusericon{
+   font-size: 18px;
+   color: #999;
+}
+.columna{
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   justify-content: flex-start;
+   margin-left: 12px;
+}
+.turnusername{
+   font-size: 12px;
+   color: #333;
+}
+.turnusercedula{
+   font-size: 10px;
+   color: #999;
+   margin-top: -4px;
+}
+.closedbtn{
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   border: none;
+   outline: none;
+   background: none;
+   cursor: pointer;
+   position: absolute;
+   right: -5px;
+   top: -5px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   transition: all ease-out .3s;
+}
+.closedbtn:hover, .closedbtn:focus{
+   opacity: 1;
+}
+.closedbtnicon{
+   font-size: 18px;
+   color: #666;
+}

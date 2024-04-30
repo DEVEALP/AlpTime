@@ -1,0 +1,83 @@
+<div class="cont">
+   <div class="head">
+      <span class="title" [class.title_animation]="title_animation">{{title}}</span>
+   </div>
+   <div class="body">
+      <div class="cont_body" [class.tab_view]="tab == 1" [class.tab_next]="tab < 1" [class.tab_old]="tab > 1">
+         <div class="search">
+            <span class="material-icons search_icon">search</span>
+            <input type="text" class="search_input" placeholder="Buscar usuario" (keyup)="writing_users()" (keyup.enter)="load_users()" [(ngModel)]="user_search">
+         </div>
+         <div class="cont_users">
+            <div class="user" *ngFor="let x of users" [class.border_color_1]="user?.userid == x.userid" [class.user_Seleted]="user?.userid == x.userid" (click)="setUser(x)" [class.user_seleted]="x.id == user?.id">
+               <button class="subuser" matRipple>
+                  <img [src]="x?.imagen ? ('data:image/png;base64,' + x.imagen) : '../../../assets/notprofile.jpg'" class="profile">
+                  <div class="datauser">
+                     <span class="username username_min">{{x.name}}</span>
+                     <span class="userid">{{x.userid}}</span>
+                  </div>
+               </button>
+               <span class="material-icons cont_seleted text_color" *ngIf="x.id == user?.id">check_circle</span>
+            </div>
+            <div class="loading_list" *ngIf="loading_users"><mat-spinner diameter="28" strokeWidth="4" class="loading_color"></mat-spinner></div>
+         </div>
+      </div>
+      <div class="cont_body" [class.tab_view]="tab == 2" [class.tab_next]="tab < 2" [class.tab_old]="tab > 2">
+         <div class="period" *ngFor="let x of periods" [class.border_color_1]="period == x" [class.period_selected]="period == x" (click)="setPeriod(x)">
+            <button class="subperiod" matRipple>{{x}}</button>
+            <span class="material-icons cont_seleted text_color" *ngIf="period == x">check_circle</span>
+         </div>
+      </div>
+      <div class="cont_body" [class.tab_view]="tab == 3" [class.tab_next]="tab < 3" [class.tab_old]="tab > 3">
+         <mat-calendar *ngIf="load_holidays" #calendar style="margin-top: -10px;" [dateClass]="dateClass" [selected]="selectedRangeValue" (selectedChange)="onselectedChange($event)" ></mat-calendar>
+      </div>
+      <div class="cont_body" [class.tab_view]="tab == 4" [class.tab_next]="tab < 4" [class.tab_old]="tab > 4"> 
+         <div class="cardUser1">
+            <div class="card1User bg_color">
+               <img [src]="user?.imagen ? ('data:image/png;base64,' + user.imagen) : '../../../assets/notprofile.jpg'" class="card1UserProfile">
+               <div class="card1UserData">
+                  <span class="card1UserName">{{user?.name | titlecase}}</span>
+                  <span class="card1Userid">{{user?.userid}}</span>
+               </div>
+            </div>
+            <div class="card1Info">
+               <div class="card1InfoValue">
+                  <span class="material-icons card1InfoIcon">date_range</span>
+                  <span class="card1InfoText">{{lengthDays()}} Dias</span>
+               </div>
+               <div class="card1InfoValue">
+                  <span class="material-icons card1InfoIcon">feed</span>
+                  <span class="card1InfoText">Periodo {{period}}</span>
+               </div>
+            </div>
+         </div>
+         <div class="cardinfo2">
+            <div class="cardinfo2Div">
+               <span *ngIf="selectedRangeWarning.start" class="material-icons cardinfo2Icon warning_color">warning</span>
+               <span *ngIf="!selectedRangeWarning.start" class="material-icons cardinfo2Icon text_color">today</span>
+            </div>
+            <div class="cardinfo2DivTexts">
+               <span class="cardinfo2Text">Desde el {{getFullDate(selectedRangeValue?.start)}}</span>
+               <span class="cardinfo2DivText" *ngIf="selectedRangeWarning.start">Es común seleccionar fechas con los fines de semana o feriados.</span>
+            </div>
+         </div>
+         <div class="cardinfo2">
+            <div class="cardinfo2Div">
+               <span *ngIf="selectedRangeWarning.end" class="material-icons cardinfo2Icon warning_color">warning</span>
+               <span *ngIf="!selectedRangeWarning.end" class="material-icons cardinfo2Icon text_color">event</span>
+            </div>
+            <div class="cardinfo2DivTexts">
+               <span class="cardinfo2Text">Hasta el {{getFullDate(selectedRangeValue?.end)}}</span>
+               <span class="cardinfo2DivText" *ngIf="selectedRangeWarning.end">Es común seleccionar fechas con los fines de semana o feriados.</span>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="buttons">
+      <button class="btn_back" matRipple [disabled]="loading" (click)="back()">{{tab == 1 ? 'Salir' : 'Atras'}}</button>
+      <button class="btn_nect bg_color" matRipple (click)="save()">
+         <span *ngIf="!loading">{{tab == 4 ? 'Guardar' : 'Siguiente'}}</span>
+         <mat-spinner *ngIf="loading" diameter="18" class="loading_white"></mat-spinner>
+      </button>
+   </div>
+</div>

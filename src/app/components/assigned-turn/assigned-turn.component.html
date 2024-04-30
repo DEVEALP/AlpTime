@@ -1,0 +1,83 @@
+<div class="cont">
+   <div class="head">
+      <span class="title" [class.title_animation]="title_animation">{{title}}</span>
+   </div>
+   <div class="body">
+      <div class="cont_body" [class.tab_view]="tab == 1" [class.tab_next]="tab < 1" [class.tab_old]="tab > 1">
+         <div class="conturnos" [class.conturnos_scroll]="turns.length > 3">
+            <div class="turn" *ngFor="let x of turns" (click)="seleted_turn(x)">
+               <button class="subturn" [class.turn_atived]="turn?.id == x.id" matRipple>
+                  <span class="turn_name">{{x.turn_name}}</span>
+                  <span class="turn_time">{{x.he1}} - {{x.hs2}}</span>
+               </button>
+               <div class="turn_actived_div bg_color" *ngIf="turn?.id == x.id"><span class="material-icons turn_actived_icon">done</span></div>
+            </div>
+         </div> 
+      </div> 
+      <div class="cont_body" [class.tab_view]="tab == 2" [class.tab_next]="tab < 2" [class.tab_old]="tab > 2">
+         <div class="contCalendar">
+            <div class="calendarSugerences">
+               <button class="sugerence" (click)="seletedSugerence('7days')" [class.sugerence_selected]="selection_sugerence == '7days'">7 Dias</button>
+               <button class="sugerence" (click)="seletedSugerence('week')" [class.sugerence_selected]="selection_sugerence == 'week'">Sig. Semana</button>
+               <button class="sugerence" (click)="seletedSugerence('15days')" [class.sugerence_selected]="selection_sugerence == '15days'">15 Dias</button>
+               <button class="sugerence" (click)="seletedSugerence('month')" [class.sugerence_selected]="selection_sugerence == 'month'">1 Mes</button>
+               <button class="sugerence" (click)="seletedSugerence('3months')" [class.sugerence_selected]="selection_sugerence == '3months'">3 Meses</button>
+               <button class="sugerence" (click)="seletedSugerence('3months')" [class.sugerence_selected]="selection_sugerence == '3months'">6 Meses</button>
+               <button class="sugerence" (click)="seletedSugerence('year')" [class.sugerence_selected]="selection_sugerence == 'year'">1 Año</button>
+               <button class="sugerence" (click)="seletedSugerence('infinite')" [class.sugerence_selected]="selection_sugerence == 'infinite'">Fijo</button>
+            </div>
+            <mat-calendar *ngIf="load_holidays" [dateClass]="dateClass" #calendar style="margin-top: -10px;" [minDate]="max_date" [selected]="selectedRangeValue" (selectedChange)="onselectedChange($event)" ></mat-calendar>
+         </div>
+      </div>
+      <div class="cont_body" [class.tab_view]="tab == 3" [class.tab_next]="tab < 3" [class.tab_old]="tab > 3">
+         <div class="contDays">
+            <button class="day" *ngFor="let x of days" [class.day_selected]="x.state" (click)="x.state = !x.state" matRipple>
+               <span class="day_name">{{x.nombre}}</span>
+               <div class="day_seleted_div bg_color" *ngIf="x.state"><span class="material-icons turn_actived_icon">done</span></div>
+            </button>
+         </div>
+      </div>
+      <div class="cont_body" *ngIf="tab > 2" [class.tab_view]="tab == 4" [class.tab_next]="tab < 4" [class.tab_old]="tab > 4">
+         <div class="contData">
+            <div class="contInfo">
+               <div class="itemTurn bg_color">
+                  <span class="itemTurnTitle">{{turn.turn_name}}</span>
+                  <span class="itemTurnValue">{{turn.he1}} - {{turn.hs2}}</span>
+               </div>
+               <div class="itemDays">
+                  <div class="itemday" *ngFor="let x of getDatesSelected()">{{x.nombre}}</div>
+               </div>
+            </div>
+            <div class="contRange">
+               <div class="range">
+                  <div class="range_div bg_color"><span class="material-icons range_icon">event</span></div>
+                  <div class="range_texts">
+                     <span class="range_title">Fecha de inicio</span>
+                     <span class="range_value">{{formatearFecha(selectedRangeValue?.start)}}</span>
+                  </div>
+               </div>
+               <div class="range">
+                  <div class="range_div" style="background: white;"><span class="material-icons range_icon" style="color: #666;">event</span></div>
+                  <div class="range_texts">
+                     <span class="range_title">Fecha Fin</span>
+                     <span class="range_value">{{ selectedRangeValue?.end ? (formatearFecha(selectedRangeValue?.end)) : 'Fijo' }}</span>
+                  </div>
+               </div>
+            </div>
+            <div class="itemUsers">
+               <div class="itemUsersImages">
+                  <img *ngFor="let x of getImageProfile(); let i = index" [src]="x.imagen ? ('data:image/png;base64,' + x.imagen) : '../../../assets/notprofile.jpg'"  [style]="'z-index:' + (5 - i) + ';margin-left: -' + (7 + (i * 2)) + 'px'" class="itemUsersImage">
+               </div>  
+               <span class="itemUserstexts">{{users.length}} Usuarios selecionados</span> 
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="buttons">
+      <button class="btn_back" matRipple [disabled]="loading" (click)="back()">{{tab == 1 ? 'Salir' : 'Atras'}}</button>
+      <button class="btn_nect bg_color" matRipple (click)="save()">
+         <span *ngIf="!loading">{{tab == 4 ? 'Guardar' : 'Siguiente'}}</span>
+         <mat-spinner *ngIf="loading" diameter="18" class="loading_white"></mat-spinner>
+      </button>
+   </div>
+</div>

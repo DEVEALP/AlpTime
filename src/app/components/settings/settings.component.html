@@ -1,0 +1,172 @@
+<app-menu [title]="title" [eventReturn]="btnReturn" (return_event)="return_event($event)">
+   <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+   <div class="cont background1">
+      <div class="card" [class.view_card]="tab == 0" [class.old_card]="tab > 0">
+         <div class="home">
+            <button class="btn_home background" (click)="selectTab(1, 'Configuración de reportes')" *ngIf="view_Settings('reports')" matRipple>
+               <span class="material-icons btn_home_icon color3">description</span>
+               <span class="material-icons btn_home_arrow color4" *ngIf="!loading_report">chevron_right</span>
+               <mat-spinner class="btn_home_loading loading_color" diameter="18" [strokeWidth]="2" *ngIf="loading_report"></mat-spinner>
+               <span class="btn_home_text color">Reportes</span>
+            </button>
+            <div class="item_one item_one_60 background">
+               <div class="row">
+                  <span class="material-icons btn_home_icon color3">{{dark_mode ? 'dark_mode' : 'light_mode'}}</span>
+                  <span class="btn_home_text color">Cambiar tema</span>   
+               </div>
+               <mat-slide-toggle [checked]="dark_mode" (change)="changeTheme($event)"></mat-slide-toggle>
+            </div>
+         </div>
+      </div>
+      <div class="card" [class.view_card]="tab == 1" [class.old_card]="tab > 1">
+         <div class="home">
+            <button class="btn_home background" (click)="selectTab(2, 'Configurar reporte de asistencia')" matRipple>
+               <span class="material-icons btn_home_icon color3">group</span>
+               <span class="material-icons btn_home_arrow color4">chevron_right</span>
+               <span class="btn_home_text color">Reporte de asistencias</span>
+            </button>
+            <button class="btn_home background" (click)="selectTab(3, 'Configurar reporte de atrasos')" matRipple>
+               <span class="material-icons btn_home_icon color3">person_search</span>
+               <span class="material-icons btn_home_arrow color4">chevron_right</span>
+               <span class="btn_home_text color">Atrasos</span>
+            </button>
+            <button class="btn_home background" (click)="selectTab(4, 'Configurar reporte de horas trabajadas')" matRipple>
+               <span class="material-icons btn_home_icon color3">schedule</span>
+               <span class="material-icons btn_home_arrow color4">chevron_right</span>
+               <span class="btn_home_text color">Horas trabajadas</span>
+            </button>
+            <button class="btn_home background" (click)="selectTab(5, 'Configurar reporte de horas trabajadas por empleado')" matRipple>
+               <img [src]="'../../../assets/time_for_user_'+(dark_mode ? 'white' : 'black')+'.png'" class="itemIcon itemImage">
+               <span class="material-icons btn_home_arrow color4">chevron_right</span>
+               <span class="btn_home_text color">Horas trabajadas por empleado</span>
+            </button>
+         </div>
+      </div>
+      <div class="card" [class.view_card]="tab == 2" [class.old_card]="tab > 2">
+         <div class="home">
+            <div class="subtitle color3">Documento PDF</div>
+            <div class="item_one background">
+               <div class="row">
+                  <span class="material-icons btn_home_icon color4">screen_rotation_alt</span>
+                  <span class="btn_home_text color">Orientación de impresión</span>   
+               </div>
+               <mat-form-field style="margin-top: 18px;width: 100px;">
+                  <mat-label>Orientación</mat-label>
+                  <mat-select [value]="settings_report?.attendance?.orientation ?? 'Vertical'" (valueChange)="changeOrientation($event, 2)">
+                      <mat-option *ngFor="let orientation of orientations" [value]="orientation">{{orientation}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="card_extend background2" [class.card_fullextend]="extend">
+               <button class="item_one background" style="margin: 0px;width: 100%;" matRipple (click)="extend = !extend">
+                  <div class="row">
+                     <span class="material-icons btn_home_icon color4">checklist_rtl</span>
+                     <span class="btn_home_text color">Columas visibles</span>   
+                  </div>
+                  <span class="material-icons btn_home_arrow color4" [class.arrow_rotate]="extend">keyboard_arrow_down</span>
+               </button>
+               <div class="card_body" *ngIf="extend">
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 2, 'code')" [class.background]="settings_report?.attendance?.column?.code ?? true" [class.card_checkbox_actived]="settings_report?.attendance?.column?.code ?? true" matRipple><div class="card_checkbox_text color1">Codigo</div><mat-checkbox (change)="changeColumn($event, 2, 'code')" [checked]="settings_report?.attendance?.column?.code ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 2, 'group')" [class.background]="settings_report?.attendance?.column?.group ?? true" [class.card_checkbox_actived]="settings_report?.attendance?.column?.group ?? true" matRipple><div class="card_checkbox_text color1">Grupo</div><mat-checkbox (change)="changeColumn($event, 2, 'group')" [checked]="settings_report?.attendance?.column?.group ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 2, 'turn')" [class.background]="settings_report?.attendance?.column?.turn ?? true" [class.card_checkbox_actived]="settings_report?.attendance?.column?.turn ?? true" matRipple><div class="card_checkbox_text color1">Horario</div><mat-checkbox (change)="changeColumn($event, 2, 'turn')" [checked]="settings_report?.attendance?.column?.turn ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 2, 'delay')" [class.background]="settings_report?.attendance?.column?.delay ?? true" [class.card_checkbox_actived]="settings_report?.attendance?.column?.delay ?? true" matRipple><div class="card_checkbox_text color1">Atraso</div><mat-checkbox (change)="changeColumn($event, 2, 'delay')" [checked]="settings_report?.attendance?.column?.delay ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 2, 'lack')" [class.background]="settings_report?.attendance?.column?.lack ?? true" [class.card_checkbox_actived]="settings_report?.attendance?.column?.lack ?? true" matRipple><div class="card_checkbox_text color1">H. falta</div><mat-checkbox (change)="changeColumn($event, 2, 'lack')" [checked]="settings_report?.attendance?.column?.lack ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 2, 'total')" [class.background]="settings_report?.attendance?.column?.total ?? true" [class.card_checkbox_actived]="settings_report?.attendance?.column?.total ?? true" matRipple><div class="card_checkbox_text color1">Total</div><mat-checkbox (change)="changeColumn($event, 2, 'total')" [checked]="settings_report?.attendance?.column?.total ?? true"></mat-checkbox></button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="card" [class.view_card]="tab == 3" [class.old_card]="tab > 3">
+         <div class="home">
+            <div class="item_one background">
+               <div class="row">
+                  <span class="material-icons btn_home_icon color4">screen_rotation_alt</span>
+                  <span class="btn_home_text color">Orientación de impresión</span>   
+               </div>
+               <mat-form-field style="margin-top: 18px;width: 100px;">
+                  <mat-label>Orientación</mat-label>
+                  <mat-select [value]="settings_report?.delay?.orientation ?? 'Vertical'" (valueChange)="changeOrientation($event, 3)">
+                      <mat-option *ngFor="let orientation of orientations" [value]="orientation">{{orientation}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="card_extend background2" [class.card_fullextend_100]="extend">
+               <button class="item_one background" style="margin: 0px;width: 100%;" matRipple (click)="extend = !extend">
+                  <div class="row">
+                     <span class="material-icons btn_home_icon color4">checklist_rtl</span>
+                     <span class="btn_home_text color">Columas visibles</span>   
+                  </div>
+                  <span class="material-icons btn_home_arrow color4" [class.arrow_rotate]="extend">keyboard_arrow_down</span>
+               </button>
+               <div class="card_body" *ngIf="extend">
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 3, 'day')" [class.background]="settings_report?.delay?.column?.day ?? true" [class.card_checkbox_actived]="settings_report?.delay?.column?.day ?? true" matRipple><div class="card_checkbox_text color1">Dia</div><mat-checkbox (change)="changeColumn($event, 3, 'day')" [checked]="settings_report?.delay?.column?.day ?? true"></mat-checkbox></button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="card" [class.view_card]="tab == 4" [class.old_card]="tab > 4">
+         <div class="home">
+            <div class="item_one background">
+               <div class="row">
+                  <span class="material-icons btn_home_icon color4">screen_rotation_alt</span>
+                  <span class="btn_home_text color">Orientación de impresión</span>   
+               </div>
+               <mat-form-field style="margin-top: 18px;width: 100px;">
+                  <mat-label>Orientación</mat-label>
+                  <mat-select [value]="settings_report?.time_group?.orientation ?? 'Horizontal'" (valueChange)="changeOrientation($event, 4)">
+                      <mat-option *ngFor="let orientation of orientations" [value]="orientation">{{orientation}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="card_extend background2" [class.card_fullextend_500]="extend">
+               <button class="item_one background" style="margin: 0px;width: 100%;" matRipple (click)="extend = !extend">
+                  <div class="row">
+                     <span class="material-icons btn_home_icon color4">checklist_rtl</span>
+                     <span class="btn_home_text color">Columas visibles</span>   
+                  </div>
+                  <span class="material-icons btn_home_arrow color4" [class.arrow_rotate]="extend">keyboard_arrow_down</span>
+               </button>
+               <div class="card_body" *ngIf="extend">
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 4, 'userid')" [class.background]="settings_report?.time_group?.column?.userid ?? true" [class.card_checkbox_actived]="settings_report?.time_group?.column?.userid ?? true" matRipple><div class="card_checkbox_text color1">Codigo</div><mat-checkbox (change)="changeColumn($event, 4, 'userid')" [checked]="settings_report?.time_group?.column?.userid ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 4, 'days')" [class.background]="settings_report?.time_group?.column?.days ?? true" [class.card_checkbox_actived]="settings_report?.time_group?.column?.days ?? true" matRipple><div class="card_checkbox_text color1">Días</div><mat-checkbox (change)="changeColumn($event, 4, 'days')" [checked]="settings_report?.time_group?.column?.days ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 4, 'subtotal')" [class.background]="settings_report?.time_group?.column?.subtotal ?? true" [class.card_checkbox_actived]="settings_report?.time_group?.column?.subtotal ?? true" matRipple><div class="card_checkbox_text color1">Subtotal</div><mat-checkbox (change)="changeColumn($event, 4, 'subtotal')" [checked]="settings_report?.time_group?.column?.subtotal ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 4, 'permission')" [class.background]="settings_report?.time_group?.column?.permission ?? true" [class.card_checkbox_actived]="settings_report?.time_group?.column?.permission ?? true" matRipple><div class="card_checkbox_text color1">Permisos</div><mat-checkbox (change)="changeColumn($event, 4, 'permission')" [checked]="settings_report?.time_group?.column?.permission ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 4, 'vacation')" [class.background]="settings_report?.time_group?.column?.vacation ?? true" [class.card_checkbox_actived]="settings_report?.time_group?.column?.vacation ?? true" matRipple><div class="card_checkbox_text color1">Vacaciones</div><mat-checkbox (change)="changeColumn($event, 4, 'vacation')" [checked]="settings_report?.time_group?.column?.permission ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 4, 'delay')" [class.background]="settings_report?.time_group?.column?.delay ?? true" [class.card_checkbox_actived]="settings_report?.time_group?.column?.delay ?? true" matRipple><div class="card_checkbox_text color1">Atrasos</div><mat-checkbox (change)="changeColumn($event, 4, 'delay')" [checked]="settings_report?.time_group?.column?.delay ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 4, 'hfalta')" [class.background]="settings_report?.time_group?.column?.hfalta ?? true" [class.card_checkbox_actived]="settings_report?.time_group?.column?.hfalta ?? true" matRipple><div class="card_checkbox_text color1">Horas falta</div><mat-checkbox (change)="changeColumn($event, 4, 'hfalta')" [checked]="settings_report?.time_group?.column?.hfalta ?? true"></mat-checkbox></button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="card" [class.view_card]="tab == 5" [class.old_card]="tab > 5">
+         <div class="home">
+            <div class="item_one background">
+               <div class="row">
+                  <span class="material-icons btn_home_icon color4">screen_rotation_alt</span>
+                  <span class="btn_home_text color">Orientación de impresión</span>   
+               </div>
+               <mat-form-field style="margin-top: 18px;width: 100px;">
+                  <mat-label>Orientación</mat-label>
+                  <mat-select [value]="settings_report?.time_group?.orientation ?? 'Vertical'" (valueChange)="changeOrientation($event, 5)">
+                      <mat-option *ngFor="let orientation of orientations" [value]="orientation">{{orientation}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="card_extend background2" [class.card_fullextend_250]="extend">
+               <button class="item_one background" style="margin: 0px;width: 100%;" matRipple (click)="extend = !extend">
+                  <div class="row">
+                     <span class="material-icons btn_home_icon color4">checklist_rtl</span>
+                     <span class="btn_home_text color">Columas visibles</span>   
+                  </div>
+                  <span class="material-icons btn_home_arrow color4" [class.arrow_rotate]="extend">keyboard_arrow_down</span>
+               </button>
+               <div class="card_body" *ngIf="extend">
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 5, 'day')" [class.background]="settings_report?.time?.column?.day ?? true" [class.card_checkbox_actived]="settings_report?.time?.column?.day ?? true" matRipple><div class="card_checkbox_text color1">Dia</div><mat-checkbox (change)="changeColumn($event, 3, 'day')" [checked]="settings_report?.time?.column?.day ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 5, 'subtotal')" [class.background]="settings_report?.time?.column?.subtotal ?? true" [class.card_checkbox_actived]="settings_report?.time?.column?.subtotal ?? true" matRipple><div class="card_checkbox_text color1">Subtotal</div><mat-checkbox (change)="changeColumn($event, 5, 'subtotal')" [checked]="settings_report?.time?.column?.subtotal ?? true"></mat-checkbox></button>
+                  <button class="card_checkbox" (click)="changeColumn(undefined, 5, 'observation')" [class.background]="settings_report?.time?.column?.observation ?? true" [class.card_checkbox_actived]="settings_report?.time?.column?.observation ?? true" matRipple><div class="card_checkbox_text color1">Observación</div><mat-checkbox (change)="changeColumn($event, 5, 'observation')" [checked]="settings_report?.time?.column?.observation ?? true"></mat-checkbox></button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</app-menu>

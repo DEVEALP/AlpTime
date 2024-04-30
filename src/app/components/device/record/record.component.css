@@ -1,0 +1,93 @@
+.cont{
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   position: relative;
+}
+.title{
+   width: 100%;
+   height: 40px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   font-size: 13px;
+   font-weight: 500;
+   color: #333;
+}
+.btns{
+   width: 100%;
+   height: 40px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-end;
+}
+.closedbtn{
+   width: 40px;
+   position: absolute;
+   right: 0px;
+   top: 0px;
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border: none;
+   cursor: pointer;
+   outline: none;
+}
+.redcolor{
+   margin: 0px 10px;
+   background: rgb(199, 79, 79) !important;
+}
+.subcont{
+   width: calc(100% - 10px);
+   padding: 10px 5px;
+}
+.input1{
+   width: 100%;
+}
+.contImputs{
+   margin: 10px 0px;
+   width: 100%;
+   height: 60px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+}
+.inputtime{
+   height: 40px;
+   padding: 10px;
+   background: rgb(240, 240, 238);
+   border-radius: 8px;
+   font-size: 24px;
+   font-weight: 500;
+   outline: none;
+   border: none;
+   color: #333;
+   text-align: center;
+}
+.timespace{
+   font-size: 24px;
+   font-weight: 500;
+   margin: 3px;
+   color: #999;
+}
+.timesstate{
+   font-size: 24px;
+   font-weight: 500;
+   color: #999;
+   margin: 10px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+       -webkit-appearance: none;
+        margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}

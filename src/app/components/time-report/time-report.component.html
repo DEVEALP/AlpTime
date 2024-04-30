@@ -1,0 +1,100 @@
+<app-menu [title]="'Horas trabajadas por empleado'" [urlReturn]="urlReturn" [loading]="loading">
+   <div class="cont background1">
+      <div class="head" [class.head_mobile]="mobile">
+         <div class="row">
+            <button matRipple class="contItemsButtoms background" style="padding: 0px 8px;" [matMenuTriggerFor]="donwload">
+               <span class="material-icons iconitemtextbutton color3">file_download</span>
+               <span class="titleitemtextbutton color1" *ngIf="!mobile">Descargar</span>
+            </button>
+            <button matRipple class="contItemsButtoms background" style="padding: 0px 8px;" (click)="change_view_graph()">
+               <span class="material-icons iconitemtextbutton color3">{{view_graph ? 'subject' : 'show_chart'}}</span>
+               <span class="titleitemtextbutton color1" *ngIf="!mobile">{{view_graph ? 'Ver datos' : 'Ver grafico'}}</span>
+            </button>
+            <mat-menu #donwload="matMenu">
+               <button mat-menu-item (click)="donwload_pdf()">Descargar Pdf</button>
+               <button mat-menu-item (click)="donwload_excel()">Descargar Excel</button>
+             </mat-menu>
+         </div>
+         <div class="row" [class.row_mobile]="mobile">
+            <span class="inputtab" #usersMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="users"></span>
+            <div class="inpput_cont inptu_profile background" [class.width]="mobile" [class.inptu_profile_mobile]="mobile">
+               <span class="material-icons iconinput color3">person</span>
+               <input type="text" style="font-size: 12px;" placeholder="Selecione un empleado" id="search" autocomplete="off" class="input color1" (focus)="focus($event)" [(ngModel)]="user_search" (keyup.enter)="load_users()" (keyup)="writing()">
+               <span *ngIf="!loadUsers" class="material-icons input_arrow">expand_more</span>
+               <mat-spinner *ngIf="loadUsers" strokeWidth="2" class="loading_black loading_users" [diameter]="16"></mat-spinner>
+            </div>
+            <mat-menu #users="matMenu">
+               <button class="users" *ngFor="let x of users_data; let i = index" (click)="selected_user(x)" [id]="'user_' + i">
+                  <img [src]=" x.imagen ? ('data:image/png;base64,' + x.imagen) : '../../../assets/notprofile.jpg' " class="users_image">
+                  <span class="users_name">{{x.name | titlecase}}</span>
+               </button>
+            </mat-menu>
+            <div class="inpput_cont background" [class.width2]="mobile" style="width: 110px;">
+               <span class="material-icons iconinput">event</span>
+               <input class="input_monh color1" [value]="date.value" type="text">
+               <input class="input_monh_hidden color1" [matDatepicker]="dp" [formControl]="start">
+               <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+               <mat-datepicker #dp startView="year" (monthSelected)="setMonthAndYear($event, dp)" panelClass="example-month-picker">
+               </mat-datepicker>
+            </div>
+         </div>
+      </div>
+      <div class="body" [class.body_mobile]="mobile">
+         <div class="table" *ngIf="!view_graph">
+            <div class="tablehead background" style="min-width: 1510px;">
+               <div class="tableMenu color3">Fecha</div>
+               <div class="tableMenu color3">Dia</div>
+               <div class="tableMenu color3">Entrada</div>
+               <div class="tableMenu color3">S. Almuerzo</div>
+               <div class="tableMenu color3">E. Almuerzo</div>
+               <div class="tableMenu color3">Salida</div>
+               <div class="tableMenu color3">Total</div>
+               <div class="tableMenu color3">Atrasos</div>
+               <div class="tableMenu color3">H Falta</div>
+               <div class="tableMenu color3">H25%</div>
+               <div class="tableMenu color3">H50%</div>
+               <div class="tableMenu color3">H100%</div>
+               <div class="tableMenu color3 size300">Observación</div>
+               <div class="tableMenu color3 size10"></div>
+            </div>
+            <div class="tablebody" style="min-width: 1510px;width: 100%;">
+                  <div class="tabletd" *ngFor="let x of records;let i = index" [style]="'min-width: 1500px;width: 100%;animation-delay:' + (i/25) + 's;'">
+                     <div class="tableItem color1">{{formatearFecha(x.fecha)}}</div>
+                     <div class="tableItem color1">{{x.day_min}}</div>
+                     <div class="tableItem color1">{{x.ent1}}</div>
+                     <div class="tableItem color1">{{x.sal1}}</div>
+                     <div class="tableItem color1">{{x.ent2}}</div>
+                     <div class="tableItem color1">{{x.sal2}}</div>
+                     <div class="tableItem color1">{{x.total}}</div>
+                     <div class="tableItem color1">{{x.atraso}}</div>
+                     <div class="tableItem color1">{{x.falta}}</div>
+                     <div class="tableItem color1">{{x.h25}}</div>
+                     <div class="tableItem color1">{{x.h50}}</div>
+                     <div class="tableItem color1">{{x.h100}}</div>
+                     <div class="tableItem color1 text_start size300">{{x.observacion}}</div>
+                  </div>
+               </div>
+               <div class="tablehead tablsubehead background" style="min-width: 1500px;" *ngIf="records.length > 0 && !loading">
+                  <div class="tableMenu color2">Total</div>
+                  <div class="tableMenu color2"></div>
+                  <div class="tableMenu color2"></div>
+                  <div class="tableMenu color2"></div>
+                  <div class="tableMenu color2"></div>
+                  <div class="tableMenu color2"></div>
+                  <div class="tableMenu color2">{{total_hours}}</div>
+                  <div class="tableMenu color2">{{total_atrasos}}</div>
+                  <div class="tableMenu color2">{{total_faltas}}</div>
+                  <div class="tableMenu color2">{{total_25}}</div>
+                  <div class="tableMenu color2">{{total_50}}</div>
+                  <div class="tableMenu color2">{{total_100}}</div>
+                  <div class="tableMenu size300"></div>
+                  <div class="tableMenu size10"></div>
+               </div>
+               <div class="not_results" *ngIf="records.length == 0 && !loading">No se encontraron resultados</div>
+         </div>
+         <div class="contGrap" *ngIf="view_graph">
+            <div id="chartdiv" style="width: 100%;"></div>
+         </div>
+      </div>
+   </div>
+</app-menu>

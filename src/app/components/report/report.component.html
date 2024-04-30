@@ -1,0 +1,37 @@
+<app-menu [title]="'Reportes'">
+   <div class="cont background1">
+      <button class="item background" matRipple (click)="redirect('attendance_delays')">
+         <mat-icon class="itemIcon color4">group</mat-icon>
+         <mat-icon class="itemarrow">keyboard_arrow_right</mat-icon>
+         <div class="rows">
+            <div class="title color">Reporte de asistencias</div>
+            <div class="desc color3">Detalle por empleados.</div>
+         </div>
+      </button>
+      <button class="item background" matRipple  (click)="redirect('delay_report')">
+         <mat-icon class="itemIcon color4">person_search</mat-icon>
+         <mat-icon class="itemarrow">keyboard_arrow_right</mat-icon>
+         <div class="rows">
+            <div class="title color">Atrasos</div>
+            <div class="desc color3">Reporte de atrasos diario o mensual por empleados</div>
+         </div>
+      </button>
+      <button class="item background" matRipple  (click)="redirect('time_group_report')">
+         <mat-icon class="itemIcon color4">schedule</mat-icon>
+         <mat-icon class="itemarrow">keyboard_arrow_right</mat-icon>
+         <div class="rows">
+            <div class="title color">Horas trabajadas</div>
+            <div class="desc color3">Por fechas todos los empleados.</div>
+         </div>
+      </button>
+      <button class="item background" matRipple  (click)="redirect('time_report')">
+         <!-- <mat-icon class="itemIcon color3">keyboard_arrow_right</mat-icon> -->
+         <mat-icon class="itemarrow">keyboard_arrow_right</mat-icon>
+         <img [src]="'../../../assets/time_for_user_'+(theme ? 'white' : 'black')+'.png'" class="itemIcon itemImage">
+         <div class="rows">
+            <div class="title color">Horas trabajadas por empleado</div>
+            <div class="desc color3">Mensualizado por empleado detallado.</div>
+         </div>
+      </button>
+   </div>
+</app-menu>

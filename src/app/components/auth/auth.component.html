@@ -1,0 +1,50 @@
+<!-- <div class="cont">
+   <div class="subcont">
+      <div class="contimage">
+         <img src="../../../assets/logo_icon.png" class="logo">
+      </div>
+      <div class="body">
+         <div class="subtitle">Ingresar</div>
+         <mat-form-field appearance="fill" class="input">
+            <mat-label>Ingrese su contraseña</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" (keyup.enter)="login()" [(ngModel)]="password" id="input_pass">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+          <button matRipple class="btnnext" (click)="login()" [disabled]="loading">Ingresar</button>
+      </div>
+   </div>
+</div> -->
+<div class="cont">
+   <div class="line"></div>
+   <div class="subcont">
+      <div class="form">
+         <img src="../../../assets/logoTextA.png" class="logo">
+         <div class="subform" [formGroup]="form">
+            <div class="title">Inicie sesion</div>
+            <mat-form-field appearance="outline" class="input">
+               <mat-label>Ingrese su usuario</mat-label>
+               <input matInput formControlName="username">
+               <mat-error *ngIf="form.get('username')?.hasError('required')">Usuario es requerido</mat-error>
+               <mat-error *ngIf="form.get('username')?.hasError('minlength')">Minimo de caracteres 2</mat-error>
+               <mat-error *ngIf="form.get('username')?.hasError('maxlength')">Maximo de caracteres 50</mat-error>
+             </mat-form-field>
+             <mat-form-field appearance="outline"class="input">
+               <mat-label>Ingrese su Contraseña</mat-label>
+               <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" (keyup.enter)="auth()" id="password">
+               <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+               </button>
+               <mat-error *ngIf="form.get('password')?.hasError('required')">Contraseña es requerida</mat-error>
+               <mat-error *ngIf="form.get('password')?.hasError('minlength')">Minimo de caracteres 2</mat-error>
+               <mat-error *ngIf="form.get('password')?.hasError('maxlength')">Maximo de caracteres 50</mat-error>
+             </mat-form-field> 
+            <button matRipple class="button backcolor" (click)="auth()">
+               <mat-spinner strokeWidth="2" *ngIf="loading" [diameter]="20"></mat-spinner>
+               <span *ngIf="!loading" class="textbtn">Acceder</span>
+            </button>
+         </div>
+      </div>
+   </div>
+</div>

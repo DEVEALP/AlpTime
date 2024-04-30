@@ -1,0 +1,37 @@
+<div class="cont background1">
+   <div class="head" *ngIf="false">
+      <div></div>
+      <div class="row">
+         <div class="inpput_cont">
+            <span class="material-icons iconinput">search</span>
+            <input type="text" placeholder="Buscar por Nombre o id" class="input" [(ngModel)]="value" (keyup)="writing()">
+         </div> 
+      </div>
+   </div>
+   <div class="body">
+      <div class="bhead background" style="min-width: 760px;">
+         <div class="bhtitle color3 size60"></div>
+         <div class="bhtitle color3 size160">Estado</div>
+         <div class="bhtitle color3 size160" style="min-width: calc(100% - 600px);">Comando</div>
+         <div class="bhtitle color3 size160">Fecha</div>
+         <div class="bhtitle color3 size160">Intentos</div>
+         <div class="bhtitle color3 size60"></div>
+      </div>
+      <div class="bbody" style="min-width: 760px;">
+         <div class="bbitem" *ngFor="let x of process; let i = index">
+            <div class="bbtext size60">
+               <div class="iconticon" [class.conpending]="x.state_process == 'slope'" [class.conprogress]="x.state_process == 'progress'" [class.concancel]="x.state_process == 'cancel'">
+                  <span class="material-icons iicon" [class.pending]="x.state_process == 'slope'" [class.progress]="x.state_process == 'progress'" [class.cancel]="x.state_process == 'cancel'">account_tree</span>
+               </div>
+            </div>
+            <div class="bbtext size160 color1">{{ x.state }}</div>
+            <div class="bbtext size160 color1 fstart" style="min-width: calc(100% - 600px);">{{x.action}}</div>
+            <div class="bbtext size160 color1">{{ x.date_process | date: 'short' }}</div>
+            <div class="bbtext size160 color1">{{ x.intents }}</div>
+            <div class="bbtext size60">
+               <button matRipple class="btncancel" *ngIf="x.state_process == 'slope'" (click)="cancel(x)" title="Cancelar proceso"><span class="material-icons iconcancel">highlight_off</span></button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

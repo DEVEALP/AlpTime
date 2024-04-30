@@ -1,0 +1,55 @@
+<app-menu [title]="'Permisos'" [loading]="loading">
+   <div class="cont background1">
+      <div class="head">
+         <button class="btnadd bg_color" (click)="add()" matRipple>Agregar</button>
+         <div class="row">
+            <button matRipple class="contItemsButtoms background" (click)="setFilter()" [disabled]="loadFilter">
+               <span *ngIf="!loadFilter" class="material-icons iconitemtextbutton color3">filter_alt</span>
+               <mat-spinner strokeWidth="2" *ngIf="loadFilter" [diameter]="15" class="loading_color"></mat-spinner>
+               <span class="titleitemtextbutton color1">Filtrar</span>
+               <div class="iconfilter backcolor" *ngIf="filtercount">{{filtercount}}</div>
+            </button> 
+            <div class="inpput_cont background">
+               <span class="material-icons iconinput">search</span>
+               <mat-date-range-input [rangePicker]="picker">
+                  <input type="text" #startI matStartDate [value]="start.value" autocomplete="off" placeholder="DD/MM/AAAA" (dateChange)="changedate(startI.value, 'start')" (keyup.enter)="changedate(startI.value, 'start')" (blur)="changedate(startI.value, 'start')">
+                  <input hidden [formControl]="start" class="color">
+                  <input type="text" #endI matEndDate [value]="end.value" autocomplete="off" placeholder="DD/MM/AAAA" (dateChange)="changedate(endI.value, 'end')" (keyup.enter)="changedate(endI.value, 'end')" (blur)="changedate(endI.value, 'end')">
+                  <input hidden [formControl]="end" class="color">
+                </mat-date-range-input>
+                <mat-datepicker-toggle style="transform: scale(0.8);" matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </div> 
+         </div>
+      </div>
+      <div class="body">
+         <div class="tdhead background" style="min-width: 1310px;">
+            <div class="tbtitle color3 tbwidth300">Nombres</div>
+            <div class="tbtitle color3">Cedula</div>
+            <div class="tbtitle color3">Motivo</div>
+            <div class="tbtitle color3 tbwidth200">Detalles</div>
+            <div class="tbtitle color3">fecha</div>
+            <div class="tbtitle color3">Horas</div>
+            <div class="tbtitle color3">Dias</div>
+            <div class="tbtitle color3 tbwidth200">Dept/Sector</div>
+         </div>
+         <div class="tbbody background1" style="min-width: 1310px;">
+            <div class="tbitem" style="min-width: 1300px;" *ngFor="let x of vacations; let i = index" [style]="'animation-delay:'+(i/20)+'s;'">
+               <button class="subtbitem" matRipple>
+                  <div class="tbtext color tbleft tbwidth300">{{x.name | titlecase}}</div>
+                  <div class="tbtext color">{{x.cedula}}</div>
+                  <div class="tbtext color">{{x.motive}}</div>
+                  <div class="tbtext color tbwidth200">{{x.details}}</div>
+                  <div class="tbtext color">{{x.fecha}}</div>
+                  <div class="tbtext color">{{x.time}}</div>
+                  <div class="tbtext color">{{x.dias}}</div>
+                  <div class="tbtext color tbwidth200">{{x.grupo | titlecase}}</div>
+               </button>
+               <button class="btnitem" matRipple (click)="delete_v(x)">
+                  <span class="material-icons btnitem_delete">delete</span>
+               </button>
+            </div>
+         </div>
+      </div>
+   </div>
+</app-menu>

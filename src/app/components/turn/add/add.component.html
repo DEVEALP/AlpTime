@@ -1,0 +1,65 @@
+<form class="cont" [formGroup]="form">
+   <!-- <div class="title">Nuevo turno</div> -->
+   <div class="form" >
+      <mat-form-field class="input" appearance="outline">
+         <mat-label>Nombre del turno</mat-label>
+         <input matInput placeholder="Escriba el nombre aqui" formControlName="name" autofocus>
+         <mat-error *ngIf="form.controls.name.hasError('required')">Nombre es requerido</mat-error>
+       </mat-form-field>
+       <mat-form-field class="input50" appearance="outline">
+         <mat-label>Hora de Entrada</mat-label>
+         <input matInput type="time" formControlName="he1">
+         <mat-error *ngIf="form.controls.he1.hasError('invalidTime')">Hora invalida</mat-error>
+         <mat-error *ngIf="form.controls.he1.hasError('required')">Hora es requerido</mat-error>
+      </mat-form-field>
+      <mat-form-field class="input50" appearance="outline">
+         <mat-label>Hora de Salida</mat-label>
+         <input matInput type="time" formControlName="hs2">
+         <mat-error *ngIf="form.controls.hs2.hasError('required')">Hora es requerido</mat-error>
+         <mat-error *ngIf="form.controls.hs2.hasError('invalidTime')">Hora invalida</mat-error>
+      </mat-form-field>
+      <mat-form-field class="input50" appearance="outline">
+         <mat-label>Salida de almuerzo</mat-label>
+         <input matInput type="time" formControlName="he2">
+         <mat-error *ngIf="form.controls.he2.hasError('invalidTime')">Hora invalida</mat-error>
+      </mat-form-field>
+      <mat-form-field class="input50" appearance="outline">
+         <mat-label>Entrada de almuerzo</mat-label>
+         <input matInput type="time" formControlName="hs1">
+         <mat-error *ngIf="form.controls.hs1.hasError('invalidTime')">Hora invalida</mat-error>
+         </mat-form-field>
+       <div class="input_rotative">
+         <span class="">Rotativo</span>
+         <mat-slide-toggle (click)="changeRotation()" formControlName="rotative"></mat-slide-toggle>
+       </div>
+       <mat-form-field class="input50" appearance="outline">
+         <mat-label>Tolerancia</mat-label>
+         <input type="number" matInput placeholder="" formControlName="tolerance">
+       </mat-form-field>
+       <mat-form-field class="input" appearance="outline" *ngIf="form.controls.rotative.value">
+         <mat-label>Periodo del turno</mat-label>
+         <mat-date-range-input [rangePicker]="picker">
+           <input matStartDate placeholder="Fecha inicio" formControlName="turn_start_date">
+           <input matEndDate placeholder="Fecha fin" formControlName="turn_end_Date">
+         </mat-date-range-input>
+         <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+         <mat-date-range-picker #picker></mat-date-range-picker>
+       </mat-form-field>
+       <mat-form-field class="input50" appearance="outline" *ngIf="form.controls.rotative.value">
+         <mat-label>Hora de incio</mat-label>
+         <input matInput type="time" formControlName="turn_start_time">
+         <mat-error *ngIf="form.controls.turn_start_time.hasError('required')">Hora es requerido</mat-error>
+         <mat-error *ngIf="form.controls.turn_start_time.hasError('invalidTime')">Hora invalida</mat-error>
+      </mat-form-field>
+        <mat-form-field class="input50" appearance="outline" *ngIf="form.controls.rotative.value">
+           <mat-label>Hora de incio</mat-label>
+           <input matInput type="time" formControlName="turn_end_time">
+           <mat-error *ngIf="form.controls.turn_end_time.hasError('required')">Hora es requerido</mat-error>
+           <mat-error *ngIf="form.controls.turn_end_time.hasError('invalidTime')">Hora invalida</mat-error>
+        </mat-form-field>
+   </div>
+   <div class="cont_buttons">
+      <button class="btnnew" matRipple (click)="save()">Guardar</button>
+   </div>
+</form>

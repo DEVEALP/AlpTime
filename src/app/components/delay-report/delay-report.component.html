@@ -1,0 +1,110 @@
+<app-menu [title]="'Reporte de atrasos'" [urlReturn]="'reports'"
+   [loading]="loading">
+   <div class="cont background1">
+      <div class="head" [class.head_mobile]="mobile">
+         <div class="row">
+            <button matRipple class="contItemsButtoms background" style="padding: 0px 8px;" [matMenuTriggerFor]="donwload">
+               <span
+                  class="material-icons iconitemtextbutton color3">file_download</span>
+               <span class="titleitemtextbutton color1"
+                  *ngIf="!mobile">Descargar</span>
+            </button>
+            <button matRipple class="contItemsButtoms background" style="padding: 0px 8px;"
+               (click)="change_view_graph()">
+               <span class="material-icons iconitemtextbutton color3">{{view_graph ?
+                  'subject' : 'show_chart'}}</span>
+               <span class="titleitemtextbutton color1" *ngIf="!mobile">{{view_graph ?
+                  'Ver datos' : 'Ver grafico'}}</span>
+            </button>
+            <mat-menu #donwload="matMenu">
+               <button mat-menu-item (click)="donwload_pdf()">Descargar
+                  Pdf</button>
+               <button mat-menu-item (click)="donwload_excel()">Descargar
+                  Excel</button>
+            </mat-menu>
+            <button class="btnfilter background" matRipple (click)="setFilters()">
+               <span class="material-icons btnfilter_icon color3">filter_alt</span>
+               <span class="btnfilter_text color1">Filtrar</span>
+               <div class="btnfilter_actived bg_color"
+                  *ngIf="!filters_laoding && filters_actived">{{filters_actived}}</div>
+               <mat-spinner class="loading_color" *ngIf="filters_laoding"
+                  strokeWidth="2" diameter="15"
+                  style="margin-left: 7px;"></mat-spinner>
+            </button>
+         </div> 
+         <div class="row" [class.row_mobile]="mobile">
+            <div class="inpput_cont background" [class.width2]="mobile"
+               style="width: 200px;">
+               <span class="material-icons iconinput">search</span>
+               <mat-date-range-input [rangePicker]="picker">
+                  <input type="text" #startI matStartDate [value]="start.value" class="color1"
+                     autocomplete="off" placeholder="DD/MM/AAAA"
+                     (dateChange)="changedate(startI.value, 'start', picker)"
+                     (keyup.enter)="changedate(startI.value, 'start', picker)"
+                     (blur)="changedate(startI.value, 'start', picker)">
+                  <input hidden [formControl]="start" class="color1">
+                  <input type="text" #endI matEndDate [value]="end.value" class="color1"
+                     autocomplete="off" placeholder="DD/MM/AAAA"
+                     (dateChange)="changedate(endI.value, 'end', picker)"
+                     (keyup.enter)="changedate(endI.value, 'end', picker)"
+                     (blur)="changedate(endI.value, 'end', picker)">
+                  <input hidden [formControl]="end" class="color1">
+
+                  <!-- <input (dateChange)="changedate()" (keyup.enter)="changedate()" matStartDate placeholder="DD/MM/AÑO" [formControl]="start"> -->
+                  <!-- <input (dateChange)="changedate('', '')" (keyup.enter)="changedate('', '')"  placeholder="DD/MM/AÑO" [formControl]="end"> -->
+               </mat-date-range-input>
+               <mat-datepicker-toggle style="transform: scale(0.8);" matSuffix
+                  [for]="picker"></mat-datepicker-toggle>
+               <mat-date-range-picker #picker></mat-date-range-picker>
+            </div>
+         </div>
+      </div>
+      <div class="body" [class.body_mobile]="mobile">
+         <div class="table" *ngIf="!view_graph">
+            <div class="tablehead background" style="min-width: 910px;">
+               <div class="tableMenu color3" [style]="'width: ' + width + '%;'">Fecha</div>
+               <div class="tableMenu color3" [style]="'width: ' + width + '%;'">Dia</div>
+               <div class="tableMenu color3" *ngIf="!filters?.user" [style]="'width: ' + (width + width) + '%;'">Nombre</div>
+               <div class="tableMenu color3" [style]="'width: ' + width + '%;'">Entrada</div>
+               <div class="tableMenu color3" [style]="'width: ' + width + '%;'">0 m - 10 m</div>
+               <div class="tableMenu color3" [style]="'width: ' + width + '%;'">11 m - 20 m</div>
+               <div class="tableMenu color3" [style]="'width: ' + width + '%;'">20 m - Mas</div>
+               <div class="tableMenu color3" [style]="'width: ' + width + '%;'">Atraso</div>
+               <div class="tableMenu size10"></div>
+            </div>
+            <div class="tablebody" style="min-width: 920px;width: 100%;">
+               <div class="tabletd" *ngFor="let x of records;let i = index"
+                  [style]="'min-width: 910px;width: 100%;animation-delay:' + (i/25) + 's;'">
+                  <div class="tableItem color1" [style]="'width: ' + width + '%;'">{{formatearFecha(x.fecha)}}</div>
+                  <div class="tableItem color1" [style]="'width: ' + width + '%;'">{{x.name_day}}</div>
+                  <div class="tableItem color1" *ngIf="!filters?.user" [title]="x.nombres" [style]="'width: ' + (width + width) + '%;max-width: ' + (width + width) + '%;'"><div class="tableSubItem color1">{{x.nombres | titlecase}}</div></div>
+                  <div class="tableItem color1" [style]="'width: ' + width + '%;'">{{x.entrada}}</div>
+                  <div class="tableItem color1" [style]="'width: ' + width + '%;'">{{x.rango_a}}</div>
+                  <div class="tableItem color1" [style]="'width: ' + width + '%;'">{{x.rango_b}}</div>
+                  <div class="tableItem color1"
+                     [style]="'width: ' + width + '%;'">{{x.rango_c}}</div>
+                  <div class="tableItem color1"
+                     [style]="'width: ' + width + '%;'">{{x.atraso}}</div>
+               </div>
+            </div>
+            <div class="tablehead tablsubehead background" style="min-width: 910px;" *ngIf="records.length > 0 && !loading">
+               <div class="tableMenu color2" [style]="'width: ' + width + '%;'">Total</div>
+               <div class="tableMenu color2" [style]="'width: ' + width + '%;'"></div>
+               <div class="tableMenu color2" [style]="'width: ' + width + '%;'"></div>
+               <div class="tableMenu color2" [style]="'width: ' + width + '%;'"></div>
+               <div class="tableMenu color2" [style]="'width: ' + width + '%;'"></div>
+               <div class="tableMenu color2" [style]="'width: ' + width + '%;'">{{total_rango_a}}</div>
+               <div class="tableMenu color2" [style]="'width: ' + width + '%;'">{{total_rango_b}}</div>
+               <div class="tableMenu color2" [style]="'width: ' + width + '%;'">{{total_rango_c}}</div>
+               <div class="tableMenu color2" [style]="'width: ' + width + '%;'">{{total_atraso}}</div>
+               <div class="tableMenu color2 size10"></div>
+            </div>
+            <div class="not_results" *ngIf="records.length == 0 && !loading">No
+               se encontraron resultados</div>
+         </div>
+         <div class="contGrap" *ngIf="view_graph">
+            <div id="chartdiv" style="width: 100%;"></div>
+         </div>
+      </div>
+   </div>
+</app-menu>
