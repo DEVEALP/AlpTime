@@ -119,7 +119,7 @@
 .calendar_body{
    margin: 10px;
    width: calc(100% - 20px);
-   height: calc(100% - 74px);
+   height: calc(100% - 110px);
 }
 .daycont{
    width: 100%;
@@ -165,7 +165,7 @@
    height: 100%;
    position: absolute;
    top: 0px;
-   background: rgba(0,0,0,0.1);
+   background: rgba(141, 141, 141, 0.2);
 }
 .day_head_title{
    height: 100%;
@@ -318,6 +318,10 @@
    font-size: 18px;
    color: #666;
 }
+.btn_text_calendar_mobile{
+   border-radius: 50%;
+   margin: 0px 2px;
+}
 .btn_text_calendar_text{
    font-size: 13px;
    font-weight: 500;
@@ -435,4 +439,20 @@
 }
 .turns_list_btn:hover, .turns_list_btn:focus{
    opacity: 1;
+}
+.calendar_days{
+   padding: 0px 10px;
+   width: calc(100% - 20px);
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+.calendar_day{
+   font-size: 14px;
+   font-style: italic;
+   font-weight: 500;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
 }

@@ -9,16 +9,12 @@
                <span class="titleitemtextbutton color1">Filtrar</span>
                <div class="iconfilter backcolor" *ngIf="filtercount">{{filtercount}}</div>
             </button> 
-            <div class="inpput_cont background">
-               <span class="material-icons iconinput">search</span>
-               <mat-date-range-input [rangePicker]="picker">
-                  <input type="text" #startI matStartDate [value]="start.value" autocomplete="off" placeholder="DD/MM/AAAA" (dateChange)="changedate(startI.value, 'start')" (keyup.enter)="changedate(startI.value, 'start')" (blur)="changedate(startI.value, 'start')">
-                  <input hidden [formControl]="start" class="color">
-                  <input type="text" #endI matEndDate [value]="end.value" autocomplete="off" placeholder="DD/MM/AAAA" (dateChange)="changedate(endI.value, 'end')" (keyup.enter)="changedate(endI.value, 'end')" (blur)="changedate(endI.value, 'end')">
-                  <input hidden [formControl]="end" class="color">
-                </mat-date-range-input>
+            <div class="inpput_cont background" style="width: 120px;">
+               <span class="material-icons iconinput color3">search</span>
+               <input matInput class="input_motnh color1" [(ngModel)]="date_show" (blur)="valid_date()" (keyup.enter)="valid_date()">
+               <input matInput [matDatepicker]="picker" [formControl]="start" style="width: 0px;opacity: 0;">
                 <mat-datepicker-toggle style="transform: scale(0.8);" matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-date-range-picker #picker startView="year" (monthSelected)="setMonthAndYear($event, picker)"></mat-date-range-picker>
             </div> 
          </div>
       </div>

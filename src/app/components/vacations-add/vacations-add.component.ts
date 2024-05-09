@@ -106,7 +106,6 @@ export class VacationsAddComponent {
     var search = this.user_search
     this.http.post('device/users/get', { type: 'min', deviceid: 0, search: search, top: 15 }).then((data: any) => {
       this.users = data
-      console.log(data)
       for (let x of this.users) x.userid = Number(x.userid)
       this.loading_users = false
     }).catch(() => {
@@ -116,14 +115,12 @@ export class VacationsAddComponent {
 
   setPeriod(period: any) {
     this.period = period
-    this.setTitle()
-    setTimeout(() => { this.tab++ }, 400);
+    setTimeout(() => { this.tab++; this.setTitle() }, 400);
   }
 
   setUser(user: any) {
     this.user = user
-    this.setTitle()
-    setTimeout(() => { this.tab++ }, 400);
+    setTimeout(() => { this.tab++; this.setTitle() }, 400);
   }
 
   back() {
@@ -149,8 +146,8 @@ export class VacationsAddComponent {
       this.home.toast.fire({ icon: 'error', title: 'Seleccione un rango de fechas' })
       return
     }
+    if (this.tab >= 3) this.setwarning()
     if (this.tab > 3) {
-      this.setwarning()
       this.loading = true
       var start_date = this.selectedRangeValue?.start?.toISOString().split('T')[0] ?? ''
       var end_date = this.selectedRangeValue?.end?.toISOString().split('T')[0] ?? ''
@@ -214,9 +211,9 @@ export class VacationsAddComponent {
   setTitle() {
     this.title_animation = true
     setTimeout(() => {
-      if (this.tab == 1) this.title = 'Selecione un empleado'
-      else if (this.tab == 2) this.title = 'Selecione el periodo'
-      else if (this.tab == 3) this.title = 'Selecione el rango de fechas'
+      if (this.tab == 1) this.title = 'Seleccione un empleado'
+      else if (this.tab == 2) this.title = 'Seleccione el periodo'
+      else if (this.tab == 3) this.title = 'Seleccione el rango de fechas'
       else if (this.tab == 4) this.title = 'Asignar vacaciones'
       this.title_animation = false
     }, 200);

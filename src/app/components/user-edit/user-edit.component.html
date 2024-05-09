@@ -1,62 +1,57 @@
-<div class="cont">
-   <div class="head">
-      <div class="title">{{data.mode ? 'Modificar' : 'Agregar'}} Usuario</div>
+<div class="cont background1">
+   <div class="head" [class.head_mobile]="mobile">
+      <div class="profile" [class.profile_mobile]="mobile">
+         <img src="../../../assets/notprofile.jpg" class="imagen" [class.imagen_mobile]="mobile">
+      </div>
+      <button class="options" [class.options_mobile]="mobile" matRipple [class.option_seleted]="view == 'info'">
+         <span class="material-icons options_icon color3" [class.options_icon_mobile]="mobile" [class.text_color]="view == 'info'">badge</span>
+         <span class="options_name color1" *ngIf="!mobile" [class.text_color]="view == 'info'">Informacion</span>
+      </button>
    </div>
-   <div class="body" [class.body_mob]="mobile">
-      <div class="cont_image" [class.cont_image_mob]="mobile">
-         <div class="subcontimage">
-            <img [src]="image.imagen" class="image">
+   <div class="body" [class.body_mobile]="mobile">
+      <div class="subbody" *ngIf="view == 'info'">
+         <div class="title color2">Información del biometrico</div>
+         <div class="form" [formGroup]="form">
+            <mat-form-field class="input">
+               <mat-label>Nombres</mat-label>
+               <input matInput formControlName="name" class="color1">
+               <mat-error *ngIf="form.get('name')?.hasError('required')">Este campo es requerido</mat-error>
+               <mat-error *ngIf="form.get('name')?.hasError('minlength')">Este campo no puede tener menos de 3 caracteres</mat-error>
+               <mat-error *ngIf="form.get('name')?.hasError('maxlength')">Este campo no puede tener más de 50 caracteres</mat-error>
+               <mat-error *ngIf="form.get('name')?.hasError('pattern')">Este campo solo puede contener letras y espacios</mat-error>
+             </mat-form-field>
+             <mat-form-field class="input">
+               <mat-label>Contraseña (Opcional)</mat-label>
+               <input matInput formControlName="password" class="color1">
+               <mat-error *ngIf="form.get('password')?.hasError('pattern')">Este campo solo puede contener números</mat-error>
+             </mat-form-field>
+             <mat-form-field class="input">
+               <mat-label>Tarjeta (Opcional)</mat-label>
+               <input matInput formControlName="card" class="color1">
+               <mat-error *ngIf="form.get('cad')?.hasError('pattern')">Este campo solo puede contener números</mat-error>
+             </mat-form-field>
+             <mat-form-field class="input">
+               <mat-label>Tipo de usuario</mat-label>
+               <mat-select formControlName="type">
+                 <mat-option *ngFor="let x of types" [value]="x.codigo">{{x.nombre}}</mat-option>
+               </mat-select>
+               <mat-error *ngIf="form.get('type')?.hasError('required')">Este campo es requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field class="input">
+               <mat-label>Tipo de validación</mat-label>
+               <mat-select formControlName="valid">
+                  <mat-option *ngFor="let x of validation" [value]="x.codigo">{{x.nombre}}</mat-option>
+               </mat-select>
+               <mat-error *ngIf="form.get('type')?.hasError('required')">Este campo es requerido</mat-error>
+             </mat-form-field>
          </div>
-         <button class="btnupload" [disabled]="true" matRipple>
-            <div class="btnupload_text">Subir imagen</div>
-            <span class="material-icons btnupload_icon">file_upload</span>
-         </button>
-         <button class="btnupload" matRipple *ngIf="data.mode" (click)="remove()">
-            <div class="btndelete_text">Eliminar</div>
-            <span class="material-icons btndelete_icon">delete</span>
-         </button>
-      </div>
-      <div class="cont_form" [formGroup]="user" [class.cont_image_mob]="mobile">
-         <mat-form-field class="input">
-            <mat-label>Nombres</mat-label>
-            <input matInput formControlName="name">
-            <mat-error *ngIf="user.get('name')?.hasError('required')">Nombres es requerido</mat-error>
-            <mat-error *ngIf="user.get('name')?.hasError('minlength')">Nombres de caracteres 4</mat-error>
-            <mat-error *ngIf="user.get('name')?.hasError('maxlength')">Nombres de caracteres 50</mat-error>
-          </mat-form-field>
-          <mat-form-field class="input">
-            <mat-label>Id de usuario</mat-label>
-            <input matInput formControlName="id">
-            <mat-error *ngIf="user.get('id')?.hasError('required')">Id de usuario es requerido</mat-error>
-            <mat-error *ngIf="user.get('id')?.hasError('pattern')">Id de usuario es invalido</mat-error>
-            <mat-error *ngIf="user.get('id')?.hasError('min')">Id de usuario no puede ser 0</mat-error>
-          </mat-form-field>
-          <mat-form-field class="input">
-            <mat-label>Cedula</mat-label>
-            <input matInput formControlName="cedula">
-            <mat-error *ngIf="user.get('cedula')?.hasError('pattern')">Cedula es invalida</mat-error>
-            <mat-error *ngIf="user.get('cedula')?.hasError('minlength')">Cedula es invalida</mat-error>
-            <mat-error *ngIf="user.get('cedula')?.hasError('maxlength')">Cedula es invalida</mat-error>
-          </mat-form-field>
-          <mat-form-field class="input">
-            <mat-label>Biometrico</mat-label>
-            <input matInput formControlName="biometrico">
-          </mat-form-field>
-          <mat-form-field class="input">
-            <mat-label>Grupo</mat-label>
-            <input type="text" aria-label="Number" matInput formControlName="grupo" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of filteredOptions | async" [value]="option.nombre">{{option.nombre | titlecase}}</mat-option>
-            </mat-autocomplete>
-            <mat-error *ngIf="user.get('grupo')?.hasError('required')">Grupo es requerido</mat-error>
-          </mat-form-field>
-      </div>
-   </div>
-   <div class="head">
-      <div></div>
-      <div class="btns">
-         <button class="btnupload" matRipple (click)="onNoClick()" style="width: auto;padding: 0px 15px;height: 35px;margin-right: 5px;">Cancelar</button>
-         <button class="btn_color" matRipple (click)="save()" [disabled]="user.invalid">{{data.mode ? 'Actualizar' : 'Crear'}}</button>
+         <div class="buttons">
+            <button class="btn color3" (click)="onNoClick()" [disabled]="loading">Cerrar</button>
+            <button class="btn bg_color" (click)="save_info()" [disabled]="form.invalid">
+               <span *ngIf="!loading">Actualizar</span>
+               <mat-spinner *ngIf="loading" diameter="18" strokeWidth="3" class="loading_white"></mat-spinner>
+            </button>
+         </div>
       </div>
    </div>
 </div>

@@ -46,7 +46,7 @@
                   'expand_more' : 'expand_less'}}</span></div>
          </div>
          <mat-progress-bar mode="indeterminate" *ngIf="loading" class="progress"></mat-progress-bar>
-         <div class="bodyy background" style="min-width: 860px;">
+         <div class="bodyy" style="min-width: 860px;">
             <div class="item_expandible"
                *ngFor="let device of devices; let i = index"
                [class.expande]="device.view" [class.borderleft3]="device.view"
@@ -55,7 +55,7 @@
                   (click)="view(device)"><span
                      class="material-icons itex_btn_icon color3">{{device.view ?
                      'expand_less' : 'keyboard_arrow_down'}}</span></button>
-               <button matRipple class="itex_btn_items background1" (click)="view(device)">
+               <button matRipple class="itex_btn_items background" (click)="view(device)">
                   <div class="size60 text_head"></div>
                   <div class="size60 text_head"><img class="image"
                         [src]="device.image"></div>

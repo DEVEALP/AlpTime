@@ -17,6 +17,7 @@
    </div>
    <div class="contButtons">
       <button matRipple class="cancel" (click)="closing()">Cancelar</button>
-      <button matRipple id="nextbtnalert" class="next bg_color"  (click)="next()">Continuar</button>
+      <button matRipple id="nextbtnalert" *ngIf="data.button" class="next bg_color" [style]="'background: '+(data.button.background ? data.button.background : '#2993DC')+';color: '+(data.button.color ? data.button.color : 'white')+';'" (click)="next_button()">{{data.button.text}}</button>
+      <button matRipple id="nextbtnalert" class="next bg_color"  (click)="next()">{{ data.text_button ? data.text_button : 'Continuar'}}</button>
    </div>
 </div>

@@ -1,3 +1,270 @@
-<app-menu [title]="''">
-
+<app-menu [title]="title" [loading]="loading" [urlReturn]="'employes'">
+   <div class="cont background1">
+      <div class="head" [class.head_mobile]="mobile">
+         <div class="profile" [class.profile_mobile]="mobile">
+            <img [src]="tumblr ? (imagen ? ('data:image/png;base64,' + imagen) : ('data:image/png;base64,' + tumblr)) : '../../../assets/notprofile.jpg'" class="profile_img" alt="employe">
+            <button class="btn_upload bg_color" [class.btn_upload_mobile]="mobile" matRipple>
+               <div class="subbtn_upload">
+                  <span class="material-icons btn_upload_icon">file_upload</span>
+                  <input type="file" class="btn_upload_input" accept="image/*" (change)="uploadFile($event)">
+               </div>
+            </button>
+         </div>
+         <div class="buttons_list">
+            <button class="button_item" [class.button_item_mobile]="mobile" matRipple [class.button_item_selected]="tab == 'info'" (click)="open_tab('info')">
+               <span class="material-icons button_item_icon color3" [class.iconScale]="mobile" [class.text_color]="tab == 'info'">edit</span>
+               <span *ngIf="!mobile" class="button_item_text color1" [class.text_color]="tab == 'info'">Información</span>
+            </button>
+            <button class="button_item" [class.button_item_mobile]="mobile" matRipple [class.button_item_selected]="tab == 'work'" *ngIf="employe.controls.id.value" (click)="open_tab('work')">
+               <span class="material-icons button_item_icon color3" [class.iconScale]="mobile" [class.text_color]="tab == 'work'">work</span>
+               <span *ngIf="!mobile" class="button_item_text color1" [class.text_color]="tab == 'work'">Trabajo</span> 
+            </button>
+            <button class="button_item" [class.button_item_mobile]="mobile" matRipple [class.button_item_selected]="tab == 'biometric'" *ngIf="employe.controls.id.value" (click)="open_tab('biometric')">
+               <span class="material-icons button_item_icon color3" [class.iconScale]="mobile" [class.text_color]="tab == 'biometric'">camera_front</span>
+               <span *ngIf="!mobile" class="button_item_text color1" [class.text_color]="tab == 'biometric'">Biometricos</span> 
+            </button>
+            <button class="button_item" [class.button_item_mobile]="mobile" matRipple [class.button_item_selected]="tab == 'family'" *ngIf="employe.controls.id.value" (click)="open_tab('family')">
+               <span class="material-icons button_item_icon color3" [class.iconScale]="mobile" [class.text_color]="tab == 'family'">family_restroom</span>
+               <span *ngIf="!mobile" class="button_item_text color1" [class.text_color]="tab == 'family'">Familia</span>
+            </button>
+            <button class="button_item" [class.button_item_mobile]="mobile" matRipple [class.button_item_selected]="tab == 'app'" *ngIf="employe.controls.id.value" (click)="open_tab('app')">
+               <span class="material-icons button_item_icon color3" [class.iconScale]="mobile" [class.text_color]="tab == 'app'">mobile_friendly</span>
+               <span *ngIf="!mobile" class="button_item_text color1" [class.text_color]="tab == 'app'">Acceso móvil</span>
+            </button>
+         </div>
+      </div>
+      <div class="body" [class.body_mobile]="mobile">
+         <div class="subbody" *ngIf="tab == 'info'">
+            <div class="title color1">Información personal del empleado</div>
+            <div class="subcontbody">
+               <div class="form" [formGroup]="employe">
+                  <mat-form-field class="matInput widthInput50">
+                     <mat-label>Nombres</mat-label>
+                     <input matInput class="color1" formControlName="nombre">
+                     <mat-error *ngIf="employe.controls.nombre.invalid">Campo requerido</mat-error>
+                     <mat-error *ngIf="employe.controls.nombre.hasError('maxlength')">Máximo 250 caracteres</mat-error>
+                     <mat-error *ngIf="employe.controls.nombre.hasError('minlength')">Mínimo 3 caracteres</mat-error>
+                     <mat-error *ngIf="employe.controls.nombre.hasError('pattern')">Solo letras</mat-error>
+                   </mat-form-field>
+                  <mat-form-field class="matInput widthInput50">
+                     <mat-label>Apellidos</mat-label>
+                     <input matInput class="color1" formControlName="apellido">
+                     <mat-error *ngIf="employe.controls.apellido.invalid">Campo requerido</mat-error>
+                     <mat-error *ngIf="employe.controls.apellido.hasError('maxlength')">Máximo 250 caracteres</mat-error>
+                     <mat-error *ngIf="employe.controls.apellido.hasError('minlength')">Mínimo 3 caracteres</mat-error>
+                     <mat-error *ngIf="employe.controls.apellido.hasError('pattern')">Solo letras</mat-error>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput50">
+                     <mat-label>Cedula</mat-label>
+                     <input matInput class="color1" formControlName="cedula" (keyup)="setUserid()">
+                     <mat-error *ngIf="employe.controls.cedula.invalid">Campo requerido</mat-error>
+                     <mat-error *ngIf="employe.controls.cedula.hasError('maxlength')">Máximo 10 caracteres</mat-error>
+                     <mat-error *ngIf="employe.controls.cedula.hasError('minlength')">Mínimo 10 caracteres</mat-error>
+                     <mat-error *ngIf="employe.controls.cedula.hasError('pattern')">Solo números</mat-error>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput50">
+                     <mat-label>Userid</mat-label>
+                     <input matInput class="color1" formControlName="userid" (blur)="validUserid()">
+                     <mat-error *ngIf="employe.controls.userid.invalid">Campo requerido</mat-error>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput33" [class.widthInput50]="mobile">
+                     <mat-label>Fecha de nacimiento</mat-label>
+                     <input matInput type="text" class="color1" formControlName="brithday_view" (blur)="validdateString($event, 'brithday')" (keyup.enter)="validdateString($event, 'brithday')">
+                     <input matInput id="brithday" [matDatepicker]="birthday" class="input_date_text_hidden" formControlName="brithday" (dateChange)="selectDate($event, 'brithday_view')">
+                     <mat-error *ngIf="employe.controls.brithday.invalid">Campo requerido</mat-error>
+                     <mat-hint class="color2">DD/MM/YYYY</mat-hint>
+                     <mat-datepicker-toggle matSuffix [for]="birthday">
+                       <mat-icon matDatepickerToggleIcon>event</mat-icon>
+                     </mat-datepicker-toggle>
+                     <mat-datepicker #birthday startView="multi-year"></mat-datepicker>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput33" [class.widthInput50]="mobile">
+                     <mat-label>Sexo</mat-label>
+                     <mat-select  formControlName="sexo">
+                         <mat-option *ngFor="let x of sexs" [value]="x.codigo">{{x.nombre | titlecase}}</mat-option>
+                     </mat-select>
+                     <mat-error *ngIf="employe.controls.sexo.invalid">Campo requerido</mat-error>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput33" [class.widthInput50]="mobile">
+                     <mat-label>Estudios</mat-label>
+                     <mat-select  formControlName="estudio">
+                         <mat-option *ngFor="let x of estudios" [value]="x.codigo">{{x.nombre | titlecase}}</mat-option>
+                     </mat-select>
+                     <mat-error *ngIf="employe.controls.estudio.invalid">Campo requerido</mat-error>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput33" [class.widthInput50]="mobile">
+                     <mat-label>Estado civil</mat-label>
+                     <mat-select formControlName="ecivil">
+                         <mat-option *ngFor="let x of ecivils" [value]="x.codigo">{{x.nombre | titlecase}}</mat-option>
+                     </mat-select>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput33" [class.widthInput50]="mobile">
+                     <mat-label>Telefono</mat-label>
+                     <input matInput class="color1" formControlName="telefono">
+                     <mat-error *ngIf="employe.controls.telefono.hasError('maxlength')">Máximo 10 caracteres</mat-error>
+                     <mat-error *ngIf="employe.controls.telefono.hasError('minlength')">Mínimo 10 caracteres</mat-error>
+                     <mat-error *ngIf="employe.controls.telefono.hasError('pattern')">Solo números</mat-error>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput33" [class.widthInput50]="mobile">
+                     <mat-label>Correo</mat-label>
+                     <input matInput class="color1" formControlName="email">
+                     <mat-error *ngIf="employe.controls.email.hasError('email')">Correo no valido</mat-error>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput100">
+                     <mat-label>Ubicación</mat-label>
+                     <textarea matInput formControlName="direccion" class="color1"></textarea>
+                   </mat-form-field>
+               </div>
+               <div class="btns">
+                  <button class="btn bg_color" matRipple (click)="save_info()" [class.btn_invalid]="employe.invalid">{{ employe.controls.id.value ? 'Actualizar' : 'Crear'}}</button>
+               </div>
+            </div>
+         </div>
+         <div class="subbody" *ngIf="tab == 'work'">
+            <div class="title color1">Información laboral del empleado</div>
+            <div class="subcontbody">
+               <div class="form" [formGroup]="employe">
+                  <mat-form-field class="matInput widthInput33" [class.widthInput50]="mobile">
+                     <mat-label>Estado</mat-label>
+                     <mat-select formControlName="allow">
+                         <mat-option *ngFor="let x of elaboral" [value]="x.codigo">{{x.nombre}}</mat-option>
+                     </mat-select>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput33" [class.widthInput50]="mobile">
+                      <mat-label>Fecha de Ingreso</mat-label>
+                      <input matInput type="text" class="color1" formControlName="fecha_ing_view" (blur)="validdateString($event, 'fecha_ing')" (keyup.enter)="validdateString($event, 'fecha_ing')">
+                     <input matInput [matDatepicker]="date_ing" class="input_date_text_hidden" formControlName="fecha_ing" (dateChange)="changeFechaIng($event)">
+                     <mat-hint class="color2">DD/MM//YYYY</mat-hint>
+                     <mat-datepicker-toggle matSuffix [for]="date_ing">
+                        <mat-icon matDatepickerToggleIcon>event</mat-icon>
+                     </mat-datepicker-toggle>
+                     <mat-datepicker #date_ing></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field class="matInput widthInput33" [class.widthInput50]="mobile">
+                     <mat-label>Tipo de contrato</mat-label>
+                     <mat-select formControlName="tp_contra">
+                         <mat-option *ngFor="let x of tpcontra" [value]="x.codigo">{{x.nombre}}</mat-option>
+                     </mat-select>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput50">
+                     <mat-label>Cargo</mat-label>
+                     <input type="text" aria-label="Number" matInput class="color1" [matAutocomplete]="autoCargo" formControlName="cargo" (blur)="validSelection('cargo')">
+                     <mat-autocomplete #autoCargo="matAutocomplete">
+                         <mat-option *ngFor="let x of filteredOptionsJobs | async" [value]="x.nombre">{{x.nombre | titlecase}}</mat-option>
+                     </mat-autocomplete>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput50"  [class.widthInput100]="mobile">
+                     <mat-label>Departamento</mat-label>
+                     <input type="text" aria-label="Number" matInput class="color1" [matAutocomplete]="autoDepartament" formControlName="departament" (blur)="validSelection('departament')">
+                     <mat-autocomplete #autoDepartament="matAutocomplete">
+                         <mat-option *ngFor="let x of filteredOptionsDepartaments | async" [value]="x.nombre">{{x.nombre | titlecase}}</mat-option>
+                     </mat-autocomplete>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput50"  [class.widthInput100]="mobile">
+                     <mat-label>Grupo</mat-label>
+                     <input type="text" aria-label="Number" matInput class="color1" [matAutocomplete]="autoGrupo" formControlName="grupo" (blur)="validSelection('grupo')">
+                     <mat-autocomplete #autoGrupo="matAutocomplete">
+                         <mat-option *ngFor="let x of filteredOptionsGroups | async" [value]="x.nombre">{{x.nombre | titlecase}}</mat-option>
+                     </mat-autocomplete>
+                   </mat-form-field>
+                   <mat-form-field class="matInput widthInput50" [class.widthInput100]="mobile">
+                     <mat-label>Fecha de Salida</mat-label>
+                    <input matInput class="color1" formControlName="fecha_sal">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                 </mat-form-field>
+                   <mat-form-field class="matInput widthInput100">
+                     <mat-label>Motivo Salida</mat-label>
+                     <textarea matInput formControlName="motivo_sal"></textarea>
+                   </mat-form-field>
+               </div>
+               <div class="btns">
+                  <button class="btn bg_color" matRipple (click)="save_work()">Actualizar</button>
+               </div>
+            </div>
+         </div>
+         <div class="subbody" *ngIf="tab == 'family'">
+            <div class="title color1">Familia</div>
+            <div class="subcontbody">
+               <div class="btn_add background2" *ngIf="family.length > 0">
+                  <span class="btn_add_text color2">Nuevo familiar</span>
+                  <button class="btn_add_btn bg_color" matRipple (click)="setFamily()">Agregar</button>
+               </div>
+               <div class="contBodyList">
+                  <button class="family background" [class.family_mobile]="mobile" matRipple *ngFor="let x of family" (click)="setFamily(x)">
+                     <div class="family_row">
+                        <img src="../../../assets/notprofile.jpg" class="family_image" alt="employe">
+                        <div class="family_texts" [class.family_texts_mobile]="mobile">
+                           <div class="family_name color1">{{x.nombres + ' ' + x.apellidos}}</div>
+                           <div class="family_text color3" *ngIf="x.cedula">{{x.cedula}}</div>
+                        </div>
+                     </div>
+                     <span class="family_type color1" [class.family_type_mobile]="mobile">{{x.parentezco}}</span>
+                  </button>
+                  <div class="view_mobil" *ngIf="family.length == 0">
+                     <span class="view_mobil_title text_color">¡Agrega familiares del empleado para una mejor experiencia!</span>
+                     <span class="view_mobil_text color3">En esta sección podrás agregar información sobre los familiares del empleado para mejorar su experiencia y permitirnos brindar un mejor servicio. Los datos de los familiares pueden ser importantes para diversos fines, como beneficios laborales, eventos de la empresa, comunicaciones internas, entre otros.</span>
+                     <button class="view_mobil_btn bg_color" matRipple (click)="setFamily()">Agregar</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="subbody" *ngIf="tab == 'app'">
+            <div class="title color1">Acceso móvil</div>
+            <div class="subcontbody">
+               <div class="view_mobil" *ngIf="app_tab == 1">
+                  <span class="view_mobil_title text_color">Permitir el acceso móvil</span>
+                  <span class="view_mobil_text color3">Si activamos esta opción, se generará un acceso especial en la aplicación para que los empleados puedan ver fácilmente cuándo trabajarán en sus próximos turnos. Es una forma conveniente para que estén al tanto de su programación laboral.</span>
+                  <button class="view_mobil_btn bg_color" matRipple (click)="enable_app()">Activar</button>
+               </div>
+               <div class="contAppInfo" *ngIf="app_tab == 2">
+                  <div class="contAppInfo_form" [formGroup]="employe_app">
+                     <mat-form-field class="matInput widthInput50" [class.widthInput100]="mobile">
+                        <mat-label>Userid</mat-label>
+                        <input matInput class="color1" formControlName="userid">
+                      </mat-form-field>
+                      <mat-form-field class="matInput widthInput50" [class.widthInput100]="mobile">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput type="text" class="color1" formControlName="password">
+                      </mat-form-field>
+                      <div class="toggle_app" [class.widthInput100]="mobile">
+                        <div class="toggle_app_text color1">Habilitado</div>
+                        <mat-slide-toggle formControlName="allow" (change)="setEnablegApp($event)"></mat-slide-toggle>
+                      </div>
+                      <div class="toggle_app" [class.widthInput100]="mobile">
+                        <div class="toggle_app_text color1">Permitir ver marcaciones</div>
+                        <mat-slide-toggle formControlName="view_data" (change)="setConfigApp($event)"></mat-slide-toggle>
+                      </div>
+                  </div>
+                  <div class="contAppInfo_btns">
+                     <button class="view_mobil_btn bg_color" *ngIf="employe.controls.email.value != ''" style="width: 160px;" matRipple (click)="setFamily()">Reenviar credenciales</button>
+                     <button class="view_mobil_btn bg_color" matRipple (click)="setUpdateDataApp()">Actualizar</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="subbody" *ngIf="tab == 'biometric'">
+            <div class="title color1">Asignación de biométricos</div>
+            <div class="subcontbody" *ngIf="biometrics.length > 0 && app_tab == 2">
+               <div class="btn_add background2">
+                  <span class="btn_add_text color2">Asignar nuevo biometrico</span>
+                  <button class="btn_add_btn bg_color" matRipple (click)="setBiomtric()" [disabled]="disabled_btn_add_biometric" [title]="disabled_btn_add_biometric ? 'No existen más biométricos disponibles' : 'Asignar nuevo biométrico al empleado'">Agregar</button>
+               </div>
+               <div class="contBodyList" [class.contBodyList_scroll]="scroll_biometrics">
+                  <div class="biometric background" *ngFor="let x of biometrics">
+                     <span class="material-icons color1 device_icon" *ngIf="!x.image">camera_front</span>
+                     <img class="device_image" [src]="'data:image/png;base64,' + x.image" *ngIf="x.image" alt="device image">
+                     <span class="device_name color1">{{x.name}}</span>
+                     <button class="biometric_btn" style="margin-right: 47px;" matRipple><span class="material-icons biometric_icon color1">visibility</span></button>
+                     <button class="biometric_btn" matRipple><span class="material-icons biometric_icon color1">delete</span></button>
+                  </div>
+               </div>
+            </div>
+            <div class="view_mobil" *ngIf="app_tab == 1">
+               <span class="view_mobil_title text_color">Asignar biométricos al empleado</span>
+               <span class="view_mobil_text color3">Descubre cómo maximizar la productividad y seguridad de tu equipo mediante la asignación de empleados a dispositivos biométricos, garantizando un control preciso de asistencia y acceso.</span>
+               <button class="view_mobil_btn bg_color" matRipple [disabled]="disabled_btn_add_biometric" (click)="setBiomtric()">Asignar</button>
+            </div>
+         </div>
+      </div>
+   </div>
 </app-menu>

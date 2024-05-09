@@ -1,0 +1,14 @@
+<div class="cont">
+   <div class="title">
+      <span class="material-icons title_icon">info</span>
+      <div class="title_text">Agrgar observación</div>
+   </div>
+   <div class="body">
+      <mat-form-field class="input">
+         <textarea matInput [formControl]="observation" (keyup.enter)="save()" placeholder="Escribe aquí tu observación" style="height: 65px;" class="color1"></textarea>
+       </mat-form-field>
+   </div>
+   <div class="btns">
+      <button matRipple class="btn color3" (click)="onNoClick()">Cancelar</button>
+      <button matRipple class="btn bg_color" (click)="save()">Guardar</button>
+</div>

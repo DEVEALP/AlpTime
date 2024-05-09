@@ -303,9 +303,13 @@ export class RegistersComponent {
             this.http.post('device/records/options', result).then((e: any) => {
               this.homesvc.loading.emit(false)
               if (e.length > 0 && e[0].code == 200) {
-                data.Registro = result.datetime
-                data.Fecha = result.datetime.split(' ')[0]
-                data.Hora = result.datetime.split(' ')[1]
+                var index = this.records.findIndex((e: any) => e.id == data.id)
+                if (index > -1) {
+                  this.records[index].checktime = result.datetime
+                  var fecha_s = result.datetime.split(' ')[0].split('-')
+                  this.records[index].fecha = fecha_s[2].padStart(2, '0') + '-' + fecha_s[1].padStart(2, '0') + '-' + fecha_s[0] 
+                  this.records[index].hora = result.datetime.split(' ')[1].slice(0, 5)
+                }
                 this.homesvc.toast.fire({ icon: 'success', title: 'Actualizado con exito' })
               } else {
                 this.homesvc.toast.fire({ icon: 'error', title: 'No se actualizo el registro' })

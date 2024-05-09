@@ -42,7 +42,6 @@
    top: 0px;
    left: 0px;
    opacity: 0;
-   background: rgba(242, 242, 242, 1);
    transition: all ease-out .3s
 }
 
@@ -139,7 +138,7 @@
 }
 .subuser{
    padding: 0px 15px;
-   width: 100%;
+   width: calc(100% - 6px);
    height: 100%;
    border: none;
    outline: none;
@@ -149,13 +148,14 @@
    align-items: center;
    justify-content: flex-start;
    background: transparent;
+   margin: 3px;
 }
 .user:hover, .user:focus{
-   background: rgba(0, 0, 0, 0.08);
+   background: rgba(83, 83, 83, 0.41);
 }
 .profile{
-   width: 40px;
-   height: 40px;
+   width: 38px;
+   height: 38px;
    border-radius: 50%;
 }
 .datauser{
@@ -179,9 +179,9 @@
 }
 .cont_seleted{
    position: absolute;
-   right: -5px;
-   font-size: 14px;
-   top: -5px;
+   right: -4px;
+   font-size: 16px;
+   top: -4px;
    z-index: 100;
    border-radius: 50%;
 }

@@ -127,7 +127,6 @@ export class GeneratorReportExcel {
                page.getCell(temporal_column + row).value = value
             }else{
                if(!title_insert){
-                  // console.log(temporal_column + row)
                   page.getCell(temporal_column + row).value = total.title ?? ''
                   title_insert = true
                   cell_title = temporal_column + row
@@ -170,7 +169,8 @@ export class GeneratorReportExcel {
          var wordStylesOrden: wordStylesOrdenInterface[] = []
          for (let wordStyle of wordStyles) {
             var exists = wordStylesOrden.find((w: any) => w.word === wordStyle.word)
-            if (!exists) wordStylesOrden.push({ word: wordStyle.word, index: text.indexOf(wordStyle.word), style: wordStyle.style })
+            var index = text.indexOf(wordStyle.word)
+            if (!exists && index >= 0) wordStylesOrden.push({ word: wordStyle.word, index: index, style: wordStyle.style })
          }
          wordStylesOrden = wordStylesOrden.sort((a: any, b: any) => a.index - b.index)
          for (let wordStyle of wordStylesOrden) {

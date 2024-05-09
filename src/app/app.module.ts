@@ -50,6 +50,12 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { EmployesComponent } from './components/employes/employes.component';
 import { EmployeComponent } from './components/employe/employe.component';
 import { UnassignTurnComponent } from './components/unassign-turn/unassign-turn.component';
+import { AttendanceObservationComponent } from './components/attendance-observation/attendance-observation.component';
+import { EmployeFamilyComponent } from './components/employe-family/employe-family.component';
+import { EmployeExitComponent } from './components/employe-exit/employe-exit.component';
+import { CalendarUserComponent } from './components/calendar-user/calendar-user.component';
+import { CalendarUserRecordsComponent } from './components/calendar-user-records/calendar-user-records.component';
+import { EmployeBiometricComponent } from './components/employe-biometric/employe-biometric.component';
 
 @NgModule({
   declarations: [ 
@@ -95,7 +101,13 @@ import { UnassignTurnComponent } from './components/unassign-turn/unassign-turn.
     SettingsComponent,
     EmployesComponent,
     EmployeComponent,
-    UnassignTurnComponent
+    UnassignTurnComponent,
+    AttendanceObservationComponent,
+    EmployeFamilyComponent,
+    EmployeExitComponent,
+    CalendarUserComponent,
+    CalendarUserRecordsComponent,
+    EmployeBiometricComponent
   ],
   imports: [
     BrowserModule,

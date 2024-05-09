@@ -339,7 +339,8 @@ box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
   align-items: flex-end;
   transition: all ease-out .3s;
   overflow: hidden;
-  animation: opacity7 ease-out .2s;
+  border-radius: 6px;
+  opacity: 0;
 }
 .calendarDayHover{
   cursor: pointer;
@@ -409,7 +410,28 @@ box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
   font-size: 11px;
   font-weight: 500;
   color: white;
-  margin: 0px 4px;
+  margin: 0px 2px;
   margin-top: 1px;
   margin-right: 4px;
+}
+.MyDocument{
+  width: 0%;
+  height: 0px;
+  max-height: 0px;
+  max-width: 0px;
+  overflow: hidden;
+}
+.c_turn{
+  width: 46px;
+  height: 46px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  font-size: 14px;
+  font-weight: 500;
 }

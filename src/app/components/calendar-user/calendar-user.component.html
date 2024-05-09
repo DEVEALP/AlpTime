@@ -1,0 +1,27 @@
+<app-menu [title]="'Calendario'" [loading]="loading">
+   <div class="cont background1">
+      <div class="calendar">
+         <div class="calendar_header">
+            <div class="calendar_header_text color1">{{date_now}}</div>
+            <div class="calendar_header_btns">
+               <button class="calendar_header_btn" matRipple (click)="setMonth(-1)"><span class="material-icons calendar_header_btn_icon color3">chevron_left</span></button>
+               <button class="calendar_header_btn" matRipple (click)="setMonth(1)"><span class="material-icons calendar_header_btn_icon color3">chevron_right</span></button>
+            </div>
+         </div>
+         <div class="calendar_days"><div class="calendar_day color2" *ngFor="let x of nombresDias" [style]="'width:' + (innerWidth / 7) + 'px;'">{{getNameDay(x)}}</div></div>
+         <div class="calendar_body" id="calendar"></div>
+      </div>
+      <div class="body">
+         <div class="body_title color1">Turnos</div>
+         <div class="turn" *ngFor="let x of turns">
+            <button class="turn_btn background" matRipple [class.novisible]="!x.visible">
+               <div class="turn_btn_title color1">{{x.turn_name}}</div>
+               <div class="turn_btn_text color3">{{x.he1}} - {{x.hs2}}</div>
+               <div class="turn_btn_color" [style]="'background:' +  x.color"></div>
+            </button> 
+            <button class="turn_view" matRipple (click)="changeStatus(x)"><span class="material-icons turn_view_icon color3">{{x.visible ? 'visibility_off' : 'visibility'}}</span></button>
+         </div>
+         <div class="noresult" *ngIf="turns.length == 0">Sin turnos</div>
+      </div>
+   </div>
+</app-menu>

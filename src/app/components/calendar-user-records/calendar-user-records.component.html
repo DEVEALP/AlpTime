@@ -1,0 +1,17 @@
+<app-menu [title]="'Marcaciones'" [loading]="loading" [urlReturn]="'calendar_user'">
+   <div class="cont background1">
+      <div class="title color1">{{date}}</div>
+      <div class="body" [class.body_scroll]="(records.length * 76) > heigth">
+         <div class="item background" *ngFor="let x of records;let i = index" [style]="'animation-delay:' + (i/20) + 's;'">
+            <div class="item_row">
+               <span class="material-icons item_icon color3">{{x.icon}}</span>
+               <div class="item_column">
+                  <div class="item_title color1">{{x.tipo}}</div>
+                  <div class="item_text color3">{{x.sensor}}</div>
+               </div>
+            </div>
+            <div class="item_time color1">{{x.hora}} {{x.time_zone}}</div>
+         </div>
+      </div>
+   </div>
+</app-menu>

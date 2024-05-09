@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 export type icon_notificationsInterface = 'success' | 'error' | 'warning' | 'info' | 'deny'
 export type inputTypeAlertInterface = 'password' | 'text' 
 export interface AlertInterface {
+  width?:number,
   title:string,
   text?:string,
   timer?:number,
@@ -13,8 +14,17 @@ export interface AlertInterface {
   icon?:icon_notificationsInterface,
   check?:checkAlertInterface,
   input?:inputAlertInterface,
-  select?:selectAlertInterface
+  select?:selectAlertInterface,
+  button?:AlternativebuttonInterface,
+  text_button?:string
+  value_button?:any
 } 
+export interface AlternativebuttonInterface {
+  color?:string,
+  background?:string,
+  text:string,
+  value:any
+}
 export interface checkAlertInterface {
   default:boolean,
   text:string
@@ -60,7 +70,7 @@ export class AlertComponent {
     }
   })
 
-  constructor(public dialogRef: MatDialogRef<AlertComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(public dialogRef: MatDialogRef<AlertComponent>, @Inject(MAT_DIALOG_DATA) public data: AlertInterface) {
     
   }
 
@@ -76,10 +86,10 @@ export class AlertComponent {
     }else if(this.data.image == null && this.data.icon == 'deny'){
       this.icon = '../../../assets/svg/icon_deny.svg'
     }else{
-      this.image = this.data.image
+      this.image = this.data.image ?? ''
     }
     this.title = this.data.title
-    this.text = this.data.text
+    this.text = this.data.text ?? ''
     this.check = this.data.check;
     this.input = this.data.input;
     if(this.input?.type == 'password'){ this.hide = true }else{ this.hide = false }
@@ -92,8 +102,13 @@ export class AlertComponent {
   closing(): void {
     this.dialogRef.close();
   }
+
+  next_button(){
+    this.dialogRef.close(this.data.button?.value);
+  }
+
   next(){
-    var data = {}
+    var data = this.data.value_button ?? {}
     if(this.check){data = {check:this.check?.default}}
     if(this.input && this.input?.required && this.input.value.trim() == ''){ this.toast.fire({icon: 'error', title: 'Campo de texto requerido' }); return; }
     if(this.input){ data = this.input; }

@@ -21,16 +21,16 @@
                   class="material-icons calendar_btn_icon color2">navigate_next</span></button>
          </div>
       </div>
+      <div class="calendar_days"><div class="calendar_day color2" *ngFor="let x of nombresDias" [style]="'width:' + (innerWidth / 7) + 'px;'">{{getNameDay(x)}}</div></div>
       <mat-progress-bar mode="indeterminate" *ngIf="loading_calendar"></mat-progress-bar>
-      <div class="calendar_body" id="calendar">
-      </div>
+      <div class="calendar_body" id="calendar"></div>
    </div>
    <div class="subcont" [class.subcont_open]="tab == 2" [class.subcont_old]="tab > 2">
       <div class="day_head background1">
          <div class="item_turn_row" style="margin: 0px 10px;">
-            <button class="btn_text_calendar background" matRipple title="Regresar a la vista mensual" (click)="return_month_calendar()">
+            <button class="btn_text_calendar background" matRipple [class.btn_text_calendar_mobile]="mobile" title="Regresar a la vista mensual" (click)="return_month_calendar()">
                <span class="material-icons btn_text_calendar_icon color3">arrow_back</span>
-               <span class="btn_text_calendar_text color1">Vista mensual</span>
+               <span *ngIf="!mobile" class="btn_text_calendar_text color1">Vista mensual</span>
             </button>
          </div>
          <div class="item_turn_row" style="margin: 0px 10px;">
@@ -69,16 +69,16 @@
    <div class="subcont" [class.subcont_open]="tab == 3" [class.subcont_old]="tab > 3">
       <div class="day_head">
          <div class="item_turn_row" style="margin: 0px 5px;">
-            <button class="btn_text_calendar background" matRipple title="Regresar vista diaria" (click)="back_to_day()">
+            <button class="btn_text_calendar background" matRipple [class.btn_text_calendar_mobile]="mobile" title="Regresar vista diaria" (click)="back_to_day()">
                <span class="material-icons btn_text_calendar_icon color3">arrow_back</span>
-               <span class="btn_text_calendar_text color2">Vista Diaria</span>
+               <span *ngIf="!mobile" class="btn_text_calendar_text color2">Vista Diaria</span>
             </button>
-            <button class="btn_text_calendar background" matRipple (click)="addUserTurn()">
+            <button class="btn_text_calendar background" matRipple [class.btn_text_calendar_mobile]="mobile" (click)="addUserTurn()">
                <span class="material-icons btn_text_calendar_icon color3">add</span>
-               <span class="btn_text_calendar_text color2">Asignar usuario</span>
+               <span *ngIf="!mobile" class="btn_text_calendar_text color2">Asignar usuario</span>
             </button>
             <button class="btn_text_calendar background">
-               <span class="material-icons btn_text_calendar_icon color3">event</span>
+               <span class="material-icons btn_text_calendar_icon color3" *ngIf="!mobile">event</span>
                <span class="btn_text_calendar_text color2">{{day_name}} {{day_view}} de {{date_now}}</span>
             </button>
          </div>

@@ -16,6 +16,8 @@ import { PermissionComponent } from './components/permission/permission.componen
 import { SettingsComponent } from './components/settings/settings.component';
 import { EmployeComponent } from './components/employe/employe.component';
 import { EmployesComponent } from './components/employes/employes.component';
+import { CalendarUserComponent } from './components/calendar-user/calendar-user.component';
+import { CalendarUserRecordsComponent } from './components/calendar-user-records/calendar-user-records.component';
 
 const routes: Routes = [
   {path:'auth',  component:AuthComponent},
@@ -29,11 +31,13 @@ const routes: Routes = [
 
   {path:'turns', canActivate: [AuthGuard], component:TurnComponent},
 
+  {path:'calendar_user', canActivate: [AuthGuard], component:CalendarUserComponent},
+  {path:'calendar_user/:date', canActivate: [AuthGuard], component:CalendarUserRecordsComponent},
   {path:'vacations', canActivate: [AuthGuard], component:VacationsComponent},
   {path:'permission', canActivate: [AuthGuard], component:PermissionComponent},
 
   {path:'employes', canActivate: [AuthGuard], component:EmployesComponent},
-  {path:'employes/:name/:id', canActivate: [AuthGuard], component:EmployeComponent},
+  {path:'employes/:id', canActivate: [AuthGuard], component:EmployeComponent},
   
   {path:'devices/:id/:name', canActivate: [AuthGuard], component:DeviceComponent},
   {path:'devices', canActivate: [AuthGuard], component:DevicesComponent},

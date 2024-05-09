@@ -134,6 +134,10 @@
    color: #333;
    text-align: left;
 }
+.sizeText12{
+   font-size: 12px;
+
+}
 .day{
    width: calc(100% - 30px);
    height: 40px; 

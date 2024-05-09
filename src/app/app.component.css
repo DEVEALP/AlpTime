@@ -15,12 +15,6 @@
 ::ng-deep.loading_color.mat-progress-spinner circle, .mat-spinner circle {
    stroke: #13833e;
 }
-::ng-deep.loading_white.mat-progress-spinner circle, .mat-spinner circle {
-   stroke: #ffffff;
-}
-::ng-deep.loading_black.mat-progress-spinner circle, .mat-spinner circle {
-   stroke: #000000;
-}
 ::ng-deep.holidays-class {
    background: rgba(255, 166, 0, 0.3) !important;
    border-radius: 100% !important;

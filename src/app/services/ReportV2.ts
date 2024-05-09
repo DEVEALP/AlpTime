@@ -2,6 +2,7 @@ export type pageOrientation = 'vertical' | 'horizontal'
 export type alignmentHorizontalInterface = 'left' | 'center' | 'right'
 export type typesTotalConfigInterface = 'sum' | 'count' | 'value'
 export type FooterType = 'text' | 'image' | 'image_floating'
+export type conditionalType = 'equal' | 'different' | 'elderly' | 'minor' | '==' | '!=' | '>' | '<' | 'include'
 export type formartInterface = 'string' | 'number' | 'decimal' | 'date' | 'capitalize'
 export type alignmentVerticalInterface = 'top' | 'center' | 'bottom'
 export type widthInterface = '5%' | '10%' | '15%' | '20%' | '25%' | '30%' | '35%' | '40%' | '45%' | '50%' | '55%' | '60%' | '65%' | '70%' | '75%' | '80%' | '85%' | '90%' | '95%' | '100%' | 'auto'
@@ -9,7 +10,11 @@ export interface positionInterface { top: number, left: number, right: number, b
 export interface boxCoordinatesInterface { top?: number, left?: number, right?: number, bottom?: number }
 export interface pointCoordinatesInterface { x?: number, y?: number }
 export interface listItemElementSettingsInterface { element: Element, index: number, width: number, maxHeigth: number, margin: number | boxCoordinatesInterface | pointCoordinatesInterface }
-export interface ItemConfigInterface { property: string, label?: string, format?: formartInterface, align?: alignmentHorizontalInterface, color?: string, bold?: boolean, subHead?: SubHeadConfigInterface }
+export interface wordStyleFontInterface { color?: string, bold?: boolean, fontSize?: number }
+export interface wordStylesInterface { word: string, style: wordStyleFontInterface }
+interface ConditionalStylesInterface { value:any, condition: conditionalType, style: wordStyleFontInterface }
+interface wordStyles2Interface extends wordStylesInterface { index?: number }
+export interface ItemConfigInterface { property: string, label?: string, format?: formartInterface, align?: alignmentHorizontalInterface, color?: string, bold?: boolean, subHead?: SubHeadConfigInterface, wordStyles?: wordStylesInterface[], conditionStyle?: ConditionalStylesInterface[] }
 export interface HeadConfigInterface { color?: string, background?: string, fontSize?: number, heigth?: number, border?: number | boxCoordinatesInterface | pointCoordinatesInterface, borderColor?: string }
 export interface SubHeadConfigInterface { addTitle: string, showItem: boolean }
 export interface totalPropertysInterface { type: typesTotalConfigInterface, proeprty: string, value?: number | string }
@@ -165,7 +170,12 @@ export class GeneratorReportPdfV2 {
 
       var table = this.createTable(data[0], fontSize, height, color, margin, border, borderColor, settingsHead, settingsItems)
 
-      if (configSubHead) this.tableSubHead(table, data[0], height, fontSize, color, configSubHead)
+      if (configSubHead){
+         var head_property = configSubHead.property ?? ''
+         var heads = data.reduce((acc: any, item: any) => { var exists = acc.find((a: any) => a == item[head_property]); if (!exists) acc.push(item[head_property]); return acc }, [])
+         if(heads.length > 1) this.tableSubHead(table, data[0], height, fontSize, color, configSubHead)
+         else configSubHead = undefined 
+      }
 
       for (let i = 0; i < data.length; i++) {
          var row = this.tableRow(data[i], height, fontSize, color, settingsItems, viewTotal?.propertys)
@@ -294,6 +304,7 @@ export class GeneratorReportPdfV2 {
       head.style.maxHeight = height + 'px'
       head.style.minHeight = height + 'px'
       var td = this.CreatorElement('td')
+      td.setAttribute('colspan', Object.keys(data).length.toString());
       this.temporal_value = data[setting.property]?.toString()
       td.innerHTML = this.temporal_value
       if (setting.subHead?.addTitle) td.innerHTML = '<strong>' + setting.subHead.addTitle + '</strong>&nbsp;&nbsp;&nbsp;' + this.temporal_value
@@ -327,7 +338,6 @@ export class GeneratorReportPdfV2 {
                   this.temporal_value_obj[key] = ''
                   value_total = property_exist.value ?? ''
                }
-               console.log(property_exist)
                this.temporal_value_obj[key] += value_total
             } catch { }
          }
@@ -338,15 +348,54 @@ export class GeneratorReportPdfV2 {
          else if (setting?.format == 'date') value = this.formatearFecha(value)
          else if (setting?.format == 'string') value = this.formatearTexto(value)
          else if (setting?.format == 'capitalize') value = this.formatearCapitalizarTexto(value)
-         this.tableColumn(head, height, fontSize, color, false, value, setting)
+         this.tableColumn(head, height, fontSize, color, false, value, setting, setting?.wordStyles, setting?.conditionStyle)
       }
       this.stateHeigthPage += height
       return head
    }
 
-   private tableColumn(tr: HTMLElement, height: number, fontSize: number, color: string, bold: boolean, value?: string, setting?: ItemConfigInterface) {
+   private tableColumn(tr: HTMLElement, height: number, fontSize: number, color: string, bold: boolean, value?: string, setting?: ItemConfigInterface, wordStyles?: wordStyles2Interface[], conditionStyle?: ConditionalStylesInterface[]) {
       if (!setting || setting && !setting?.subHead || setting?.subHead?.showItem) {
          value = value ?? ''
+         var innerHTML = value
+         if (wordStyles) {
+            value = value.toString()
+            var initial_index = 0;
+            var wordStylesOrden: any[] = []
+            for (let wordStyle of wordStyles) {
+               var exists = wordStylesOrden.find((w: any) => w.word === wordStyle.word)
+               wordStyle.index = value.indexOf(wordStyle.word)
+               if (!exists && wordStyle.index >= 0) wordStylesOrden.push(wordStyle)
+            }
+            wordStylesOrden = wordStylesOrden.sort((a: any, b: any) => a.index - b.index)
+            innerHTML = ''
+            for (let wordStyle of wordStylesOrden) {
+               innerHTML += value.slice(initial_index, wordStyle.index)
+               innerHTML += this.setStyleWord(wordStyle.word, wordStyle.style, fontSize)
+               initial_index = wordStyle.index + wordStyle.word.length
+            }
+            if (initial_index < value.length) innerHTML += value.slice(initial_index, value.length)
+         }
+         if(conditionStyle){
+            for (let condition of conditionStyle) {
+               if((condition.condition == '==' || condition.condition == 'equal') && condition.value == value){
+                  innerHTML = this.setStyleWord(value, condition.style, fontSize)
+                  break
+               }else if((condition.condition == '!=' || condition.condition == 'different') && condition.value != value){
+                  innerHTML = this.setStyleWord(value, condition.style, fontSize)
+                  break
+               }else if((condition.condition == '>' || condition.condition == 'elderly') && !isNaN(Number(value)) && Number(value) > Number(condition.value)){
+                  innerHTML = this.setStyleWord(value, condition.style, fontSize)
+                  break
+               }else if((condition.condition == '<' || condition.condition == 'minor') && !isNaN(Number(value)) && Number(value) < Number(condition.value)){
+                  innerHTML = this.setStyleWord(value, condition.style, fontSize)
+                  break
+               }else if(condition.condition == 'include' && value.includes(condition.value)){
+                  innerHTML = this.setStyleWord(value, condition.style, fontSize)
+                  break
+               }                  
+            }
+         }
          var td = this.CreatorElement('td')
          td.style.minHeight = height + 'px'
          td.style.maxHeight = height + 'px'
@@ -354,9 +403,18 @@ export class GeneratorReportPdfV2 {
          td.style.fontSize = fontSize + 'px'
          td.style.fontWeight = bold ? 'bold' : 'normal'
          td.style.color = color
-         td.innerHTML = value
+         td.innerHTML = innerHTML
          tr.appendChild(td)
       }
+   }
+
+   private setStyleWord(word: string, style: wordStyleFontInterface, fontSize: number): string {
+      var element = document.createElement('span')
+      if(style.color) element.style.color = style.color
+      if(style.bold) element.style.fontWeight = 'bold'
+      element.style.fontSize = (style.fontSize ? style.fontSize : fontSize) + 'px'
+      element.innerHTML = word
+      return element.outerHTML
    }
 
    private textDefault(content: string, fontSize: number, color: string, bold: boolean, alignmentHorizontal: alignmentHorizontalInterface, alignmentVertial: alignmentVerticalInterface, padding: positionInterface): HTMLElement {

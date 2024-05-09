@@ -7,9 +7,11 @@ import { Router } from '@angular/router';
 })
 export abstract class newGlobalData {
 
-  public static api: string = "http://10.72.20.120:8431/api/";
+//   public static api: string = "http://10.72.20.120:8431/api/";
+  public static api: string = "";
+//   public static api: string = "";
 
-  public static version = '2.0.2'
+  public static version = '2.0.14'
 
   public static dataUser = { id: 0, id_session: 0, versions: "", new_version: "", nameuser: " ", imageuser: '', rol: 0, genero: '', id_business: 0, name_business: "", image_business: "", color_primary: "", color_secondary: "", color_tertiary: "", accent: "", theme: false }
   public static token = "";
@@ -37,6 +39,7 @@ export abstract class newGlobalData {
                 .background4 { background: rgb(110, 110, 110) !important; }
                 .background5 { background: rgb(180, 180, 180) !important; }
                 .background6 { background: rgb(240, 240, 240) !important; }
+                .background3_invert { background: rgb(195, 195, 195) !important; }
                 ::-webkit-scrollbar-track { background-color: rgb(40, 40, 40); }
                 ::-webkit-scrollbar-thumb { background-color: rgb(0, 0, 0); border-radius: 4px; }
                 .mat-ripple-element { background-color: rgba(255, 255, 255, .1) }
@@ -50,7 +53,16 @@ export abstract class newGlobalData {
                 .settings-container > .mat-dialog-container .dialog__surface{ border-radius: 18px !important; background: rgb(30, 30, 30); padding: 15px 20px; }  
                 .mat-slide-toggle-bar{ background-color: rgb(255 255 255 / 38%) }
                 .asignUser > .mat-dialog-container{ border-radius: 16px; padding: 15px; background: rgba(25, 25, 25, 1); }
+                .viewUser > .mat-dialog-container{ border-radius: 16px; padding: 5px; background: rgba(25, 25, 25, 1); }
                 .mat-form-field-appearance-legacy .mat-form-field-underline { background-color: rgba(255, 255, 255, 0.42) !important; }
+                .mat-select-arrow{ color: rgba(255, 255, 255, 0.54) !important;}
+                .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical){ border-color: rgba(255,255,255,.38) }
+                .mat-calendar-body-cell-content, .mat-date-range-input-separator{ color: rgba(255, 255, 255, 0.87) !important; }
+                .mat-button, .mat-icon-button, .mat-stroked-button{ color: white !important; }
+                .mat-datepicker-content{ background: rgb(10, 10, 10) !important; }
+                .mat-calendar-table-header, .mat-calendar-body-label { color: rgba(255, 255, 255, 0.54) !important; }
+                .mat-calendar-table-header-divider::after { background-color: rgba(255, 255, 255, 0.12) !important; }
+                .loading_white.mat-progress-spinner circle, .mat-spinner circle { stroke: #ffffff; }
                 `;
                } else {
          css = `
@@ -68,6 +80,7 @@ export abstract class newGlobalData {
                 .background4 { background: rgb(135, 135, 135) !important; }
                 .background5 { background: rgb(80, 80, 80) !important; }
                 .background6 { background: rgb(30, 30, 30) !important; }
+                .background3_invert { background: rgb(60, 60, 60) !important; }
                 .mat-select-value{ color: rgba(0, 0, 0, 0.85) !important; }
                 .mat-ripple-element { background-color: rgba(0, 0, 0, .1) }
                 .mat-datepicker-toggle { color: rgba(0, 0, 0, .5) !important; }
@@ -81,11 +94,22 @@ export abstract class newGlobalData {
                 .settings-container > .mat-dialog-container .dialog__surface{ border-radius: 18px !important; background: rgb(255, 255, 255); padding: 15px 20px; }
                 .mat-slide-toggle-bar{ background-color: rgb(0 0 0 / 38%) }
                 .asignUser > .mat-dialog-container{ border-radius: 16px; padding: 15px; background: rgba(242, 242, 242, 1); }
+                .viewUser > .mat-dialog-container{ border-radius: 16px; padding: 5px; background: rgba(242, 242, 242, 1); }
                 .mat-form-field-appearance-legacy .mat-form-field-underline { background-color: rgba(0, 0, 0, 0.42) !important; }
+                .mat-select-arrow{ color: rgba(0, 0, 0, 0.54) !important;}
+                .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical){ border-color: rgba(0,0,0,.38) }
+                .mat-calendar-body-cell-content, .mat-date-range-input-separator{ color: rgba(0, 0, 0, 0.87) !important; }
+                .mat-button, .mat-icon-button, .mat-stroked-button{ color: #333 !important; }
+                .mat-datepicker-content{ background: white !important; }
+                .mat-calendar-table-header, .mat-calendar-body-label { color: rgba(0, 0, 0, 0.54) !important; }
+                .mat-calendar-table-header-divider::after { background-color: rgba(0, 0, 0, 0.12) !important; }
+                .loading_black.mat-progress-spinner circle, .mat-spinner circle { stroke: #000000; }
              `;
       }
       css += `
-      .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .mat-checkbox-checked.mat-accent .mat-checkbox-background{ background-color: `+ this.dataUser.color_primary + ` !important; }
+       input { caret-color: `+ this.dataUser.color_primary + ` !important; }
+       .mat-form-field.mat-focused .mat-form-field-ripple{ background-color: `+ this.dataUser.color_primary + ` !important; }
+       .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .mat-checkbox-checked.mat-accent .mat-checkbox-background{ background-color: `+ this.dataUser.color_primary + ` !important; }
        .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb{ background-color: `+ this.dataUser.color_primary + ` !important; }
        .mat-slide-toggle.mat-checked .mat-slide-toggle-bar{ background-color: `+ this.dataUser.color_secondary + ` !important; }
        .mat-tab:not(.mat-tab-disabled).tab--active .tab__text-label, .mat-tab-link:not(.mat-tab-disabled).tab--active .tab__text-label{ color: `+ this.dataUser.color_secondary + ` !important; };

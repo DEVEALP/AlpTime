@@ -25,8 +25,10 @@ export class TurnsAssingViewComponent {
   day_name = ''
   turn_name = ''
   turn_index = 0
+  porcent_width = 0
   turn_view = 0
   day_view = 4
+  innerWidth = window.innerWidth
   width_hour = window.innerWidth / 23
 
   loading_calendar = false
@@ -144,7 +146,6 @@ export class TurnsAssingViewComponent {
   }
 
   generateCalendarDay(data:any[]) {
-    console.log(data)
     this.day_turns_back = data
     var turnsid = data.map((e:any) => e.turnid).reduce((a:any, b:any) => a.includes(b) ? a : [...a, b], [])
     var data_day = []
@@ -159,7 +160,7 @@ export class TurnsAssingViewComponent {
       start_time = (this.width_hour / 60) * start_time 
       end_time = (this.width_hour / 60) * end_time
       var width = end_time - start_time
-      var porcent_width = (width / 100) * porcent 
+      this.porcent_width = (width / 100) * porcent 
       var color = ''
       while(true){
         var index_color = Math.floor(Math.random() * (this.colors.length - 0 + 1)) + 0
@@ -170,13 +171,17 @@ export class TurnsAssingViewComponent {
           break
         }
       }
-      data_day.push({turnid: t, turn_name: turn_name, color:color, start_time:start_time, end_time:end_time, width:width, porcent: Number(porcent.toFixed()), porcent_width:porcent_width, users: users_turns})
+      data_day.push({turnid: t, turn_name: turn_name, color:color, start_time:start_time, end_time:end_time, width:width, porcent: Number(porcent.toFixed()), porcent_width:this.porcent_width, users: users_turns})
     }
     this.day_turns = data_day
     var valores = this.day_turns.map((objeto:any) => objeto.start_time);
     var valorMaximo = Math.min(...valores);
     var daycont = document.getElementById('daycont')
     if(daycont) daycont.scrollLeft = (valorMaximo / 1.55)
+  }
+
+  getNameDay(name:string){
+    return name.slice(0, (this.mobile ? 3 : 50))
   }
 
   return_month_calendar() {
@@ -264,15 +269,18 @@ export class TurnsAssingViewComponent {
         week.className = 'calendarWeek'
         week.style.height = height
         week.style.minHeight = height
-        week.style.borderBottom = '1px solid #616161'
+        week.style.borderBottom = '1px solid rgba(200, 200, 200, 0.5)'
+        var i = 0
         for (let d of s) {
+          i++;
           var classNameDay = 'calendarDay'
           relay += .5
           var day_element = document.createElement('div')
-          day_element.style.borderLeft = '1px solid #616161'
+          day_element.style.borderLeft = '1px solid rgba(200, 200, 200, 0.5)'
           var number = document.createElement('div')
           number.className = 'numberDay color1'
           day_element.style.animationDelay = relay + 's !important'
+          if(i == s.length) day_element.style.borderRight = '1px solid rgba(200, 200, 200, 0.5)'
           if(d){
             classNameDay += ' calendarDayHover'
             number.innerHTML = d.day_number
@@ -307,12 +315,14 @@ export class TurnsAssingViewComponent {
     day.style.background = background
     day.title = title
     
-    var icon = document.createElement('span')
-    icon.className = 'material-icons day_element_info_icon'
-    icon.innerHTML = icon_text
-    day.appendChild(icon)
+    if(icon_text){
+      var icon = document.createElement('span')
+      icon.className = 'material-icons day_element_info_icon'
+      icon.innerHTML = icon_text
+      day.appendChild(icon)
+    }
 
-    if(value.length > 0){
+    if(value.toString().length > 0){
       var text = document.createElement('span')
       text.className = 'day_element_info_text' 
       text.innerHTML = value

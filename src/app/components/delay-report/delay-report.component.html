@@ -90,8 +90,7 @@
             <div class="tablehead tablsubehead background" style="min-width: 910px;" *ngIf="records.length > 0 && !loading">
                <div class="tableMenu color2" [style]="'width: ' + width + '%;'">Total</div>
                <div class="tableMenu color2" [style]="'width: ' + width + '%;'"></div>
-               <div class="tableMenu color2" [style]="'width: ' + width + '%;'"></div>
-               <div class="tableMenu color2" [style]="'width: ' + width + '%;'"></div>
+               <div class="tableMenu color2" *ngIf="!filters?.user" [style]="'width: ' + (width + width) + '%;'"></div>
                <div class="tableMenu color2" [style]="'width: ' + width + '%;'"></div>
                <div class="tableMenu color2" [style]="'width: ' + width + '%;'">{{total_rango_a}}</div>
                <div class="tableMenu color2" [style]="'width: ' + width + '%;'">{{total_rango_b}}</div>

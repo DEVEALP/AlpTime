@@ -5,7 +5,6 @@ import { newHttpRequest } from 'src/app/services/newHttpRequest';
 import { VacationsAddComponent } from '../vacations-add/vacations-add.component';
 import { FormControl } from '@angular/forms';
 import { FilterAssingTurnComponent } from '../filter-assing-turn/filter-assing-turn.component';
-
 @Component({
   selector: 'app-vacations',
   templateUrl: './vacations.component.html',
@@ -15,6 +14,7 @@ export class VacationsComponent {
 
   start = new FormControl<Date | null>(null)
   end = new FormControl<Date | null>(null)
+  date_show = ''
   filters: any = { area: null, job: null, office: null, turn: null, group: null, user: null, period: null }
   groups: any = []
   area: any = []
@@ -33,7 +33,9 @@ export class VacationsComponent {
     var year = new Date().getFullYear()
     this.periods = [year, year - 1, year - 2, year - 3]
     this.getDataFilter()
-    this.load()
+    var date = new Date()
+    date.setDate(1)
+    this.setMonthAndYear(date, null)
   }
 
 
@@ -56,7 +58,6 @@ export class VacationsComponent {
     var open_dialog = this.dialog.open(FilterAssingTurnComponent, { data: { filters: this.filters, filter_users: true, area: this.area, job: this.job, office: this.office, groups: this.groups, periods: this.periods }, 'width': '320px', disableClose: true, panelClass: 'asignUser' })
     open_dialog.afterClosed().subscribe((result: any) => {
       if (result) {
-        console.log(result)
         this.filters = result
         this.load()
       }
@@ -75,22 +76,6 @@ export class VacationsComponent {
       reject()
     })
   })
-
-  timmerLoad: any
-
-  changedate(value: string, input: string) {
-    clearInterval(this.timmerLoad)
-    var date = this.parseDate(value);
-    if (date == null) return
-    if (input == 'start') this.start.setValue(date)
-    if (input == 'end') this.end.setValue(date)
-    if (this.end.value == null || this.start.value == null) return
-    this.timmerLoad = setInterval(() => {
-      clearInterval(this.timmerLoad)
-      this.countFilters()
-      this.load()
-    }, 250)
-  }
 
   countFilters() {
     this.filtercount = 0
@@ -127,10 +112,45 @@ export class VacationsComponent {
     this.http.post('vacation/get', body).then((res:any)=>{
       this.loading = false
       this.vacations = res
-      console.log(res)
     }).catch((err:any)=>{
       this.loading = false
     })
+  }
+
+  valid_date(){
+    var parts = this.date_show?.split('/')
+    if(parts?.length != 2){
+      this.date_show = (this.start.value?.getMonth() ?? 0) + 1 + '/' + this.start.value?.getFullYear()
+      this.home.toast.fire({icon: 'error', title: 'Formato de fecha incorrecto'})
+      return
+    }
+    var month = parseInt(parts[0])
+    var year = parseInt(parts[1])
+    if(isNaN(month) || isNaN(year)){
+      this.date_show = (this.start.value?.getMonth() ?? 0) + 1 + '/' + this.start.value?.getFullYear()
+      this.home.toast.fire({icon: 'error', title: 'Formato de fecha incorrecto'})
+      return
+    }
+    if(month < 1 || month > 12){
+      this.date_show = (this.start.value?.getMonth() ?? 0) + 1 + '/' + this.start.value?.getFullYear()
+      this.home.toast.fire({icon: 'error', title: 'Mes incorrecto'})
+      return
+    }
+    if(year < (new Date().getFullYear() - 2) || year > (new Date().getFullYear() + 2)){
+      this.date_show = (this.start.value?.getMonth() ?? 0) + 1 + '/' + this.start.value?.getFullYear()
+      this.home.toast.fire({icon: 'error', title: 'Año incorrecto'})
+      return
+    }
+    var date_start = new Date(year, month - 1, 1)
+    var date_end = new Date(year, month, 0)
+    if(isNaN(date_start.getTime())){
+      this.date_show = (this.start.value?.getMonth() ?? 0) + 1 + '/' + this.start.value?.getFullYear()
+      this.home.toast.fire({icon: 'error', title: 'Formato de fecha incorrecto'})
+      return
+    }
+    this.start.setValue(date_start)
+    this.end.setValue(date_end)
+    this.load()
   }
 
   delete_v(vacation:any){
@@ -145,6 +165,17 @@ export class VacationsComponent {
     }).catch((err:any)=>{
       
     })
+  }
+
+  setMonthAndYear(normalizedMonthAndYear: any, datepicker: any) {
+    var end_date = new Date(normalizedMonthAndYear.getTime())
+    this.start.setValue(normalizedMonthAndYear)
+    end_date.setMonth(normalizedMonthAndYear.getMonth() + 1)
+    end_date.setDate(0)
+    this.end.setValue(end_date)
+    this.date_show = normalizedMonthAndYear.getMonth() + 1 + '/' + normalizedMonthAndYear.getFullYear()
+    datepicker.close();
+    this.load()
   }
 
   add(){

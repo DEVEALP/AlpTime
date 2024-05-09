@@ -45,10 +45,10 @@
       </div>
       <div class="body" >
          <div class="table" *ngIf="!view_graph">
-            <div class="tablehead background" style="min-width: 1100px;">
+            <div class="tablehead background" style="min-width: 1300px;">
                <div class="tableMenu color3">Fecha</div>
                <div class="tableMenu size200 color3"
-                  style="width: calc(100% - 800px);">Nombres</div>
+                  style="width: calc(100% - 1000px);">Nombres</div>
                <div class="tableMenu color3">Entrada</div>
                <div class="tableMenu color3">S. Almuerzo</div>
                <div class="tableMenu color3">E. Almuerzo</div>
@@ -56,9 +56,10 @@
                <div class="tableMenu color3">Total</div>
                <div class="tableMenu color3">Atrasos</div>
                <div class="tableMenu color3">H. Falta</div>
+               <div class="tableMenu size200 color3">Observación</div>
                <div class="tableMenu color3 size10"></div>
             </div>
-            <div class="tablebody" style="min-width: 1110px;">
+            <div class="tablebody" style="min-width: 1310px;">
                <div class="columnitem" *ngFor="let x of records;let i = index" [style]="'animation-delay:' + (i/25) + 's;'">
                   <div class="day" *ngIf="records.length > 1">{{
                      formatearFecha(x.date) }}</div>
@@ -66,7 +67,7 @@
                      (click)="view_details(y)">
                      <div class="tableItem color1">{{formatearFecha(y.fecha)}}</div>
                      <div class="tableItem size200 textstart color1"
-                        style="width: calc(100% - 800px);">{{y.nombres}}</div>
+                        style="width: calc(100% - 1000px);">{{y.nombres}}</div>
                      <div class="tableItem color1">{{y.ent1}}</div>
                      <div class="tableItem color1">{{y.sal1}}</div>
                      <div class="tableItem color1">{{y.ent2}}</div>
@@ -74,6 +75,7 @@
                      <div class="tableItem color1">{{y.total}}</div>
                      <div class="tableItem color1">{{y.atraso}}</div>
                      <div class="tableItem color1">{{y.falta}}</div>
+                     <div class="tableItem sizeText12 size200 textstart color2" (click)="setObservation(y)">{{y?.observation_view}}</div>
                   </div>
                </div>
             </div>

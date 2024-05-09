@@ -23,16 +23,16 @@ export class TimeReportComponent {
 
   loading = false
   loadFilter = false
-  loadUsers = false
+  loadUsers = true
   view_graph = false
   mobile = window.innerWidth < 700
 
   filtercount = 0
   user_index = -1
 
-  date = new FormControl()
-  start = new FormControl()
-  end = new FormControl()
+  start = new FormControl(this.getFirstDayOfMonth())
+  end = new FormControl(new Date())
+  date = new FormControl('')
 
   old_user_search = ''
   user_search = ''
@@ -49,6 +49,7 @@ export class TimeReportComponent {
   total_50 = ''
   total_100 = ''
   urlReturn = ''
+  search_type = 'Mensual'
 
   dataUser:any = {}
   users_data: any[] = []
@@ -89,7 +90,14 @@ export class TimeReportComponent {
     }else{
       this.urlReturn = 'reports'
     }
-    this.setMonthAndYear(new Date(new Date().getFullYear(), new Date().getMonth(), 1), { close: () => { } })
+    this.search_type = this.settings?.time?.search_type ?? 'Mensual'
+    if(this.search_type == 'Mensual') this.setMonthAndYear(new Date(new Date().getFullYear(), new Date().getMonth(), 1), { close: () => { } })
+  }
+
+  getFirstDayOfMonth() {
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    return firstDayOfMonth;
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -102,7 +110,6 @@ export class TimeReportComponent {
         if (this.user_index >= this.users_data.length) this.user_index = 0
         document.getElementById('user_' + this.user_index)?.focus()
       }
-      console.log(event.key)
     }
   }
 
@@ -157,11 +164,13 @@ export class TimeReportComponent {
 
   formatearFecha(input: string | Date) {
     let fecha;
-    if (typeof input === 'string') fecha = new Date(input);
-    else if (input instanceof Date) fecha = input;
+    if (typeof input === 'string'){
+      if(input.includes('T')) fecha = new Date(input);
+      else fecha = new Date(input + 'T05:00:00');
+    }else if (input instanceof Date) fecha = input;
     else return 'Formato no válido'
     const dia = String(fecha.getDate()).padStart(2, '0');
-    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Sumar 1 porque los meses en JavaScript van de 0 a 11
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); 
     const año = fecha.getFullYear();
     const fechaFormateada = `${dia}/${mes}/${año}`;
     return fechaFormateada;
@@ -190,7 +199,11 @@ export class TimeReportComponent {
   }
 
   load() {
-    if (!this.loading && this.user) {
+    if(!this.start.value || !this.end.value){
+      this.home.toast.fire({ icon: 'error', title: 'Seleccione un rango de fechas' })
+      return
+    }
+    if (!this.loading && this.user && this.start.value && this.end.value) {
       this.loading = true
       var start_date = this.start.value.toISOString().split('T')[0]
       var end_date = this.end.value.toISOString().split('T')[0]
@@ -396,23 +409,30 @@ export class TimeReportComponent {
       return
     }
     var orientation:any = 'horizontal'
-    orientation = this.settings.time_group?.orientation ?? 'horizontal'
+    var heigth = 8
+    var size = 0
+    orientation = this.settings?.time_group?.orientation ?? 'horizontal'
+    size = this.settings?.time?.font_size ?? 10
+    heigth = 0.5 * size
     var report = new GeneratorReportPdfV2('Horas trabajadas por empleado', true, orientation, 10)
-    report.addFooterText(this.dataUser.name_business, 14, undefined, true, 'center', 'center', 4);
-    report.addFooterText('Horas trabajadas por empleado', 14, undefined, true, 'center', 'center', 4);
-    report.addFooterText(`<strong>Fecha desde:</strong><tab2>${this.start.value?.toISOString().split('T')[0]}<tab2><strong>Hasta:</strong><tab2>${this.end.value?.toISOString().split('T')[0]}`, 14, undefined, false, 'center', 'center', 4);
-    report.addFooterText(`<strong>Empleado:</strong><tab>${this.user?.name}`, 14, undefined, false, 'center', 'center', 4);
+    report.addFooterText(this.dataUser.name_business, (size + 2), undefined, true, 'center', 'center', 4);
+    report.addFooterText('Horas trabajadas por empleado', (size + 1), undefined, true, 'center', 'center', 4);
+    report.addFooterText(`<strong>Fecha desde:</strong><tab2>${this.start.value?.toISOString().split('T')[0]}<tab2><strong>Hasta:</strong><tab2>${this.end.value?.toISOString().split('T')[0]}`, (size + 1), undefined, false, 'center', 'center', 4);
+    report.addFooterText(`<strong>Empleado:</strong><tab>${this.user?.name}`, (size + 1), undefined, false, 'center', 'center', 4);
+    console.log(JSON.parse(JSON.stringify(this.records)))
+    if(this.settings?.time?.order == 'Fecha ascendente') this.records = this.records.sort((a, b) => new Date(a.fecha.trim() + 'T05:00:00').getTime() - new Date(b.fecha.trim() + 'T05:00:00').getTime())
+    console.log(this.records)
     var report_table = []
     for (let x of this.records){
       var item = { fecha: this.formatearFecha(x.fecha), dia: x.day_min, entrada: x.ent1, sal1: x.sal1, ent2: x.ent2, salida: x.sal2, subtotal: x.subtotal, total: x.total, atrasos: x.atraso, h_falta: x.falta, h25: x.h25, h50: x.h50, h100: x.h100, observation: x.observacion}
-      if(this.settings.time?.column?.day == false) delete item.dia
-      if(this.settings.time?.column?.subtotal == false) delete item.subtotal
-      if(this.settings.time?.column?.observation == false) delete item.observation
+      if(this.settings?.time?.column?.day == false) delete item.dia
+      if(this.settings?.time?.column?.subtotal == false) delete item.subtotal
+      if(this.settings?.time?.column?.observation == false) delete item.observation
       report_table.push(item)            
     }
-    var items: ItemConfigInterface[] = [{ property: 'sal1', label: 'S. Almuerzo'}, { property: 'ent2', label: 'E. Almuerzo'}, { property: 'h25', label: 'H25%'}, { property: 'h50', label: 'H50%'}, { property: 'h100', label: 'H100%'}, {property: 'observation', label: 'Observación'}]
+    var items: ItemConfigInterface[] = [{property: 'observation', label:'Observación', wordStyles: [ {word: 'Insconsistencia', style: {color: '#C87300'}}, {word: 'Falto este dia', style: {color: '#C80000'}} ], conditionStyle: [ {value: 'Vacaciones periodo', condition: 'include', style: {color: '#01BD5A'} } ]}, { property: 'sal1', label: 'S. Almuerzo'}, { property: 'ent2', label: 'E. Almuerzo'}, { property: 'h25', label: 'H25%'}, { property: 'h50', label: 'H50%'}, { property: 'h100', label: 'H100%'}, {property: 'observation', label: 'Observación'}]
     var total: viewTotalConfigInterface = {title: 'TOTALES', border: { top: 1 }, borderColor: '#B4B4B4', propertys: [ {proeprty: 'total', type:'value', value: this.total_hours}, {proeprty: 'atrasos', type:'value', value: this.total_atrasos}, {proeprty: 'h_falta', type:'value', value: this.total_faltas}, {proeprty: 'h25', type:'value', value: this.total_25}, {proeprty: 'h50', type:'value', value: this.total_50}, {proeprty: 'h100', type:'value', value: this.total_100} ] }
-    report.addTable(report_table, 12, '#333', { top: 10 }, { border: { bottom: 1 }, borderColor: '#B4B4B4' }, 8, items, 0, undefined, total)
+    report.addTable(report_table, size, '#333', { top: 10 }, { border: { bottom: 1 }, borderColor: '#B4B4B4' }, heigth, items, 0, undefined, total)
     report.print() 
   }
 

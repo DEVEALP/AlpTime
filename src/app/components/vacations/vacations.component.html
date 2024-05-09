@@ -9,21 +9,17 @@
                <span class="titleitemtextbutton color1">Filtrar</span>
                <div class="iconfilter backcolor" *ngIf="filtercount">{{filtercount}}</div>
             </button> 
-            <div class="inpput_cont background">
-               <span class="material-icons iconinput">search</span>
-               <mat-date-range-input [rangePicker]="picker">
-                  <input type="text" #startI matStartDate [value]="start.value" autocomplete="off" placeholder="DD/MM/AAAA" (dateChange)="changedate(startI.value, 'start')" (keyup.enter)="changedate(startI.value, 'start')" (blur)="changedate(startI.value, 'start')">
-                  <input hidden [formControl]="start">
-                  <input type="text" #endI matEndDate [value]="end.value" autocomplete="off" placeholder="DD/MM/AAAA" (dateChange)="changedate(endI.value, 'end')" (keyup.enter)="changedate(endI.value, 'end')" (blur)="changedate(endI.value, 'end')">
-                  <input hidden [formControl]="end">
-                </mat-date-range-input>
+            <div class="inpput_cont background" style="width: 120px;">
+               <span class="material-icons iconinput color3">search</span>
+               <input matInput class="input_motnh color1" [(ngModel)]="date_show" (blur)="valid_date()" (keyup.enter)="valid_date()">
+               <input matInput [matDatepicker]="picker" [formControl]="start" style="width: 0px;opacity: 0;">
                 <mat-datepicker-toggle style="transform: scale(0.8);" matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-date-range-picker #picker startView="year" (monthSelected)="setMonthAndYear($event, picker)"></mat-date-range-picker>
             </div> 
          </div>
       </div>
       <div class="body">
-         <div class="tdhead background" style="min-width: 1100px;">
+         <div class="tdhead background" style="min-width: 1110px;">
             <div class="tbtitle color3 tbwidth300">Nombres</div>
             <div class="tbtitle color3">Cedula</div>
             <div class="tbtitle color3">Desde</div>
@@ -32,7 +28,7 @@
             <div class="tbtitle color3">Dias</div>
             <div class="tbtitle color3 tbwidth200">Dept/Sector</div>
          </div>
-         <div class="tbbody" style="min-width: 1100px;">
+         <div class="tbbody" style="min-width: 1110px;">
             <div class="tbitem" style="min-width: 1100px;" *ngFor="let x of vacations; let i = index" [style]="'animation-delay:'+(i/20)+'s;'">
                <button class="subtbitem" matRipple>
                   <div class="tbtext color tbleft tbwidth300">{{x.name | titlecase}}</div>

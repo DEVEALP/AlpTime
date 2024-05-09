@@ -149,7 +149,8 @@
 
 .subtbitem {
    width: 100%;
-   height: 100%;
+   height: 52px;
+   min-height: 52px;
    justify-content: flex-start;
    display: flex;
    flex-direction: row;
@@ -158,6 +159,7 @@
    border: none;
    padding: 0px;
    outline: none;
+   transition: all ease-out .3s;
    cursor: pointer;
 }
 
@@ -170,7 +172,7 @@
    width: calc(100% - 10px);
    height: 50px;
    transition: all ease-out .3s;
-   background: rgba(0, 0, 0, 0.06);
+   background: rgba(99, 99, 99, 0.2);
    position: absolute;
    bottom: 0px;
    left: 0px;
@@ -205,16 +207,6 @@
    font-weight: 400;
    color: #333;
    text-align: center;
-}
-
-.tbwidth200 {
-   width: 190px;
-   min-width: 190px;
-}
-
-.tbwidth300 {
-   width: 290px;
-   min-width: 290px;
 }
 
 .tbleft {
@@ -252,4 +244,32 @@
 .btnitem_delete {
    font-size: 16px;
    color: rgb(207, 15, 15);
+}
+.tbwidth200 {
+   width: 190px;
+   min-width: 190px;
+}
+
+.tbwidth300 {
+   width: 290px;
+   min-width: 290px;
+}
+
+.tbwidth60 {
+   width: 60px;
+   min-width: 60px;
+}
+.profile{
+   width: 34px;
+   height: 34px;
+   border-radius: 50%;
+}
+.no_records{
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 12px;
+   font-style: italic;
 }

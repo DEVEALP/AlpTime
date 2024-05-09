@@ -11,6 +11,7 @@ import * as am5xy from "@amcharts/amcharts5/xy";
 import { newHttpRequest } from 'src/app/services/newHttpRequest';
 import { newGlobalData } from '../newGlobaldata';
 import { FilterAssingTurnComponent } from '../filter-assing-turn/filter-assing-turn.component';
+import { AttendanceObservationComponent } from '../attendance-observation/attendance-observation.component';
 
 @Component({
   selector: 'app-attendance-punctuality-record',
@@ -63,8 +64,9 @@ export class AttendancePunctualityRecordComponent {
     this.dataUser = newGlobalData.dataUser
     var app:any = newGlobalData.apps.find((x: any) => x.route_path == 'reports')
     if (app) try{ this.settings = JSON.parse(app.settings) }catch(e){}
-    this.load();
     this.getFilters();
+    this.load();
+    console.log(this.settings.attendance)
   }
 
   createGrafico() {
@@ -216,28 +218,55 @@ export class AttendancePunctualityRecordComponent {
     })
   }
 
+  setObservation(data:any) {
+    if(this.settings?.attendance?.observation == "Personalizado" || this.settings?.attendance?.observation == "Ambos"){
+      var dialog = this.dialog.open(AttendanceObservationComponent, { data: data.observation, width: '320px', panelClass: 'asignUser' })
+      dialog.afterClosed().subscribe((result: any) => {
+        if (result) {
+          this.loading = true
+          result = result.trim()
+          this.http.post('report/observation', { userid: data.userid, date: data.fecha, observation: result }).then((e: any) => {
+            this.loading = false
+            this.homesvc.toast.fire({ icon: 'success', title: 'Observación guardada' })
+            data.observation = result
+            if(this.settings?.attendance?.observation?.trim() == "Personalizado") data.observation_view = data.observation
+            else if(this.settings?.attendance?.observation?.trim() == "Ambos") data.observation_view = data.observation + (data.observacion.length > 0 && data.observation.length ? ', ' : '') + data.observacion
+          }).catch(() => {
+            this.loading = false
+            this.homesvc.toast.fire({ icon: 'error', title: 'Error al guardar la observación' })
+          })
+        }
+      })
+    }
+  }
+
   async donwload_pdf() {
-    var orientation:any = 'vertical'
-    orientation = this.settings.attendance?.orientation ?? 'vertical'
-    var report = new GeneratorReportPdfV2('Reporte de Asistencia y Puntualidad', true, orientation, 10)
-    report.addFooterText(this.dataUser.name_business, 14, undefined, true, 'center', 'center', 4);
-    report.addFooterText('Reporte de Asistencia y Puntualidad', 12, undefined, true, 'center', 'center', 6);
-    report.addFooterText(`<strong>Fecha desde:</strong><tab2>${this.start.value?.toISOString().split('T')[0]}<tab2><strong>Hasta:</strong><tab2>${this.end.value?.toISOString().split('T')[0]}`, 11, undefined, false, 'center', 'center', 6);
+    var orientation:any = 'horizontal'
+    var size = 10
+    var heigth = 8
+    orientation = this.settings?.attendance?.orientation ?? 'horizontal'
+    size = this.settings?.attendance?.font_size ?? 10
+    heigth = 0.5 * size
+    var report = new GeneratorReportPdfV2('Reporte de Asistencia y Puntualidad', true, orientation, 5)
+    report.addFooterText(this.dataUser.name_business, (size + 2), undefined, true, 'center', 'center', 4);
+    report.addFooterText('Reporte de Asistencia y Puntualidad', (size + 1), undefined, true, 'center', 'center', 6);
+    report.addFooterText(`<strong>Fecha desde:</strong><tab2>${this.start.value?.toISOString().split('T')[0]}<tab2><strong>Hasta:</strong><tab2>${this.end.value?.toISOString().split('T')[0]}`, (size + 1), undefined, false, 'center', 'center', 6);
     report.addSpace(10);
     var my_records = []
     for (let x of this.records_back) {
-      var item = {fecha: x.fecha, codigo: x.userid, nombres: x.nombres,  grupo: x.group_name, turno: x.turn_name, ent1: x.ent1, sal1: x.sal1, ent2: x.ent2, sal2: x.sal2, atraso: x.atraso, h_falta: x.falta, total: x.total}
+      var item = {fecha: x.fecha, codigo: x.userid, nombres: x.nombres,  grupo: x.group_name, turno: x.turn_name, ent1: x.ent1, sal1: x.sal1, ent2: x.ent2, sal2: x.sal2, atraso: x.atraso, h_falta: x.falta, total: x.total, observation: x.observation_view}
       if(this.settings?.attendance?.column?.delay == false) delete item.atraso
       if(this.settings?.attendance?.column?.lack == false) delete item.h_falta
       if(this.settings?.attendance?.column?.total == false) delete item.total
       if(this.settings?.attendance?.column?.code == false) delete item.codigo
       if(this.settings?.attendance?.column?.group == false) delete item.grupo
       if(this.settings?.attendance?.column?.turn == false) delete item.turno
+      if(this.settings?.attendance?.column?.observation == false) delete item.observation
       my_records.push(item)
     }
-    var propertys: ItemConfigInterface[] = [{ property: 'grupo', format: 'string' }, { property: 'turno', label: 'Horario', align: 'center', format: 'string' }, { property: 'ent1', label: 'Entra', align: 'center' }, { property: 'ent2', label: 'Entra', align: 'center' }, { property: 'sal1', label: 'Sale', align: 'center' }, { property: 'sal2', label: 'Sale', align: 'center' }, { property: 'fecha', subHead: { addTitle: 'Fecha: ', showItem: false } }, {property: 'h_falta', label: 'H. falta'}]
+    var propertys: ItemConfigInterface[] = [{property: 'observation', label:'Observación', wordStyles: [ {word: 'Insconsistencia', style: {color: '#C87300'}}, {word: 'Falto este dia', style: {color: '#C80000'}} ], conditionStyle: [ {value: 'Vacaciones periodo', condition: 'include', style: {color: '#01BD5A'} } ]}, { property: 'grupo', format: 'string' }, { property: 'turno', label: 'Horario', align: 'center', format: 'string' }, { property: 'ent1', label: 'Entra', align: 'center' }, { property: 'ent2', label: 'Entra', align: 'center' }, { property: 'sal1', label: 'Sale', align: 'center' }, { property: 'sal2', label: 'Sale', align: 'center' }, { property: 'fecha', subHead: { addTitle: 'Fecha: ', showItem: false } }, {property: 'h_falta', label: 'H. falta'}]
     var total: viewTotalConfigInterface = { show_total_records: true, fontSize: 7, border: { top: 1 }, borderColor: '#C1C1C1' }
-    report.addTable(my_records, 10, '#333', undefined, { border: { bottom: 1 }, background: 'transparent' }, 2, propertys, undefined, undefined, total)
+    report.addTable(my_records, size, '#333', undefined, { border: { bottom: 1 }, background: 'transparent' }, heigth, propertys, undefined, undefined, total)
     report.print();
   }
 
@@ -391,11 +420,13 @@ export class AttendancePunctualityRecordComponent {
 
   formatearFecha(input: string | Date) {
     let fecha;
-    if (typeof input === 'string') fecha = new Date(input);
-    else if (input instanceof Date) fecha = input;
+    if (typeof input === 'string'){
+      if(input.includes('T')) fecha = new Date(input);
+      else fecha = new Date(input + 'T05:00:00');
+    }else if (input instanceof Date) fecha = input;
     else return 'Formato no válido'
     const dia = String(fecha.getDate()).padStart(2, '0');
-    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Sumar 1 porque los meses en JavaScript van de 0 a 11
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); 
     const año = fecha.getFullYear();
     const fechaFormateada = `${dia}/${mes}/${año}`;
     return fechaFormateada;
@@ -422,6 +453,9 @@ export class AttendancePunctualityRecordComponent {
     this.records_for_user = []
     if (this.filter.user == '') this.users = []
     for (let x of this.records_back) {
+      if(this.settings?.attendance?.observation?.trim() == "Personalizado") x.observation_view = x.observation
+      else if(this.settings?.attendance?.observation?.trim() == "Por defecto" || !this.settings?.attendance?.observation) x.observation_view = x.observacion
+      else if(this.settings?.attendance?.observation?.trim() == "Ambos") x.observation_view = x.observation + (x.observacion.length > 0 && x.observation.length ? ', ' : '') + x.observacion
       if (this.filter.user == '') {
         var exist = this.users.find(u => u == x.nombres)
         if (!exist) this.users.push(x.nombres)

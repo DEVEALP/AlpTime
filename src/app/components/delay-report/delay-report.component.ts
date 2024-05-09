@@ -70,7 +70,6 @@ export class DelayReportComponent {
     this.dataUser = newGlobalData.dataUser
     var app:any = newGlobalData.apps.find((x: any) => x.route_path == 'reports')
     if (app) try{ this.settings = JSON.parse(app.settings) }catch(e){}
-    console.log(this.settings)
     this.load()
     this.getFilters()
   }
@@ -154,11 +153,13 @@ export class DelayReportComponent {
 
   formatearFecha(input: string | Date) {
     let fecha;
-    if (typeof input === 'string') fecha = new Date(input);
-    else if (input instanceof Date) fecha = input;
+    if (typeof input === 'string'){
+      if(input.includes('T')) fecha = new Date(input);
+      else fecha = new Date(input + 'T05:00:00');
+    }else if (input instanceof Date) fecha = input;
     else return 'Formato no válido'
     const dia = String(fecha.getDate()).padStart(2, '0');
-    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Sumar 1 porque los meses en JavaScript van de 0 a 11
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); 
     const año = fecha.getFullYear();
     const fechaFormateada = `${dia}/${mes}/${año}`;
     return fechaFormateada;
@@ -239,25 +240,29 @@ export class DelayReportComponent {
           oficina: this.filters?.office ?? ''
         }
         this.http.post('report/general', body).then((e: any) => {
-          this.records = e
+          this.records = []
           this.total_rango_a = 0
           this.total_rango_b = 0
           this.total_rango_c = 0
           this.total_atraso = ''
-          for (let x of this.records) {
-            var partes = x.atraso.split(':');
-            if (Number(partes[0]) > 0 || Number(partes[1]) >= 20) {
-              x.rango_c = x.ent1
-              this.total_rango_c++
-            } else if (Number(partes[1]) >= 11) {
-              x.rango_b = x.ent1
-              this.total_rango_b++
-            } else if (Number(partes[1]) >= 0) {
-              x.rango_a = x.ent1
-              this.total_rango_a++
+          for (let x of e) {
+            var min_atraso = this.timeToMinutes(x.atraso)
+            if(min_atraso > 0){
+              if(min_atraso > 0 && min_atraso <= 10){
+                this.total_rango_a++
+                x.rango_a = x.ent1
+              }else if(min_atraso > 10 && min_atraso <= 20){
+                this.total_rango_b++
+                x.rango_b = x.ent1
+              }else{
+                this.total_rango_c++
+                x.rango_c = x.ent1
+              }
+              this.records.push(x)
             }
           }
           if (this.filters?.user) this.total_atraso = this.sumarTiempos(this.records.map(x => x.atraso))
+            console.log(this.total_atraso)
           this.setDataGraph();
           this.loading = false
         }).catch(() => {
@@ -457,12 +462,14 @@ export class DelayReportComponent {
       return
     }
     var orientation:any = 'vertical'
+    var size = 10
     orientation = this.settings.delay?.orientation ?? 'vertical'
+    size = this.settings.delay?.font_size ?? 10
     var report = new GeneratorReportPdfV2('Listado de Horas Atrasadas', true, orientation, 10)
-    report.addFooterText(this.dataUser.name_business, 14, undefined, true, 'center', 'center', 2);
-    report.addFooterText('Listado de Horas Atrasadas', 14, undefined, true, 'center', 'center', 2);
-    report.addFooterText(`<strong>Fecha desde:</strong><tab2>${this.start.value?.toISOString().split('T')[0]}<tab2><strong>Hasta:</strong><tab2>${this.end.value?.toISOString().split('T')[0]}`, 14, undefined, false, 'center', 'center', 2);
-    if (this.filters?.user) report.addFooterText(`<strong>Empleado:</strong><tab>${this.records[0].nombres}`, 14, undefined, false, 'center', 'center', 2);
+    report.addFooterText(this.dataUser.name_business, (size + 2), undefined, true, 'center', 'center', 2);
+    report.addFooterText('Listado de Horas Atrasadas', (size + 1), undefined, true, 'center', 'center', 2);
+    report.addFooterText(`<strong>Fecha desde:</strong><tab2>${this.start.value?.toISOString().split('T')[0]}<tab2><strong>Hasta:</strong><tab2>${this.end.value?.toISOString().split('T')[0]}`, (size + 1), undefined, false, 'center', 'center', 2);
+    if (this.filters?.user) report.addFooterText(`<strong>Empleado:</strong><tab>${this.records[0].nombres}`, (size + 1), undefined, false, 'center', 'center', 2);
     var report_table = []
     for (let x of this.records) {
       var item: any = { fecha: this.formatearFecha(x.fecha) }
@@ -478,7 +485,7 @@ export class DelayReportComponent {
     var items: ItemConfigInterface[] = [{ property: 'rango_a', label: '0 m - 10 m' }, { property: 'rango_b', label: '11 m - 20 m' }, { property: 'rango_c', label: '20 m - Mas' }]
     var total: viewTotalConfigInterface = { propertys: [{ proeprty: 'rango_a', type: 'count' }, { proeprty: 'rango_b', type: 'count' }, { proeprty: 'rango_c', type: 'count' }], title: 'TOTALES', border: { top: 1 }, borderColor: '#B4B4B4' }
     if (this.filters?.user) total.propertys?.push({ proeprty: 'atraso', type: 'value', value: this.total_atraso })
-    report.addTable(report_table, 12, '#333', { top: 10 }, { border: { bottom: 1 }, borderColor: '#B4B4B4' }, 8, items, 0, undefined, total)
+    report.addTable(report_table, size, '#333', { top: 10 }, { border: { bottom: 1 }, borderColor: '#B4B4B4' }, 8, items, 0, undefined, total)
     report.print()
   }
 

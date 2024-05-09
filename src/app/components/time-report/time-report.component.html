@@ -29,13 +29,25 @@
                   <span class="users_name">{{x.name | titlecase}}</span>
                </button>
             </mat-menu>
-            <div class="inpput_cont background" [class.width2]="mobile" style="width: 110px;">
+            <div class="inpput_cont background" [class.width2]="mobile" style="width: 110px;" *ngIf="search_type == 'Mensual'">
                <span class="material-icons iconinput">event</span>
                <input class="input_monh color1" [value]="date.value" type="text">
                <input class="input_monh_hidden color1" [matDatepicker]="dp" [formControl]="start">
                <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
                <mat-datepicker #dp startView="year" (monthSelected)="setMonthAndYear($event, dp)" panelClass="example-month-picker">
                </mat-datepicker>
+            </div>
+            <div class="inpput_cont background" [class.width2]="mobile" style="width: 200px;" *ngIf="search_type == 'Personalizado'">
+               <span class="material-icons iconinput">search</span>
+               <mat-date-range-input [rangePicker]="picker">
+                  <input type="text" class="color" #startI matStartDate [value]="start.value" autocomplete="off" placeholder="DD/MM/AAAA" (dateChange)="changedate(startI.value, 'start')" (keyup.enter)="changedate(startI.value, 'start')" (blur)="changedate(startI.value, 'start')">
+                  <input hidden [formControl]="start">
+                  <input type="text" class="color" #endI matEndDate [value]="end.value" autocomplete="off" placeholder="DD/MM/AAAA" (dateChange)="changedate(endI.value, 'end')" (keyup.enter)="changedate(endI.value, 'end')" (blur)="changedate(endI.value, 'end')">
+                  <input hidden [formControl]="end">
+               </mat-date-range-input>
+               <mat-datepicker-toggle style="transform: scale(0.8);" matSuffix
+                  [for]="picker"></mat-datepicker-toggle>
+               <mat-date-range-picker #picker></mat-date-range-picker>
             </div>
          </div>
       </div>

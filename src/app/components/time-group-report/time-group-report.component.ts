@@ -23,7 +23,6 @@ export class TimeGroupReportComponent {
   filters_laoding = true
   view_graph = false
   loading = false
-  menzualizado = true
   filters_actived = 0
 
   start = new FormControl(this.getFirstDayOfMonth())
@@ -40,6 +39,7 @@ export class TimeGroupReportComponent {
 
   timmerLoad: any
   filters: any = { area: null, job: null, office: null, turn: null, group: null, user: null }
+  search_type = 'Mensual'
 
   constructor(private homesvc: HomeService, private http:newHttpRequest, private turnsvc:TurnsService, private router:Router, private dialog:MatDialog) { }
 
@@ -48,9 +48,10 @@ export class TimeGroupReportComponent {
     this.dataUser = newGlobalData.dataUser
     var app:any = newGlobalData.apps.find((x: any) => x.route_path == 'reports')
     if (app) try{ this.settings = JSON.parse(app.settings) }catch(e){}
-    if(this.menzualizado) this.setMonthAndYear(new Date(new Date().getFullYear(), new Date().getMonth(), 1), { close: () => { } })
     this.load_data()
     this.getFilters()
+    this.search_type = this.settings.time_group?.search_type ?? 'Mensual'
+  if(this.search_type == 'Mensual') this.setMonthAndYear(new Date(new Date().getFullYear(), new Date().getMonth(), 1), { close: () => { } })
   }
   
   async getFilters() {
@@ -135,6 +136,7 @@ export class TimeGroupReportComponent {
         departamento: this.filters?.area ?? '',
         oficina: this.filters?.office ?? ''
       }
+      this.records = []
       this.http.post('report/general', body).then((e:any) => {
         this.loading = false
         if (e.length > 0) {
@@ -161,7 +163,7 @@ export class TimeGroupReportComponent {
             var record = { userid: userid, dias: data_user.length, nombre: data_user[0].nombres, total:total_sum, subtotal: subtotals_sum, vacaciones:vacaciones_sum, permisos:permisos_sum, atraso: atrasos_sum, falta: faltas_sum, h25: h25s_sum, h50: h50s_sum, h100: h100s_sum }
             this.records.push(record)
           }
-          this.homesvc.toast.fire({ icon: 'success', title: `Se encontraron ${this.records.length} usuarios` })
+          this.homesvc.toast.fire({ icon: 'success', title: `Se encontraron ${this.records.length} usuarios`, timer: 1000})
         } else {
           this.homesvc.toast.fire({ icon: 'error', title: 'No se encontraron resultados' })
         }
@@ -196,11 +198,13 @@ export class TimeGroupReportComponent {
       return
     }
     var orientation:any = 'horizontal'
+    var size = 0
     orientation = this.settings.time_group?.orientation ?? 'horizontal'
+    size = this.settings.time_group?.font_size ?? 10
     var report = new GeneratorReportPdfV2('Horas Trabajadas', true, orientation, 10)
-    report.addFooterText(this.dataUser.name_business, 14, undefined, true, 'center', 'center', 4);
-    report.addFooterText('Horas trabajadas', 14, undefined, true, 'center', 'center', 4);
-    report.addFooterText(`<strong>Fecha desde:</strong><tab2>${this.start.value?.toISOString().split('T')[0]}<tab2><strong>Hasta:</strong><tab2>${this.end.value?.toISOString().split('T')[0]}`, 14, undefined, false, 'center', 'center', 4);
+    report.addFooterText(this.dataUser.name_business, (size + 2), undefined, true, 'center', 'center', 4);
+    report.addFooterText('Horas trabajadas', (size + 1), undefined, true, 'center', 'center', 4);
+    report.addFooterText(`<strong>Fecha desde:</strong><tab2>${this.start.value?.toISOString().split('T')[0]}<tab2><strong>Hasta:</strong><tab2>${this.end.value?.toISOString().split('T')[0]}`, (size + 1), undefined, false, 'center', 'center', 4);
     var records = []
     for (let record of this.records) {
       var item = {codigo: record.userid, dias: record.dias, nombre: record.nombre, subtotal: record.subtotal, atraso: record.atraso, permisos: record.permisos, vacaciones: record.vacaciones, falta: record.falta, total: record.total, h25: record.h25, h50: record.h50, h100: record.h100}
@@ -214,7 +218,7 @@ export class TimeGroupReportComponent {
       records.push(item)
     }
     var item_settings:ItemConfigInterface[] = [{property: 'dias', label: 'Días'}]
-    report.addTable(records, 12, '#333', { top: 10 }, { border: { bottom: 1 }, borderColor: '#B4B4B4' }, 8, item_settings)
+    report.addTable(records, size, '#333', { top: 10 }, { border: { bottom: 1 }, borderColor: '#B4B4B4' }, 8, item_settings)
     report.print() 
   }
 
@@ -255,11 +259,13 @@ export class TimeGroupReportComponent {
 
   formatearFecha(input: string | Date) {
     let fecha;
-    if (typeof input === 'string') fecha = new Date(input);
-    else if (input instanceof Date) fecha = input;
+    if (typeof input === 'string'){
+      if(input.includes('T')) fecha = new Date(input);
+      else fecha = new Date(input + 'T05:00:00');
+    }else if (input instanceof Date) fecha = input;
     else return 'Formato no válido'
     const dia = String(fecha.getDate()).padStart(2, '0');
-    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Sumar 1 porque los meses en JavaScript van de 0 a 11
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); 
     const año = fecha.getFullYear();
     const fechaFormateada = `${dia}/${mes}/${año}`;
     return fechaFormateada;
