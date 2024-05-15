@@ -1,0 +1,74 @@
+<div class="cont">
+   <div class="head">
+      <span class="material-icons title_icon color3">filter_alt</span>
+      <span class="title color1">Filtrar usuarios</span>
+   </div>
+   <div class="body" [formGroup]="form">
+    <mat-form-field class="input">
+      <mat-label>Grupo</mat-label>
+      <input class="color" type="text" placeholder="Nombre del grupo" matInput formControlName="group" [matAutocomplete]="autoGroup">
+      <mat-autocomplete #autoGroup="matAutocomplete">
+          <mat-option *ngFor="let x of filteredOptionsGroups | async" [value]="x.nombre" (click)="group_code = x.codigo" (keyup.enter)="group_code = x.codigo">{{x.nombre | titlecase}}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="input" *ngIf="periods.length > 0">
+      <mat-label>Período</mat-label>
+      <mat-select formControlName="period">
+        <mat-option *ngFor="let x of periods" [value]="x">{{x}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="input" *ngIf="turns.length > 0">
+      <mat-label>Turno</mat-label>
+      <input class="color" type="text" placeholder="Nombre del turno" matInput formControlName="turn" [matAutocomplete]="autoTurn">
+      <mat-autocomplete #autoTurn="matAutocomplete">
+          <mat-option *ngFor="let x of filteredOptionsTurns | async" [value]="x.turn_name" (click)="turn_code = x.id" (keyup.enter)="turn_code = x.id">{{x.turn_name}}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="input" *ngIf="filter_users">
+      <mat-label>Empleado</mat-label>
+      <input class="color" type="text" placeholder="Nombre o cedula del empleado" matInput formControlName="user" [matAutocomplete]="autoUsers" (blur)="blur_input()" (keyup.enter)="load_users()" (keyup)="writing()" >
+      <mat-autocomplete #autoUsers="matAutocomplete">
+          <mat-option *ngFor="let x of filteredOptionsUsers | async" [value]="x.name" (click)="seletecUser(x)" (keyup.enter)="seletecUser(x)" class="optionUser">
+            <div class="users">
+              <img [src]=" x.imagen ? ('data:image/png;base64,' + x.imagen) : '../../../assets/notprofile.jpg' " class="users_image">
+              <span class="users_name">{{x.name | titlecase}}</span>
+            </div>
+          </mat-option>
+      </mat-autocomplete>
+      <mat-spinner class="loading_color" *ngIf="loading_users" strokeWidth="2" diameter="15" matSuffix></mat-spinner>
+    </mat-form-field>
+    <mat-form-field class="input" *ngIf="calendar.length > 0">
+      <mat-label>Calendario</mat-label>
+      <input class="color" type="text" placeholder="Nombre de la semana" matInput formControlName="calendar" [matAutocomplete]="autoCalendar">
+      <mat-autocomplete #autoCalendar="matAutocomplete">
+          <mat-option *ngFor="let x of filteredOptionsCalendar | async" [value]="x.nombre" (click)="setCalendar(x)" (keyup.enter)="setCalendar(x)">{{x.nombre | titlecase}}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+      <mat-form-field class="input" *ngIf="offices.length > 0">
+         <mat-label>Oficina</mat-label>
+         <input class="color" type="text" placeholder="Nombre de la oficina" matInput formControlName="office" [matAutocomplete]="autoOffice">
+         <mat-autocomplete #autoOffice="matAutocomplete">
+             <mat-option *ngFor="let x of filteredOptionsOffices | async" [value]="x.nombre" (click)="office_code = x.codigo" (keyup.enter)="office_code = x.codigo">{{x.nombre | titlecase}}</mat-option>
+         </mat-autocomplete>
+       </mat-form-field>
+       <mat-form-field class="input" *ngIf="departaments.length > 0">
+         <mat-label>Departamento</mat-label>
+         <input class="color" type="text" placeholder="Nombre del departamento" matInput formControlName="departament" [matAutocomplete]="autoDepartament">
+         <mat-autocomplete #autoDepartament="matAutocomplete">
+             <mat-option *ngFor="let x of filteredOptionsDepartaments | async" [value]="x.nombre" (click)="departament_code = x.codigo" (keyup.enter)="departament_code = x.codigo">{{x.nombre | titlecase}}</mat-option>
+         </mat-autocomplete>
+       </mat-form-field>
+       <mat-form-field class="input" *ngIf="jobs.length > 0">
+         <mat-label>Cargo</mat-label>
+         <input class="color" type="text" placeholder="Nombre del Cargo" matInput formControlName="job" [matAutocomplete]="autoJob">
+         <mat-autocomplete #autoJob="matAutocomplete">
+             <mat-option *ngFor="let x of filteredOptionsJobs | async" [value]="x.nombre" (click)="job_code = x.codigo" (keyup.enter)="job_code = x.codigo">{{x.nombre | titlecase}}</mat-option>
+         </mat-autocomplete>
+       </mat-form-field>
+   </div>
+   <div class="buttons">
+      <button class="btn_cancel color3" matRipple (click)="closed()">Cancelar</button>
+      <button class="btn_save bg_red" *ngIf="btn_restablecer" matRipple (click)="reset()">Restablecer</button>
+      <button class="btn_save bg_color" matRipple (click)="save()">Guardar</button>
+   </div>
+</div>

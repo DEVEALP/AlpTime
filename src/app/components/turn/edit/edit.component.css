@@ -1,0 +1,334 @@
+.cont{
+   width: calc(100% - 30px);
+   height: calc(100% - 15px);
+   padding: 15px;
+   padding-top: 0px;
+   display: flex;
+   flex-direction: column;
+}
+.head{
+   width: 100%;
+   height: 40px;
+   padding-bottom: 5px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+}
+.subhead{
+   width: 100%;
+   height: 40px;
+   padding-top: 10px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+}
+.inverthead{
+   justify-content: space-around;
+   align-items:  flex-start;
+   flex-direction: column-reverse;
+   height: 110px;
+}
+.body{
+   width: 100%;
+   max-width: 100%;
+   height: calc(100% - 90px);
+   display: flex;
+   flex-direction: column;
+   overflow-x: scroll;
+}
+.bhead{
+   width: 100%;
+   height: 40px;
+   border-radius: 8px 8px 0px 0px;
+   display: flex;
+   flex-direction: row;
+   padding-right: 0px;
+}
+.bbody{
+   width: 100%;
+   overflow-y: scroll;
+   overflow-x: hidden;
+   max-height: calc(100% - 45px);
+   height: calc(100% - 45px);
+   border-radius: 0px 0px 8px 8px;
+
+}
+.row{
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   align-items: center;
+}
+.inpput_cont{
+   width: 200px;
+   height: 32px;
+   border-radius: 16px;
+   padding-left: 27px;
+   position: relative;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   background: white;
+   -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+-moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+}
+.width{
+   margin-bottom: 3px;
+   width: calc(100% - 30px);
+}
+.input{
+   width: 100%;
+   padding-bottom: 1px;
+   height: calc(100% - 1px);
+   background: none;
+   outline: none;
+   border: none;
+}
+.iconinput{
+   font-size: 17px;
+   color: #333;
+   opacity: 0.4;
+   position: absolute;
+   left: 6px;
+   top: 7px;
+}
+.contItemsButtoms{
+   padding: 0px 15px;
+   padding-left: 10px;
+   border-radius: 16px;
+   height: 30px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   background: none;
+   cursor: pointer;
+   outline: none;
+   margin-right: 5px;
+   border: none;
+   transition: all ease-out .2s;
+   background: white;
+   opacity: 0.8;
+}
+.contItemsButtoms:focus, .contItemsButtoms:hover{
+   opacity: 1;
+   -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+}
+.iconitemtextbutton{
+   font-size: 17px;
+   color: #888;
+}
+.textitemtextbutton{
+   margin-left: 5px;
+   padding-top: 1px;
+   font-size: 12px;
+   text-align: start;
+   font-weight: 400;
+   color: #333;
+}
+.titleitemtextbutton{
+   margin-left: 5px;
+   padding-bottom: 1px;
+   font-size: 12px;
+   font-weight: 600;
+   color: #333;
+}
+.bhtitle{
+   height: 40px;
+   padding: 0px 5px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 12px;
+   font-weight: 500;
+   color: #ffffff;
+   line-height: 14px;
+   text-align: center;
+}
+.bhtext{
+   height: 50px;
+   padding: 0px 5px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 12px;
+   font-weight: 400;
+   color: #030303;
+   line-height: 14px;
+   text-align: center;
+}
+.div70{
+   width: 60px;
+   min-width: 60px;
+ }
+ .div200{
+   width: 190px;
+   min-width: 190px;
+ }
+ .div150{
+   width: 135px;
+   min-width: 135px;
+ }
+ .bitems{
+   width: 100%;
+   height: 50px;
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   align-items: center;
+   position: relative;
+ }
+ .subbitems{
+   background: none;
+   outline: none;
+   border: none;
+   width: 100%;
+   height: 50px;
+   cursor: pointer;
+   margin: 0px;
+   padding: 0px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   transition: all ease-out .3s;
+   opacity: 0.8;
+}
+.subbitems:disabled{
+   opacity: 0.6 !important;
+}
+.subbitems:hover, .subbitems:focus{
+   background: rgba(62, 62, 62, 0.6);
+}
+.bitems_check{
+   position: absolute;
+   left: 24px;
+}
+.seleted{
+   opacity: 1;
+   background: rgba(1, 43, 30, 0.09) !important;
+}
+.btnList{
+   position: relative;
+   padding: 0px 12px;
+   padding-right: 27px;
+   height: 30px;
+   border-radius: 16px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   border: none;
+   outline: none;
+   cursor: pointer;
+   background: transparent;
+   margin: 4px 0px;
+   margin-right: 7px;
+   background: whitesmoke;
+   opacity: 0;
+   animation: opacity ease-out .3s forwards;
+}
+.btnList:focus, .btnList:hover{
+   background: white;
+   -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+}
+.iconarrowbtnlist{
+   position: absolute;
+   right: 5px;
+   top: 7px;
+   color: #666;
+   font-size: 15px;
+}
+.btnnew{
+   border: none;
+   outline: none;
+   cursor: pointer;
+   background: #30b869;
+   color: white;
+   font-size: 13px;
+   margin-left: 10px;
+   padding: 0px 12px;
+   -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   border-radius: 8px;
+   height: 32px;
+ }
+ .btnnew:disabled{
+   opacity: 0.5;
+   cursor: not-allowed;
+ }
+ .bg_red{
+   background: #f44336;
+ }
+ .textinfo{
+   font-size: 13px;
+   font-weight: 500;
+   color: #666;
+   font-style: italic;
+   padding-right: 10px;
+   line-height: 16px;
+}
+
+  ::ng-deep.mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element, .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element{
+   background: rgb(23, 151, 77) !important;
+}
+::ng-deep.mat-checkbox-checked .mat-checkbox-background{
+   background-color: rgb(93,187,132) !important;
+  }
+::ng-deep.mat-calendar-body-cell:hover > .mat-calendar-body-cell-content.mat-focus-indicator, ::ng-deep.mat-calendar-body-cell:focus > .mat-calendar-body-cell-content.mat-focus-indicator{
+   background-color: rgba(93, 187, 132, 0.3) !important;
+}
+::ng-deep.mat-calendar-body-in-range:focus > .mat-calendar-body-cell-content.mat-focus-indicator{
+   background-color: rgb(23, 151, 77) !important;
+}
+::ng-deep.mat-calendar-body-selected{
+   background-color: rgb(23, 151, 77) !important;
+}
+::ng-deep.mat-calendar-body-in-range::before{
+   background-color: rgba(23, 151, 77, 0.2) !important;
+}
+.btnfilter{
+   margin: 5px 0px;
+   height: 32px;
+   display: flex;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   padding: 0px 10px;
+   border-radius: 16px;
+   -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   border: none;
+   outline: none;
+   cursor: pointer;
+}
+.btnfilter_text{
+   padding: 0px 3px;
+   font-size: 13px;
+   font-weight: 500;
+   color: #333;
+}
+.btnfilter_icon{
+   font-size: 17px;
+   color: #666;
+   margin: 0px 2px;
+}
+.btnfilter_actived{
+   margin-left: 6px;
+   width: 18px;
+   height: 18px;
+   border-radius: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 11px;
+   font-weight: 500;
+   color: white;
+}

@@ -1,0 +1,26 @@
+<app-menu [title]="'Turnos'" [loading]="loading">
+   <div class="cont">
+      <div class="head background">
+         <div class="row">
+            <button class="select" matRipple [class.selectseleted]="view_table == 'turns'" (click)="seletedtab('turns')">
+               <span class="selecttext color1">Turnos</span>
+               <div class="selectline bg_color" *ngIf="view_table == 'turns'"></div>
+            </button>
+            <button class="select" matRipple [class.selectseleted]="view_table == 'asing'" (click)="seletedtab('asing')">
+               <span class="selecttext color1">Asignar/desasignar</span>
+               <div class="selectline bg_color" *ngIf="view_table == 'asing'"></div>
+            </button>
+            <button class="select" matRipple [class.selectseleted]="view_table == 'calendar'" (click)="seletedtab('calendar')">
+               <span class="selecttext color1">Calendario</span>
+               <div class="selectline bg_color" *ngIf="view_table == 'calendar'"></div>
+            </button>
+         </div>
+      </div>
+      <div class="body">
+         <!-- <app-calendar-turn ></app-calendar-turn> -->
+         <app-turns-assing-view style="height: 100%;width: 100%;" *ngIf="view_table == 'calendar'"></app-turns-assing-view>
+         <app-edit-turn style="height: 100%;width: 100%;" *ngIf="view_table == 'asing'"></app-edit-turn>
+         <app-info-turns style="height: 100%;width: 100%;" *ngIf="view_table == 'turns'"></app-info-turns>
+      </div>
+   </div>
+</app-menu>

@@ -1,0 +1,120 @@
+::ng-deep.itemMenu-container > .mat-dialog-container{
+  border-radius: 10px !important;
+  background: rgb(255, 255, 255);
+  padding: 15px;
+}
+.cont{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.title{
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 5px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #888;
+  margin-left: 5px;
+}
+.btnfixed{
+  position: absolute;
+  top: -5px;
+  right: -5px;
+}
+.contbuttons{
+  padding-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+.btn{
+  height: 34px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #333;
+  padding: 0px 13px;
+  border: none;
+  outline: none;
+  opacity: 0;
+  background: none;
+  cursor: pointer;
+  animation: opacity ease-out .2s forwards;
+  margin: 0px 3px;
+}
+.primary{
+  margin-left: 5px;
+  color: white;
+  animation-delay: .1s;
+}
+::ng-deep.mat-calendar-table-header {
+  display: none;
+}
+.body{
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.subbody{
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all ease-out .2s;
+}
+.calendar{
+  margin-top: -10px;
+  width: 100%;
+  min-width: 100%;
+}
+.item{
+  width: 100%;
+  height: 40px;
+  min-height: 40px;
+  border-radius: 5px;
+  padding: 0px 11px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0.7;
+  font-size: 13px;
+  border: 2px solid transparent;
+  color: #111;
+  transition: all ease-out .2s;
+  position: relative;
+}
+.item:hover, .item:focus{
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.08)
+}
+.contItems{
+  width: calc(100% - 0px);
+  padding: 5px;
+  padding-top: 0px;
+  max-height: 350px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  margin-top: -10px;
+}
+.itemleft{
+  margin-left: -100%;
+}

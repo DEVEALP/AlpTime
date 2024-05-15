@@ -1,0 +1,98 @@
+<div class="cont">
+   <div class="head">
+      <span class="title" [class.title_animation]="title_animation">{{title}}</span>
+   </div>
+   <div class="body">
+      <div class="cont_body" [class.tab_view]="tab == 1" [class.tab_next]="tab < 1" [class.tab_old]="tab > 1">
+         <div class="search">
+            <span class="material-icons search_icon">search</span>
+            <input type="text" class="search_input" placeholder="Buscar usuario" (keyup)="writing_users()" (keyup.enter)="load_users()" [(ngModel)]="user_search">
+         </div>
+         <div class="cont_users">
+            <div class="user" *ngFor="let x of users" [class.border_color_1]="user?.userid == x.userid" [class.user_Seleted]="user?.userid == x.userid" (click)="setUser(x)" [class.user_seleted]="x.id == user?.id">
+               <button class="subuser" matRipple>
+                  <img [src]="x?.imagen ? ('data:image/png;base64,' + x.imagen) : '../../../assets/notprofile.jpg'" class="profile">
+                  <div class="datauser">
+                     <span class="username username_min">{{x.name}}</span>
+                     <span class="userid">{{x.userid}}</span>
+                  </div>
+               </button>
+               <span class="material-icons cont_seleted text_color" *ngIf="x.id == user?.id">check_circle</span>
+            </div>
+            <div class="loading_list" *ngIf="loading_users"><mat-spinner diameter="28" strokeWidth="4" class="loading_color"></mat-spinner></div>
+         </div>
+      </div>
+      <div class="cont_body cont_motives" [class.tab_view]="tab == 2" [class.tab_next]="tab < 2" [class.tab_old]="tab > 2">
+         <div class="motive" *ngFor="let x of motives" (click)="setMotive(x)" [class.border_color_1]="motive == x" [class.motive_actived]="motive == x">
+            <button matRipple class="motive_title">{{x}}</button>
+            <div class="line" *ngIf="motive == x"></div>
+            <span class="material-icons motive_seletecd text_color" *ngIf="motive == x">check_circle</span>
+            <textarea class="motive_description" [id]="x" [(ngModel)]="details" (keyup.enter)="save()" placeholder="Descripción del motivo (opcional)" *ngIf="motive == x"></textarea>
+         </div>
+      </div>
+      <div class="cont_body" [class.tab_view]="tab == 3" [class.tab_next]="tab < 3" [class.tab_old]="tab > 3">
+         <mat-calendar *ngIf="load_holidays" #calendar style="margin-top: -10px;" [dateClass]="dateClass" [selected]="selectedRangeValue" (selectedChange)="onselectedChange($event)" ></mat-calendar>
+      </div>
+      <div class="cont_body" [class.tab_view]="tab == 4" [class.tab_next]="tab < 4" [class.tab_old]="tab > 4"> 
+         <div class="optionstime">
+            <button class="optionstime_button" [class.optionstime_seleted]="time_seleted == '1hour'" (click)="setTime('1hour', 1)" matRipple>1 Hora</button>
+            <button class="optionstime_button" [class.optionstime_seleted]="time_seleted == '2hour'" (click)="setTime('2hour', 2)" matRipple>2 Hora</button>
+            <button class="optionstime_button" [class.optionstime_seleted]="time_seleted == '3hour'" (click)="setTime('3hour', 3)" matRipple>3 Hora</button>
+            <button class="optionstime_button" [class.optionstime_seleted]="time_seleted == '4hour'" (click)="setTime('4hour', 4)" matRipple>4 Hora</button>
+            <button class="optionstime_button" [class.optionstime_seleted]="time_seleted == '6hour'" (click)="setTime('6hour', 6)" matRipple>6 Hora</button>
+            <button class="optionstime_button" [class.optionstime_seleted]="time_seleted == '8hour'" (click)="setTime('8hour', 8)" matRipple>Todo el dia</button>
+         </div>
+         <div class="contime">
+            <input type="text" class="time" placeholder="00" [(ngModel)]="time_text.hour" (blur)="validateTime()" (keyup.enter)="validateTime()">
+            <span class="time_text">:</span>
+            <input type="text" class="time" placeholder="00" [(ngModel)]="time_text.minute" (blur)="validateTime()" (keyup.enter)="validateTime()">
+         </div>
+      </div>
+      <div class="cont_body" [class.tab_view]="tab == 5" [class.tab_next]="tab < 5" [class.tab_old]="tab > 5"> 
+         <div class="cardUser1">
+            <div class="card1User bg_color">
+               <img [src]="user?.imagen ? ('data:image/png;base64,' + user.imagen) : '../../../assets/notprofile.jpg'" class="card1UserProfile">
+               <div class="card1UserData">
+                  <span class="card1UserName">{{user?.name | titlecase}}</span>
+                  <span class="card1Userid">{{user?.userid}}</span>
+               </div>
+            </div>
+            <div class="card1Info">
+               <span class="card1Info_title">{{motive}}:</span>
+               <span class="card1Info_text">{{ details.trim().length ? details : 'Sin observaciones' }}</span>
+            </div>
+         </div>
+         <div class="cardinfo2">
+            <div class="cardinfo2Div">
+               <span class="material-icons cardinfo2Icon text_color">today</span>
+            </div>
+            <div class="cardinfo2DivTexts">
+               <span class="cardinfo2Text">Desde el {{getFullDate(selectedRangeValue?.start)}}</span>
+            </div>
+         </div>
+         <div class="cardinfo2">
+            <div class="cardinfo2Div">
+               <span class="material-icons cardinfo2Icon text_color">event</span>
+            </div>
+            <div class="cardinfo2DivTexts">
+               <span class="cardinfo2Text">Hasta el {{getFullDate(selectedRangeValue?.end)}}</span>
+            </div>
+         </div>
+         <div class="cardinfo2" style="margin-bottom: 10px;">
+            <div class="cardinfo2Div">
+               <span class="material-icons cardinfo2Icon text_color">query_builder</span>
+            </div>
+            <div class="cardinfo2DivTexts">
+               <span class="cardinfo2Text">{{time_text.hour}}:{{time_text.minute}} Hora{{ time.hour > 1 ? 's' : ''}}</span>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="buttons">
+      <button class="btn_back" matRipple [disabled]="loading" (click)="back()">{{tab == 1 ? 'Salir' : 'Atras'}}</button>
+      <button class="btn_nect bg_color" matRipple (click)="save()">
+         <span *ngIf="!loading">{{tab == 4 ? 'Guardar' : 'Siguiente'}}</span>
+         <mat-spinner *ngIf="loading" diameter="18" class="loading_white"></mat-spinner>
+      </button>
+   </div>
+</div>

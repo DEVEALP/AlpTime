@@ -1,0 +1,97 @@
+<div class="cont background1">
+   <div class="head" [class.inverthead]="mobile">
+      <div class="row"> 
+         <button matRipple class="contItemsButtoms background" style="padding: 0px 8px;" (click)="setRecord()">
+            <span class="material-icons iconitemtextbutton color3">add</span>
+            <span class="titleitemtextbutton color1">Agregar</span>
+         </button>
+         <button matRipple class="contItemsButtoms background" style="padding: 0px 8px;" [matMenuTriggerFor]="donwload">
+            <span class="material-icons iconitemtextbutton color3">file_download</span>
+            <span class="titleitemtextbutton color1">Descargar</span>
+         </button>
+         <button matRipple class="contItemsButtoms background" title="Sincronizar registros" style="padding: 0px 8px;" (click)="upload()">
+            <span class="material-icons iconitemtextbutton color3">file_upload</span> 
+            <span class="titleitemtextbutton color1">Sincronizar</span>
+         </button>
+         <mat-menu #donwload="matMenu">
+            <button mat-menu-item [matMenuTriggerFor]="pdf">Descargar Pdf</button>
+            <button mat-menu-item [matMenuTriggerFor]="excel">Descargar Excel</button>
+          </mat-menu>
+          <mat-menu #pdf="matMenu">
+            <button mat-menu-item (click)="download_info2()" [title]="'No disponible en próxima versiones'">Descargar Asistencias y Atrasos</button>
+          </mat-menu>
+          <mat-menu #excel="matMenu">
+            <button mat-menu-item (click)="download()">Descargar registros</button>
+            <button mat-menu-item (click)="download_info()">Descargar informe</button>
+            <button mat-menu-item (click)="download_info2_excel()" [title]="'No disponible en próxima versiones'">Descargar Asistencias y Atrasos</button>
+          </mat-menu>
+         <button matRipple class="contItemsButtoms background" (click)="setFilter()" [disabled]="loadFilter">
+            <span *ngIf="!loadFilter" class="material-icons iconitemtextbutton color3">filter_alt</span>
+            <mat-spinner strokeWidth="2" *ngIf="loadFilter" [diameter]="15" class="loading_color"></mat-spinner>
+            <span class="titleitemtextbutton color1">Filtrar</span>
+            <div class="iconfilter backcolor" *ngIf="filtercount">{{filtercount}}</div>
+         </button> 
+         <!-- <div class="inpput_cont" *ngIf="mobile" [matMenuTriggerFor]="menu" style="width: auto;padding-right: 30px;cursor: pointer;" matRipple [class.width]="mobile">
+            <span class="material-icons iconinput">workspaces</span>
+            <div class="textinput">Todos</div>
+            <span class="material-icons arowinput">expand_more</span>
+         </div>  -->
+         <!-- <mat-menu #menu_view="matMenu" class="contview">
+            <div mat-menu-item (click)="$event.stopPropagation()"><mat-checkbox (change)="changeView()" [(ngModel)]="view.entrance">Entrada</mat-checkbox></div>
+            <div mat-menu-item (click)="$event.stopPropagation()"><mat-checkbox (change)="changeView()" [(ngModel)]="view.exit">Salida</mat-checkbox></div>
+            <div mat-menu-item (click)="$event.stopPropagation()"><mat-checkbox (change)="changeView()" [(ngModel)]="view.Descocindo">Desconocido</mat-checkbox></div>
+         </mat-menu> -->
+      </div>
+      <div class="row"> 
+         <!-- <div class="inpput_cont" [matMenuTriggerFor]="menu" style="width: auto;padding-right: 30px;cursor: pointer;"  *ngIf="!mobile" matRipple [class.width]="mobile">
+            <span class="material-icons iconinput">workspaces</span>
+            <div class="textinput">{{group.nombre}}</div>
+            <span class="material-icons arowinput">expand_more</span>
+         </div>  -->
+         <!-- <div class="inpput_cont" [class.width]="mobile">
+            <span class="material-icons iconinput">search</span>
+            <input type="text" placeholder="Buscar por Nombre o Cedula" class="input" [formControl]="text" (keyup)="writing()">
+         </div>  -->
+         <div class="inpput_cont background" [class.width2]="mobile">
+            <span class="material-icons iconinput">search</span>
+            <mat-date-range-input [rangePicker]="picker">
+               <input type="text" #startI matStartDate class="color1" [value]="start.value" autocomplete="off" placeholder="DD/MM/AAAA" (dateChange)="changedate(startI.value, 'start')" (keyup.enter)="changedate(startI.value, 'start')" (blur)="changedate(startI.value, 'start')">
+               <input hidden [formControl]="start" class="color1">
+               <input type="text" #endI matEndDate class="color1" [value]="end.value" autocomplete="off" placeholder="DD/MM/AAAA" (dateChange)="changedate(endI.value, 'end')" (keyup.enter)="changedate(endI.value, 'end')" (blur)="changedate(endI.value, 'end')">
+               <input hidden [formControl]="end" class="color1">
+             </mat-date-range-input>
+             <mat-datepicker-toggle style="transform: scale(0.8);" matSuffix [for]="picker"></mat-datepicker-toggle>
+             <mat-date-range-picker #picker></mat-date-range-picker>
+         </div> 
+         <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="setGroup({ codigo: '', nombre:'Todos' })">Todos</button>
+            <button mat-menu-item *ngFor="let x of groups" (click)="setGroup(x)">{{x.nombre | titlecase}}</button>
+          </mat-menu>
+      </div>
+   </div>
+   <div class="body">
+      <div class="tdhead background" style="min-width: 1300px;">
+         <div class="tbtitle color3 tbwidth300">Nombres</div>
+         <div class="tbtitle color3">Cedula</div>
+         <div class="tbtitle color3">Fecha</div>
+         <div class="tbtitle color3">Hora</div>
+         <div class="tbtitle color3">Tipo</div>
+         <div class="tbtitle color3 tbwidth200">Dept/Sector</div>
+         <div class="tbtitle color3 tbwidth200">Turno</div>
+         <div class="tbtitle color3">Sensor</div>
+      </div>
+      <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+      <div class="tbbody" style="min-width: 1310px;">
+         <div class="tbitem" style="min-width: 1300px;" *ngFor="let x of records; let i = index" (click)="setRecord(x)" [style]="'animation-delay:'+(i/20)+'s;'">
+            <div class="tbtext color1 tbleft tbwidth300">{{x.name | titlecase}}</div>
+            <div class="tbtext color1">{{x.cedula}}</div>
+            <div class="tbtext color1">{{x.fecha}}</div>
+            <div class="tbtext color1">{{x.hora}}</div>
+            <div class="tbtext color1">{{x.tipo}}</div>
+            <div class="tbtext color1 tbleft tbwidth200">{{x.grupo | titlecase}}</div>
+            <div class="tbtext color1 tbwidth200">{{x.turno | titlecase}}</div>
+            <div class="tbtext color1">{{x.sensor}}</div>
+         </div>
+      </div>
+   </div>
+</div>

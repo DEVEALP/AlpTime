@@ -1,0 +1,36 @@
+<div class="menu backcolor">
+   <div class="row">
+      <button matRipple class="btncircle" *ngIf="return.length == 0" (click)="menu_actived = !menu_actived"><span class="material-icons iconbtncircle color_white">{{menu_actived ? 'arrow_back' : 'menu'}}</span></button>
+      <button matRipple class="btncircle" *ngIf="return.length > 0" (click)="return_click()"><span class="material-icons iconbtncircle color_white">arrow_back</span></button>
+      <span class="titlehead color_white">{{title}}</span>
+     </div>
+     <button matRipple class="buttonmenuuser">
+        <div class="textprofile color_white">{{dataUser.name | titlecase}}</div>
+        <div class="contimageprofile"><img src="../../../assets/notprofile.jpg" class="profile"></div>
+   </button>
+</div>
+<div class="cont" (click)="menu_actived = false">
+   <div #container></div>
+   <div class="menuvert backcolor_dark" [class.menuactived]="menu_actived">
+      <div class="submenuvert">
+         <button class="itemmenuvert" [class.anit]="menu_actived" style="animation-delay: .1s;" [class.selected]="page == 'devices'" matRipple (click)="redirect('')">
+            <span class="material-icons iconmenuvert">devices_other</span>
+            <span class="textmenuvert">Biometricos</span>
+         </button>
+         <button class="itemmenuvert" [class.anit]="menu_actived" style="animation-delay: .2s;" [class.selected]="page == 'turns'" matRipple (click)="redirect('turns')">
+            <span class="material-icons iconmenuvert">today</span>
+            <span class="textmenuvert">Turnos</span>
+         </button>
+         <button class="itemmenuvert" [class.anit]="menu_actived" style="animation-delay: .3s;" [class.selected]="page == 'report'" matRipple (click)="redirect('report')">
+            <span class="material-icons iconmenuvert">analytics</span>
+            <span class="textmenuvert">Reportes</span>
+         </button>
+         <span class="version">V{{version}}</span>
+      </div>
+      <!-- <button class="itemmenuvert" [class.anit]="menu_actived" style="animation-delay: .3s;" [class.selected]="page == 'audit'" matRipple routerLink="audit">
+         <span class="material-icons iconmenuvert">find_in_page</span>
+         <span class="textmenuvert">Auditoria</span>
+      </button> -->
+   </div>
+   <div class="loading" *ngIf="loading"><mat-spinner strokeWidth="4" [diameter]="40"></mat-spinner></div>
+</div>

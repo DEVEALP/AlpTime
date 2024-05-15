@@ -1,0 +1,64 @@
+<div class="cont background1" [formGroup]="form">
+   <div class="title color2">Editar información del dispositivo</div>
+   <div class="card">
+      <div class="card_title color1">información basica</div>
+      <div class="card_body background" id="card">
+         <mat-form-field appearance="outline" class="input"  [class.AllWidth]="AllWidth" [class.w50]="mobile">
+            <mat-label class="color">Nombre del dispositivo</mat-label>
+            <input matInput type="text" formControlName="name" class="color">
+            <mat-error *ngIf="form.controls.name.hasError('required')">El nombre del dispositivo es requerido</mat-error>
+            <mat-error *ngIf="form.controls.name.hasError('minlength')">Minimo de caracteres es de 3</mat-error>
+            <mat-error *ngIf="form.controls.name.hasError('maxlength')">Maximo de caracteres es de 80</mat-error>
+         </mat-form-field>
+         <mat-form-field appearance="outline" class="input" [class.AllWidth]="AllWidth" [class.w50]="mobile">
+            <mat-label class="color1">Serial del dispositivo</mat-label>
+            <input matInput type="text" formControlName="sn" class="color">
+            <mat-error *ngIf="form.controls.sn.hasError('required')">El Sn es requerido</mat-error>
+            <mat-error *ngIf="form.controls.sn.hasError('minlength')">Minimo de caracteres es de 3</mat-error>
+            <mat-error *ngIf="form.controls.sn.hasError('maxlength')">Maximo de caracteres es de 80</mat-error>
+         </mat-form-field>
+         <mat-form-field appearance="outline"  class="input" [class.AllWidth]="AllWidth"[class.w50]="mobile">
+            <mat-label class="color1">Lenguaje</mat-label>
+            <mat-select formControlName="language" class="color">
+              <mat-option *ngFor="let zone of languages" [value]="zone.value">{{zone.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w30"  [class.w50]="mobile">
+            <mat-label class="color1">Ip del dispositivo</mat-label>
+            <input matInput type="text" formControlName="ip" class="color">
+            <mat-error *ngIf="form.controls.ip.hasError('required')">La ip es requerida</mat-error>
+         </mat-form-field>
+      </div>
+   </div>
+   <div class="card">
+      <div class="card_title color3">Ubicación del dispositivo</div>
+      <div class="card_body background" id="card">
+         <mat-form-field appearance="outline"   class="input" [class.AllWidth]="AllWidth" [class.w50]="mobile">
+            <mat-label class="color1">Ubicación</mat-label>
+            <input matInput type="text" formControlName="ubication" class="color">
+            <mat-error *ngIf="form.controls.ubication.hasError('required')">La Ubicación es requerida</mat-error>
+         </mat-form-field>
+         <mat-form-field appearance="outline"  class="input" [class.AllWidth]="AllWidth"[class.w50]="mobile">
+            <mat-label class="color1">Zona horaria</mat-label>
+            <mat-select formControlName="timezone" class="color">
+              <mat-option *ngFor="let zone of timeZones" [value]="zone.value">{{zone.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+   </div>
+   <div class="card">
+      <div class="card_title color2">Volumen</div>
+      <div class="card_body card_body_custin1 background">
+         <span class="material-icons icon_vol color3">volume_up</span>
+         <mat-slider class="volumen" formControlName="volume">
+            <input matSliderThumb >
+          </mat-slider>
+          <span class="value_vol color1">{{form.controls.volume.value}}%</span>
+      </div>
+   </div>
+   <div class="contbtn">
+      <button class="btn bg_color" matRipple (click)="save()">
+         <span>Actualizar</span>
+      </button>
+   </div>
+</div>

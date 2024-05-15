@@ -1,0 +1,419 @@
+.cont{
+   width: calc(100% - 20px);
+   height: calc(100vh - 70px);
+   padding: 10px;
+   display: flex;
+   flex-direction: column;
+ }
+ .cont_head{
+   width: 100%;
+   height: 42px;
+   padding-bottom: 6px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+ }
+ .contitems{
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   justify-content: space-around;
+ }
+ .btnnew{
+   border: none;
+   outline: none;
+   cursor: pointer;
+   background: #30b869;
+   color: white;
+   font-size: 13px;
+   padding: 0px 12px;
+   -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   border-radius: 8px;
+   height: 32px;
+ }
+ .row{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+ }
+ .head{
+   width: 100%;
+   height: 60px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+ }
+
+ .subhead{
+   display: flex;
+   flex-direction: column;
+ }
+ .title{
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   font-size: 18px;
+   font-weight: 600;
+   color: #333;
+ }
+ .couns{
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   font-size: 13px;
+   font-weight: 400;
+   color: #555;
+ }
+ .bodyx{
+   width: 100%;
+   max-width: 100%;
+   min-height: 200px;
+   max-height: calc(100% - 0px);
+   overflow-x: scroll;
+   border-radius: 8px;
+ }
+.bhead{
+   height: 40px;
+   border-radius: 8px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+.div70{
+   height: 40px;
+   padding: 0px 5px;
+   width: 60px;
+   min-width: 60px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 11px;
+   font-weight: 500;
+   color: #444;
+   line-height: 14px;
+   text-align: center;
+   cursor: pointer;
+}
+.div200{
+   cursor: pointer;
+   height: 40px;
+   padding: 0px 5px;
+   width: 190px;
+   min-width: 190px;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   font-size: 12px;
+   font-weight: 500;
+   color: #333;
+}
+.div150{
+   height: 40px;
+   padding: 0px 5px;
+   cursor: pointer;
+   width: 140px;
+   min-width: 140px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 12px;
+   font-weight: 500;
+   color: #333;
+}
+.bodyy{
+   height: calc(100% - 45px);
+   overflow-y: scroll;
+   display: flex;
+   flex-direction: column;
+}
+.bitems{
+   width: 100%;
+   height: 44px;
+   border-radius: 8px;
+   display: flex;
+   background: none;
+   border: none;
+   margin: 0px;
+   padding: 0px !important;
+   outline: none;
+   flex-direction: row;
+   align-items: center;
+   transition: all ease-out .3s;
+}
+.bitems:hover, .bitems:focus{
+   background: rgba(0, 0, 0, 0.05);
+}
+.textitem{
+   font-size: 13px;
+   font-weight: 400;
+}
+.leftfelx{
+   justify-content: flex-start;
+}
+.contimage{
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   overflow: hidden;
+   display: flex;
+   justify-content: center;
+   border: 1px solid rgba(51, 51, 51, 0.1);
+   align-items: center;
+}
+.image{
+   width: 34px;
+}
+.icon_wifi{
+   color: rgb(0, 93, 214);
+   font-size: 18px; 
+}
+.icon_done{
+   color: rgb(10, 185, 48);
+   font-size: 18px !important;
+}
+.icon_red{
+   color: rgb(214, 0, 0);
+   font-size: 20px; 
+}
+.icon_orange{
+   color: rgb(243, 147, 2);
+   font-size: 20px; 
+}
+.btnit{
+   width: 36px;
+   height: 36px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-left: 10px;
+   cursor: pointer;
+   background: none;
+   outline: none;
+   border: none;
+   border-radius: 20px;
+   transition: all ease-out .3s;
+}
+.btnit:hover, .btnit:focus{
+   background: rgba(0, 0, 0, 0.08);
+}
+.icon_nor{
+   transition: all ease-out .3s;
+   color: rgb(124, 124, 124);
+   font-size: 18px; 
+}
+.btnit:hover > .icon_edit, .btnit:focus > .icon_edit{
+   color: rgb(0, 0, 0) !important;
+   animation: rotate_25 0.8s ease-out;
+}
+.btnit:hover > .icon_sync, .btnit:focus > .icon_sync{
+   color: rgb(0, 0, 0) !important;
+   animation: rotate_365 1.2s ease-out;
+}
+.btnit:disabled{
+   opacity: 0.4 !important;  cursor: not-allowed;
+}
+@keyframes rotate_365 {
+   0%{
+      transform: rotate(0deg);
+   }100%{
+      transform: rotate(-365deg);
+   }
+}
+@keyframes rotate_25 {
+   0%{
+      transform: rotate(20deg);
+   }10%{
+      transform: rotate(-15deg);
+   }30%{
+      transform: rotate(15deg);
+   }60%{
+      transform: rotate(-10deg);
+   }80%{
+      transform: rotate(5deg);
+   }100%{
+      transform: rotate(0deg);
+   }
+}
+.contmenu{
+   width: 170px;
+   border-radius: 8px;
+   -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.14);
+-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.14);
+box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.14);
+position: fixed;
+left: 250px;
+ top: 250px;
+ display: flex;
+ overflow: hidden;
+ flex-direction: column;
+}
+.btnsubmenu{
+   width: 100%;
+   height: 40px;
+   border: none;
+   outline: none;
+   display: flex;
+   transition: all ease-out .2s;
+   cursor: pointer;
+   flex-direction: row;
+   align-items: center;
+   background: none;
+   padding: 0px 10px;
+}
+.tetmenu{
+   font-size: 12px;
+   font-weight: 500;
+   color: #333;
+}
+.iconmenu{
+   font-size: 16px;
+   color: #666;
+   margin-right: 10px;
+}
+.btnsubmenu:hover, .btnsubmenu:focus{
+   background: rgba(0, 0, 0, 0.08);
+}
+.itemdevice{
+   width: 170px;
+   height: 170px;
+   padding: 15px;
+   background: white;
+   border-radius: 12px;
+   cursor: pointer;
+   position: relative;
+   border: none;
+   outline: none;
+   display: flex;
+   margin: 5px;
+   transition: all ease-out .3s;
+   flex-direction: column;
+   -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+-moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.1);
+opacity: 0.8;
+}
+.itemdevice:hover, .itemdevice:focus{
+   background: #47cc7f;
+}
+.itemdevice:hover > .itemdevname, .itemdevice:focus > .itemdevname{
+   color: white !important;
+}
+.itemdevice:hover > .lastdev, .itemdevice:focus > .lastdev{
+   color: rgba(255, 255, 255, 0.8) !important;
+}
+.iconitemdev{
+   position: absolute;
+   right: 12px;
+   top: 12px;
+}
+ .imageitemdev{
+   width: 80px;
+ }
+ .itemdevname{
+   font-size: 16px;
+   font-weight: 600;
+   color: #333;
+   height: 30px;
+   margin-top: 10px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+ }
+ .lastdev{
+   font-size: 12px;
+   font-weight: 600;
+   color: #888;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+ }
+ .inpput_cont{
+   width: 200px;
+   height: 32px;
+   border-radius: 16px;
+   padding-left: 27px;
+   position: relative;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   background: white;
+   -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+-moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+}
+.input{
+   width: 100%;
+   padding-bottom: 1px;
+   height: calc(100% - 1px);
+   background: none;
+   outline: none;
+   border: none;
+}
+.iconinput{
+   font-size: 17px;
+   color: #333;
+   opacity: 0.4;
+   position: absolute;
+   left: 6px;
+   top: 7px;
+}
+.contItemsButtoms{
+   padding: 0px 15px;
+   padding-left: 10px;
+   border-radius: 16px;
+   height: 30px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   background: none;
+   cursor: pointer;
+   outline: none;
+   margin-right: 5px;
+   border: none;
+   transition: all ease-out .2s;
+   background: white;
+   opacity: 0.8;
+}
+.contItemsButtoms:focus, .contItemsButtoms:hover{
+   opacity: 1;
+   -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+}
+.iconitemtextbutton{
+   font-size: 18px;
+   color: #666;
+}
+.textitemtextbutton{
+   margin-left: 5px;
+   padding-bottom: 1px;
+   font-size: 12px;
+   font-weight: 400;
+   color: #333;
+}
+.titleitemtextbutton{
+   margin-left: 5px;
+   padding-bottom: 1px;
+   font-size: 12px;
+   font-weight: 600;
+   color: #333;
+}
+::ng-deep.form-container > .mat-dialog-container{
+   border-radius: 7px !important;
+   background: rgb(255, 255, 255);
+   padding: 20px;
+ }
+.width{
+   width: 100% !important;
+}

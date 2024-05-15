@@ -1,0 +1,31 @@
+<div class="cont">
+   <div class="title">{{data.record ? 'Actualizar' : 'Agregar'}} registro</div>
+   <div class="subcont">
+      <mat-form-field class="input1">
+         <mat-label>Usuario</mat-label>
+         <input type="text" (keyup)="writing()" (keyup.enter)="getUsers()" aria-label="Number" matInput [formControl]="user" [matAutocomplete]="auto">
+         <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let user of users" (click)="seletedUser = user; valid()" (keyup.enter)="seletedUser = user" [value]="user.name">{{user.name}}</mat-option>
+         </mat-autocomplete>
+         <mat-spinner matSuffix strokeWidth="2" *ngIf="loading" [diameter]="20"></mat-spinner>
+      </mat-form-field>
+      <div class="contImputs">
+         <input type="number" style="width: 40px;" (blur)="valid()" [(ngModel)]="day" placeholder="00" class="inputtime">
+         <div class="timespace">/</div>
+         <input type="number" style="width: 40px;" (blur)="valid()" [(ngModel)]="month" placeholder="00" class="inputtime">
+         <div class="timespace">/</div>
+         <input type="number" style="width: 80px;" (blur)="valid()" [(ngModel)]="year" max="2020" placeholder="0000" class="inputtime">
+       </div>
+       <div class="contImputs">
+         <input type="number" style="width: 50px;" (blur)="valid()" [(ngModel)]="hour" placeholder="00" class="inputtime">
+         <div class="timespace">:</div>
+         <input type="number" style="width: 50px;" (blur)="valid()" [(ngModel)]="minute" placeholder="00" class="inputtime">
+         <div class="timesstate">{{hour && hour > 12 ? 'PM' : 'AM'}}</div>
+      </div>
+   </div>
+   <div class="btns">
+      <button class="btn_color redcolor" *ngIf="data.record" style="width: 100px;" (click)="deleteItem()" matRipple>Eliminar</button>
+      <button class="btn_color" style="width: 100px;" [disabled]="!btnValid" (click)="save()" matRipple>{{data.record ? 'Actualizar' : 'Agregar'}}</button>
+   </div>
+   <button class="closedbtn" (click)="onNoClick()" matRipple><span class="material-icons closedbtnicon">clear</span></button>
+</div> 

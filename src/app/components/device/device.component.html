@@ -1,0 +1,22 @@
+<app-menu [title]="device.name" [urlReturn]="urlReturn" [loading]="loading">
+   <div class="cont">
+      <div class="head background">
+         <button matRipple class="btnmenu color1" (click)="page ='registers'" style="min-width: 105px;animation-delay: .2s;" [class.seletedMenu]="page == 'registers'"><span class="btnmenutext">Marcaciones</span><div *ngIf="page == 'registers'" class="btnmenuitems"></div></button>
+         <button matRipple class="btnmenu color1" (click)="page ='users'" style="animation-delay: .3s;" [class.seletedMenu]="page == 'users'"><span class="btnmenutext">Usuarios</span><div *ngIf="page == 'users'" class="btnmenuitems"></div></button>
+         <button matRipple class="btnmenu color1" (click)="page ='notifications'"  style="min-width: 115px;animation-delay: .4s;"  [class.seletedMenu]="page == 'notifications'"><span class="btnmenutext">Notificaciones</span><div *ngIf="page == 'notifications'" class="btnmenuitems"></div></button>
+         <button matRipple class="btnmenu color1" *ngIf="dataUser?.rol == 1" style="animation-delay: .5s;"  (click)="page ='settings'" [class.seletedMenu]="page == 'settings'"><span class="btnmenutext">Configurar</span><div *ngIf="page == 'settings'" class="btnmenuitems"></div></button>
+         <button matRipple class="btnmenu color1" *ngIf="dataUser?.rol == 1" style="animation-delay: .6s;"  (click)="page ='edit'" [class.seletedMenu]="page == 'edit'"><span class="btnmenutext">Modificar</span><div *ngIf="page == 'edit'" class="btnmenuitems"></div></button>
+         <button matRipple class="btnmenu color1" *ngIf="dataUser?.rol == 1" style="animation-delay: .7s;"  (click)="page ='process'" [class.seletedMenu]="page == 'process'"><span class="btnmenutext">Procesos</span><div *ngIf="page == 'process'" class="btnmenuitems"></div></button>
+         <button matRipple class="btnmenu color1" (click)="page ='info'"  style="animation-delay: .8s;"  [class.seletedMenu]="page == 'info'"><span class="btnmenutext">Informacion</span><div *ngIf="page == 'info'" class="btnmenuitems"></div></button>
+      </div>
+      <div class="body background1">
+         <app-registers *ngIf="page == 'registers'"></app-registers>
+         <app-users *ngIf="page == 'users'"></app-users>
+         <app-device-settings *ngIf="page == 'settings'"></app-device-settings>
+         <app-edit *ngIf="page == 'edit'"></app-edit>
+         <app-info *ngIf="page == 'info'"></app-info>
+         <app-process *ngIf="page == 'process'"></app-process>
+         <app-notifications *ngIf="page == 'notifications'"></app-notifications>
+      </div>
+   </div>
+</app-menu>

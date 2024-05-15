@@ -1,0 +1,134 @@
+.cont{
+   width: 100%;
+   max-width: 100%;
+   overflow: hidden;
+   position: relative;
+   display: flex;
+   flex-direction: column;
+}
+.card{
+   width: calc(100% - 10px);
+   padding: 0px 5px;
+   position: absolute;
+   left: 100%;
+   top: 0;
+   opacity: 0;
+   transition: all ease-in-out 0.3s;
+}
+.card_active{
+   left: 0;
+   opacity: 1;
+   position: relative;
+}
+.card_old{
+   left: -100%;
+}
+.title{
+   width: 100%;
+   height: 30px;
+   margin-top: 5px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   font-size: 12px;
+   font-weight: 500;
+}
+.devices{
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   margin: 10px 0px;
+   margin-top: 5px;
+   max-height: 400px;
+}
+.devices_scroll{
+   overflow-y: scroll;
+}
+.device{
+   width: 100%;
+   height: 44px;
+   min-height: 44px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   position: relative;
+   margin: 2px 0px;
+   padding: 0px 14px;
+   border-radius: 7px;
+   cursor: pointer;
+   border: none;
+   outline: none;
+   background: transparent;
+   transition: all ease-in-out 0.3s;
+}
+.device_icon{
+   font-size: 16px;
+   transition: all ease-in-out 0.3s;
+   margin-right: 10px;
+}
+.device_name{
+   font-size: 14px;
+   transition: all ease-in-out 0.3s;
+   font-weight: 500;
+   animation: opacity ease-out 0.5s;
+}
+.device_check{
+   position: absolute;
+   right: 15px;
+   font-size: 18px;
+   color: white;
+}
+.buttons{
+   margin-top: 4px;
+   width: 100%;
+   height: 40px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-end;
+}
+.btn{
+   padding: 0px 15px;
+   height: 36px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   border-radius: 7px;
+   cursor: pointer;
+   border: none;
+   outline: none;
+   color: white;
+   background: transparent;
+   margin-left: 10px;
+   transition: all ease-in-out 0.3s;
+}
+.color_white{
+   color: white !important;
+}
+.btn:disabled{
+   opacity: 0.4;
+   cursor: not-allowed;
+}
+.device_image{
+   width: 20px;
+   height: 20px;
+   margin-right: 10px;
+}
+.device_warning{
+   color: #ffaa00;
+   position: absolute;
+   right: 15px;
+   font-size: 16px;
+}
+.form{
+   width: calc(100% - 20px);
+   padding: 7px 10px;
+   padding-top: 5px;
+}
+.input{
+   width: 100%;
+   margin-top: 5px;
+}

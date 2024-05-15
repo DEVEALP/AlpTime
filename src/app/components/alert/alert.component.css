@@ -1,0 +1,106 @@
+.cont{
+   width: calc(100% - 40px);
+   padding: 15px 20px;
+   display: flex;
+   flex-direction: column;
+}
+.contIcon{
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+.title{
+   width: 100%;
+   padding: 0px 0px;
+   line-height: 24px;
+   min-height: 35px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   font-weight: 500;
+   color: #333;
+   text-align: center;
+}
+.text{
+   width: 100%;
+   text-align: center;
+   padding: 10px 0px;
+   padding-top: 5px;
+   color: #333;
+}
+.contButtons{
+   width: 100%;
+   height: 50px;
+   padding-top: 5px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-end;
+}
+.cancel{
+   padding: 0px 20px;
+   height: 40px;
+   border-radius: 20px;
+   color: #555;
+   display: flex;
+   background: none;
+   flex-direction: row;
+   align-items: center;
+   transition: all ease-out .3s;
+   justify-content: center;
+   border: none;
+   outline: none;
+   cursor: pointer;
+}
+.next{
+   padding: 0px 20px;
+   height: 40px;
+   border-radius: 20px;
+   transition: all ease-out .3s;
+   color: rgb(255, 255, 255);
+   margin-left: 10px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   border: none;
+   outline: none;
+   cursor: pointer;
+   font-size: 13px;
+}
+.next:disabled{
+   opacity: .4;
+   cursor: not-allowed;
+}
+.icon{
+   width: 70px;
+   height: 70px;
+   padding: 5px;
+   padding-bottom: 10px;
+}
+.cont_check{
+   width: calc(100% - 10px);
+   height: 20px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   padding: 0px 5px;
+   margin-bottom: 5px;
+}
+.image{
+   width: 100%;
+   padding: 10px 0px;
+}
+::ng-deep.alert-container > .mat-dialog-container{
+   border-radius: 20px !important;
+   background: rgb(255, 255, 255);
+   padding: 0px;
+ }
+ .cont_input{
+   width: 100%;
+   margin-bottom: -10px;
+ }

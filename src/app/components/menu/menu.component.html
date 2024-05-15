@@ -1,0 +1,35 @@
+<div class="cont">
+   <div class="menu-hor bg_color">
+      <div class="row">
+         <button class="btnmenu" matRipple (click)="clickButton()">
+            <mat-icon class="btnmenuicon_chevron_left" *ngIf="hiddenMenu  || urlReturn != '' || eventReturn">chevron_left</mat-icon>
+            <mat-icon class="btnmenuicon_menu" *ngIf="!hiddenMenu && urlReturn == '' && !eventReturn">menu</mat-icon>
+         </button>
+         <div class="column">
+            <div class="title" [class.titlemin]="title.length > 15" [class.show_version]="!title">{{title ? title : 'AlpTime'}}</div>
+            <span class="version" *ngIf="!title">V{{version}}</span>
+         </div>
+      </div>   
+      <div class="row">
+         <button class="profile row" matRipple [matMenuTriggerFor]="menuHome">
+            <div class="profilename">{{dataUser.nameuser | titlecase}}</div>
+            <img class="profileimage" [src]="dataUser.imageuser ? ('data:image/png;base64,' + dataUser.imageuser) : '../../../assets/notprofile.jpg'" alt="">
+         </button>
+         <mat-menu #menuHome="matMenu">
+            <button mat-menu-item (click)="logaut()">Cerrar sesion</button>
+         </mat-menu>
+      </div>
+   </div>
+   <div class="body"><ng-content></ng-content><div *ngIf="loading" class="loading"><mat-spinner class="loading_white" strokeWidth="4" [diameter]="40"></mat-spinner></div></div>
+   <div class="fondo" (click)="openMenu(false)" *ngIf="hiddenMenu" [class.opacity1]="showMenu"></div>
+   <div class="menu-vert background1"  *ngIf="hiddenMenu" [class.menu-ver-act]="showMenu">
+      <button class="menu-vert-item row" *ngFor="let x of apps;let i = index" [style]="'animation-delay:' + ((i/20) + .2) + 's'"  matRipple (click)="setPage(x.route_path)" [class.menu-vert-item-seleted]="page == x.route_path" [class.background]="page == x.route_path">
+         <span class="material-icons menu-vert-item-icon color3" [class.text_color]="page == x.route_path">{{x.icon_app}}</span>
+         <div class="menu-vert-item-name color" [class.text_color]="page == x.route_path">{{x.name}}</div>
+      </button>
+      <button class="menu-vert-item row" [style]="'animation-delay:' + (apps.length * .1) + 's'"  matRipple (click)="setPage('settings')" [class.menu-vert-item-seleted]="page == 'settings'"  [class.background]="page == 'settings'">
+         <span class="material-icons menu-vert-item-icon color3" [class.text_color]="page == 'settings'">settings</span>
+         <div class="menu-vert-item-name color" [class.text_color]="page == 'settings'">Configuración</div>
+      </button>
+   </div>
+</div>

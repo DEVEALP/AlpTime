@@ -1,0 +1,37 @@
+<app-menu [title]="'Empleados'" [loading]="loading">
+      <div class="cont background1">
+         <div class="head">
+            <button class="btnadd bg_color" (click)="add()" matRipple>Nuevo</button>
+            <div class="row">
+               <button matRipple class="contItemsButtoms background" (click)="setFilter()" [disabled]="loadFilter">
+                  <span *ngIf="!loadFilter" class="material-icons iconitemtextbutton color3">filter_alt</span>
+                  <mat-spinner strokeWidth="2" *ngIf="loadFilter" [diameter]="15" class="loading_color"></mat-spinner>
+                  <span class="titleitemtextbutton color1">Filtrar</span>
+                  <div class="iconfilter backcolor" *ngIf="filtercount">{{filtercount}}</div>
+               </button> 
+
+            </div>
+         </div>
+         <div class="body">
+            <div class="tdhead background" style="min-width: 860px;">
+               <div class="tbtitle color3 tbwidth60"></div>
+               <div class="tbtitle color3 tbwidth300" style="width: calc(100% - 570px);">Nombres</div>
+               <div class="tbtitle color3">Cedula</div>
+               <div class="tbtitle color3">Estado</div>
+               <div class="tbtitle color3">Contrato</div>
+               <div class="tbtitle color3">Ingreso</div>
+            </div>
+            <div class="tbbody background1" style="min-width: 870px;">
+               <button class="subtbitem" matRipple *ngFor="let x of employes; let i = index" [style]="'animation-delay:'+(i/20)+'s;'" (click)="viewEmploye(x.id)">
+                  <div class="tbtext color3 tbwidth60"> <img [src]="x.imagen ? ('data:image/png;base64,' + x.imagen) : '../../../assets/notprofile.jpg'" class="profile"> </div>
+                  <div class="tbtext color tbleft tbwidth300" style="width: calc(100% - 550px);">{{x.nombres | titlecase}}</div>
+                  <div class="tbtext color">{{x.cedula}}</div>
+                  <div class="tbtext color">{{x.estado}}</div>
+                  <div class="tbtext color">{{x.contrato}}</div>
+                  <div class="tbtext color">{{x.fecha_ing}}</div>
+               </button>
+               <div class="no_records color3" *ngIf="employes.length == 0 && !loading">No existen empleados</div>
+            </div>
+         </div>
+      </div>
+</app-menu>

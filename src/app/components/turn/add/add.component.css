@@ -1,0 +1,78 @@
+.cont{
+   width: calc(100% - 30px);
+   padding: 15px;
+   display: flex;
+   flex-direction: column;
+}
+.form{
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   flex-wrap: wrap;
+}
+.title{
+   width: 100%;
+   height: 20px;
+   margin-bottom: 10px;
+   font-size: 15px;
+   font-weight: 600;
+   color: #555;
+}
+.input{
+   width: 100%;
+   margin: 5px 0px;
+   height: 70px;
+}
+.divrow{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+}
+.inputl{
+   margin: 5px 0px;
+   width: calc(60% - 5px);
+}
+.inputr{
+   margin: 5px 0px;
+   width: calc(40% - 5px);
+}
+.input50{
+   height: 70px;
+   margin: 5px 0px;
+   width: calc(50% - 5px);
+}
+.input_rotative{
+   width: calc(50% - 10px);
+   height: 40px;
+   margin-bottom: 10px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+}
+.cont_buttons{
+   width: 100%;
+   height: 50px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-end;
+}
+.btnnew{
+   border: none;
+   outline: none;
+   cursor: pointer;
+   background: #30b869;
+   color: white;
+   font-size: 13px;
+   margin: 2px;
+   padding: 0px 14px;
+   -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1);
+   border-radius: 8px;
+   height: 32px;
+ }

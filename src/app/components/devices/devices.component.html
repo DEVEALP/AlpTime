@@ -1,0 +1,124 @@
+<app-menu>
+   <div class="cont background1">
+      <div class="head_search">
+         <button class="btn_color" matRipple (click)="add()"
+            [disabled]="true">Nuevo biometrico</button>
+         <div class="inpput_cont background" [class.width]="mobile">
+            <span class="material-icons iconinput color3">search</span>
+            <input type="text" placeholder="Buscar por Nombre" class="input color1"
+               [formControl]="text" (keyup)="writing()">
+         </div>
+      </div>
+      <div class="bodyx" *ngIf="!mobile">
+         <div class="bhead backcolor_light" style="min-width: 860px;">
+            <div class="title_head size60">Ver</div>
+            <div class="title_head size60">Imagen</div>
+            <div matRipple title="Ordenar por Nombre"
+               (click)="changeOrder('name')" class="title_head_point"
+               style="width: calc(100% - 710px);">Nombre<span
+                  class="material-icons iconorderhead"
+                  *ngIf="property == 'name'">{{order == 'asc' ? 'expand_more' :
+                  'expand_less'}}</span></div>
+            <div class="title_head size80">Estado conexión</div>
+            <div matRipple title="Ordenar por Última conexión"
+               (click)="changeOrder('last_communication')"
+               class="title_head_point size160">Última conexión<span
+                  class="material-icons iconorderhead"
+                  *ngIf="property == 'last_communication'">{{order == 'asc' ?
+                  'expand_more' : 'expand_less'}}</span></div>
+            <div matRipple title="Ordenar por Última registro"
+               (click)="changeOrder('last_record')"
+               class="title_head_point size160">Última registro<span
+                  class="material-icons iconorderhead"
+                  *ngIf="property == 'last_record'">{{order == 'asc' ?
+                  'expand_more' : 'expand_less'}}</span></div>
+            <div matRipple title="Ordenar por Usuarios"
+               (click)="changeOrder('users_counts')"
+               class="title_head_point size80">Usuarios<span
+                  class="material-icons iconorderhead"
+                  *ngIf="property == 'users_counts'">{{order == 'asc' ?
+                  'expand_more' : 'expand_less'}}</span></div>
+            <div matRipple title="Ordenar por Marcaciones"
+               (click)="changeOrder('logs_counts')"
+               class="title_head_point size80">Marcaciones<span
+                  class="material-icons iconorderhead"
+                  *ngIf="property == 'logs_counts'">{{order == 'asc' ?
+                  'expand_more' : 'expand_less'}}</span></div>
+         </div>
+         <mat-progress-bar mode="indeterminate" *ngIf="loading" class="progress"></mat-progress-bar>
+         <div class="bodyy" style="min-width: 860px;">
+            <div class="item_expandible"
+               *ngFor="let device of devices; let i = index"
+               [class.expande]="device.view" [class.borderleft3]="device.view"
+               [style]="'min-width: 850px;animation-delay:'+(i/50)+'s'">
+               <button matRipple class="itex_btn"
+                  (click)="view(device)"><span
+                     class="material-icons itex_btn_icon color3">{{device.view ?
+                     'expand_less' : 'keyboard_arrow_down'}}</span></button>
+               <button matRipple class="itex_btn_items background" (click)="view(device)">
+                  <div class="size60 text_head"></div>
+                  <div class="size60 text_head"><img class="image"
+                        [src]="device.image"></div>
+                  <div class="text_head color1"
+                     style="width: calc(100% - 700px);">{{device.name}}</div>
+                  <div class="size80 text_head color1"
+                     [title]="device.state_device_title"><span
+                        class="material-icons"
+                        [class.icon_orange]="device.state_device == 'sync_problem'"
+                        [class.icon_red]="device.state_device == 'sync_disabled'"
+                        [class.icon_wifi]="device.state_device == 'sync'"
+                        [class.icon_done]="device.state_device == 'cloud_sync'">{{device.state_device}}</span></div>
+                  <div class="size160 text_head color1">{{device.last_communication |
+                     date: 'short'}}</div>
+                  <div class="size160 text_head color1">{{device.last_record | date:
+                     'short'}}</div>
+                  <div class="size80 text_head color1">{{device.users_counts}}</div>
+                  <div class="size80 text_head color1">{{device.logs_counts}}</div>
+               </button>
+               <div class="itex_table" matRipple
+                  [routerLink]="'../device/'+device.id+'/'+device.name">
+                  <div class="itex_table_line">
+                     <div class="itex_table_title">Usuarios</div>
+                     <div class="itex_table_title">Marcaciones</div>
+                     <div class="itex_table_title">Asistencias</div>
+                     <div class="itex_table_title">Inconsistencias</div>
+                  </div>
+                  <div class="itex_table_line">
+                     <div class="itex_table_text">{{device.rep_users}}</div>
+                     <div class="itex_table_text">{{device.consistency +
+                        device.inconsistency}}</div>
+                     <div class="itex_table_text">{{device.consistency}}</div>
+                     <div class="itex_table_text">{{device.inconsistency}}</div>
+                  </div>
+               </div>
+            </div>
+            <!-- <button matRipple class="bitems" *ngFor="let device of devices; let i = index"  [style]="'min-width: 850px;animation-delay:'+(i/50)+'s'" >
+            <div class="size80 text_head"><img class="image" [src]="device.image"></div>
+            <div class="size200 text_head"  style="width: calc(100% - 700px);">{{device.name}}</div>
+            <div class="size80 text_head" [title]="device.state_device_title"><span class="material-icons" [class.icon_orange]="device.state_device == 'sync_problem'" [class.icon_red]="device.state_device == 'sync_disabled'"  [class.icon_wifi]="device.state_device == 'sync'" [class.icon_done]="device.state_device == 'cloud_sync'">{{device.state_device}}</span></div>
+            <div class="size80 text_head" [title]="device.allow ? 'Habilitado' : 'Deshabilitado'"><span class="material-icons icon_done" [class.icon_red]="!device.allow">{{device.allow ? 'check_circle' : 'cancel'}}</span></div>
+            <div class="size160 text_head">{{device.last_communication | date: 'short'}}</div>
+            <div class="size160 text_head">{{device.last_record | date: 'short'}}</div>
+            <div class="size80 text_head">{{device.users_counts}}</div>
+            <div class="size80 text_head">{{device.logs_counts}}</div>
+         </button> -->
+         </div>
+      </div>
+      <div class="contitems" *ngIf="mobile">
+         <button class="itemdevice" matRipple
+            *ngFor="let device of devices; let i = index"
+            [style]="'animation-delay:'+(i/50)+'s'"
+            (click)="view(device)">
+            <img class="imageitemdev" [src]="device.image">
+            <div class="itemdevname">{{device.name}}</div>
+            <div class="lastdev">{{device.last_communication | date:
+               'short'}}</div>
+            <span class="material-icons iconitemdev"
+               [class.icon_orange]="device.state_device == 'sync_problem'"
+               [class.icon_red]="device.state_device == 'sync_disabled'"
+               [class.icon_wifi]="device.state_device == 'sync'"
+               [class.icon_done]="device.state_device == 'cloud_sync'">{{device.state_device}}</span>
+         </button>
+      </div>
+   </div>
+</app-menu>

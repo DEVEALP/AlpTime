@@ -1,0 +1,123 @@
+<div class="cont background1">
+   <div class="subcont" [class.subcont_open]="tab == 1"
+      [class.subcont_old]="tab > 1">
+      <div class="calendar_head background1">
+         <div class="row">
+            <button class="btnfilter background" matRipple (click)="setFilters()">
+               <span class="material-icons btnfilter_icon color3">filter_alt</span>
+               <span class="btnfilter_text color1">Filtrar</span>
+               <div class="btnfilter_actived bg_color"
+                  *ngIf="!filters_laoding && filters_actived">{{filters_actived}}</div>
+               <mat-spinner class="loading_color" *ngIf="filters_laoding"
+                  strokeWidth="2" diameter="15"
+                  style="margin-left: 7px;"></mat-spinner>
+            </button>
+         </div>
+         <div class="row">
+            <span class="calendar_title textcolor">{{date_now}}</span>
+            <button class="calendar_btn background" matRipple (click)="setMonth(-1)"><span
+                  class="material-icons calendar_btn_icon color2">chevron_left</span></button>
+            <button class="calendar_btn background" matRipple (click)="setMonth(1)"><span
+                  class="material-icons calendar_btn_icon color2">navigate_next</span></button>
+         </div>
+      </div>
+      <div class="calendar_days"><div class="calendar_day color2" *ngFor="let x of nombresDias" [style]="'width:' + (innerWidth / 7) + 'px;'">{{getNameDay(x)}}</div></div>
+      <mat-progress-bar mode="indeterminate" *ngIf="loading_calendar"></mat-progress-bar>
+      <div class="calendar_body" id="calendar"></div>
+   </div>
+   <div class="subcont" [class.subcont_open]="tab == 2" [class.subcont_old]="tab > 2">
+      <div class="day_head background1">
+         <div class="item_turn_row" style="margin: 0px 10px;">
+            <button class="btn_text_calendar background" matRipple [class.btn_text_calendar_mobile]="mobile" title="Regresar a la vista mensual" (click)="return_month_calendar()">
+               <span class="material-icons btn_text_calendar_icon color3">arrow_back</span>
+               <span *ngIf="!mobile" class="btn_text_calendar_text color1">Vista mensual</span>
+            </button>
+         </div>
+         <div class="item_turn_row" style="margin: 0px 10px;">
+            <button class="btn_circle background" matRipple title="Ver dia anterior" (click)="add_day(-1)"><span class="material-icons btn_circle_icon color3">chevron_left</span></button>
+            <span class="day_date color2">{{day_name}} {{day_view}} de {{date_now}}</span>
+            <button class="btn_circle background" matRipple title="ver dia siguiente" (click)="add_day(1)"><span class="material-icons btn_circle_icon color3">chevron_right</span></button>
+         </div>
+      </div>
+      <div class="daycont" id="daycont">
+         <div class="day_subhead background" style="min-width: 1440px;">
+            <div class="day_head_title color1" [style]="'width: ' + this.width_hour + 'px;min-width: ' + this.width_hour + 'px;'" *ngFor="let x of hours">{{x}}</div>
+         </div>
+         <mat-progress-bar mode="indeterminate" *ngIf="loading_calendar"></mat-progress-bar>
+         <div class="day_body" style="min-width: 1450px;">
+            <div class="linetime" *ngFor="let x of hours;let i = index" [style]="'left:' + ((this.width_hour * i) - 1) + 'px;'"></div>
+            <div class="item_turn" *ngFor="let x of day_turns;let i = index" [style]="'animation-delay:'+((i/20) + .2)+'s;'" [title]="x.turn_name + ' - ' + x.users.length + ' Empleados'" (click)="view_turn(x, i)">
+               <div class="turn_cont" [style]="'left: '+ x.start_time +'px;width: '+x.porcent_width+'px;background: '+x.color+';position: absolute;top: 0px'"></div>
+               <div class="turn_cont" matRipple [style]="'left: '+ x.start_time +'px;width: '+x.width+'px;background: '+x.color+'4D;position: absolute;top: 0px'">
+                  <div class="item_turn_row">
+                     <div class="itemUsersImages">
+                        <img *ngFor="let x of getImageProfile(x.users); let i = index" [src]="x.imagen ? ('data:image/png;base64,' + x.imagen) : '../../../assets/notprofile.jpg'"  [style]="'z-index:' + (5 - i) + ';margin-left: -' + (7 + (i * 2)) + 'px'" class="itemUsersImage">
+                     </div>  
+                     <div class="item_turn_column" style="margin-left: 5px;">
+                        <span class="item_turn_name color" [class.item_turn_color_white]="x.porcent > 40">{{x.turn_name}}</span>
+                        <span class="item_turn_personas color1" [class.item_turn_color_white]="x.porcent > 40">{{x.users.length}} Empleados</span>
+                     </div>
+                  </div>
+                  <div class="item_turn_row">
+                     <span class="item_turn_porcent color2" [class.item_turn_color_white]="x.porcent > 95">{{x.porcent}}%</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="subcont" [class.subcont_open]="tab == 3" [class.subcont_old]="tab > 3">
+      <div class="day_head">
+         <div class="item_turn_row" style="margin: 0px 5px;">
+            <button class="btn_text_calendar background" matRipple [class.btn_text_calendar_mobile]="mobile" title="Regresar vista diaria" (click)="back_to_day()">
+               <span class="material-icons btn_text_calendar_icon color3">arrow_back</span>
+               <span *ngIf="!mobile" class="btn_text_calendar_text color2">Vista Diaria</span>
+            </button>
+            <button class="btn_text_calendar background" matRipple [class.btn_text_calendar_mobile]="mobile" (click)="addUserTurn()">
+               <span class="material-icons btn_text_calendar_icon color3">add</span>
+               <span *ngIf="!mobile" class="btn_text_calendar_text color2">Asignar usuario</span>
+            </button>
+            <button class="btn_text_calendar background">
+               <span class="material-icons btn_text_calendar_icon color3" *ngIf="!mobile">event</span>
+               <span class="btn_text_calendar_text color2">{{day_name}} {{day_view}} de {{date_now}}</span>
+            </button>
+         </div>
+         <div class="item_turn_row" style="margin: 0px 10px;">
+            <button class="btn_circle background" matRipple title="Turno anterior" [disabled]="turn_index <= 0" (click)="view_next_turn(-1)"><span class="material-icons btn_circle_icon color3">chevron_left</span></button>
+            <span class="day_date color2">{{turn_name}}</span>
+            <button class="btn_circle background" matRipple title="Turno siguiente" [disabled]="(turn_index + 1) >= day_turns.length" (click)="view_next_turn(1)"><span class="material-icons btn_circle_icon color3">chevron_right</span></button>
+         </div>
+      </div>
+      <div class="daycont">
+         <div class="turns_list_head background" style="min-width: 940px;">
+            <div class="turns_list_title color3 turns_list_text_300" style="width: calc(100% - 550px);">Usuario</div>
+            <div class="turns_list_title color3">Estado</div>
+            <div class="turns_list_title color3">Hora</div>
+            <div class="turns_list_title color3">Entrada</div>
+            <div class="turns_list_title color3 turns_list_text_150">Turno</div>
+            <div class="turns_list_title"></div>
+         </div>
+         <mat-progress-bar mode="indeterminate" *ngIf="loading_calendar"></mat-progress-bar>
+         <div class="turns_list_body" style="min-width: 950px;"> 
+            <div class="turns_list_item" *ngFor="let x of turns_Calendar; let i = index" [style]="'animation-delay:' + (i/20) + 'px;'">
+               <div class="turns_list_text turns_list_text_300" style="width: calc(100% - 550px);">
+                  <img [src]="x.imagen ? ('data:image/png;base64,' + x.imagen) : '../../../assets/notprofile.jpg'" class="turns_list_image">
+                  <div class="turns_list_name color1">{{formatearCapitalizarTexto(x.name)}}</div>
+               </div>
+               <div class="turns_list_text" style="justify-content: center;">
+                  <div class="status_user" [class.asistio_status]="x.estado == 'Asistió'" [class.ausente_status]="x.estado == 'Ausente'" [class.atraso_status]="x.estado == 'Atraso'" [class.vacaciones_status]="x.estado == 'Vacaciones'">{{x.estado}}</div>
+               </div> 
+               <div class="turns_list_text color" style="justify-content: center;">{{x.checktime}}</div>
+               <div class="turns_list_text color" style="justify-content: center;">{{x.entrada}}</div>
+               <div class="turns_list_text turns_list_text_150 color">{{x.turn_name}}</div>
+               <div class="turns_list_text color" style="justify-content: center;">
+                  <button class="btn_circle turns_list_btn" matRipple title="Cambiar al usuario de turno" *ngIf="x.day_dif < 14" (click)="changeUserTurn(x)"><span class="material-icons turns_list_icon" style="color: rgb(0, 81, 195);">edit</span></button>
+                  <button class="btn_circle turns_list_btn" matRipple title="Eliminar al usuario del turno" *ngIf="x.day_dif < 14" (click)="delete_turn(x)">
+                     <mat-spinner class="loading_color" *ngIf="x.loading" strokeWidth="2" diameter="16"></mat-spinner>
+                     <span class="material-icons turns_list_icon" *ngIf="!x.loading" style="color: rgb(192, 18, 18);">delete</span>
+                  </button>
+               </div>
+            </div> 
+      </div>
+   </div>
+</div> 

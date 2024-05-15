@@ -1,0 +1,12 @@
+<div class="cont">
+   <div class="title">{{data.title}}</div>
+   <button matRipple class="btncircle btnfixed"  (click)="closing()"><span class="material-icons iconbtncircle">close</span></button>
+   <mat-form-field class="input" appearance="outline">
+      <mat-label>Buscar</mat-label>
+      <input matInput (keyup)="search($event)" autofocus id="input">
+    </mat-form-field>
+    <div class="contItems">
+      <button class="item" *ngIf="data.all" matRipple (click)="selected(data.value_all)">Todos</button>
+      <button class="item" matRipple *ngFor="let x of items" (click)="selected(x)">{{x.nombre}}</button>
+    </div>
+</div>

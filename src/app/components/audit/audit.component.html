@@ -1,0 +1,54 @@
+<div class="cont">
+   <div class="head" [class.inverthead]="mobile">
+      <div class="row"> 
+         <button matRipple class="contItemsButtoms" [matMenuTriggerFor]="menu_view" [disabled]="true">
+            <span class="material-icons iconitemtextbutton">visibility</span>
+            <span *ngIf="false" class="textitemtextbutton">Buscar por:</span>
+            <span class="titleitemtextbutton">Todos</span>
+         </button>
+         <mat-menu #menu_view="matMenu" class="contview">
+            <div mat-menu-item (click)="$event.stopPropagation()"><mat-checkbox (change)="changeView()" [(ngModel)]="view.entrance">Entrada</mat-checkbox></div>
+            <div mat-menu-item (click)="$event.stopPropagation()"><mat-checkbox (change)="changeView()" [(ngModel)]="view.exit">Salida</mat-checkbox></div>
+            <div mat-menu-item (click)="$event.stopPropagation()"><mat-checkbox (change)="changeView()" [(ngModel)]="view.lunch_entrance">Entrada Almuerzo</mat-checkbox></div>
+            <div mat-menu-item (click)="$event.stopPropagation()"><mat-checkbox (change)="changeView()" [(ngModel)]="view.lunch_outing">Salida Almuerzo</mat-checkbox></div>
+            <div mat-menu-item (click)="$event.stopPropagation()"><mat-checkbox (change)="changeView()" [(ngModel)]="view.repeated">Repetidos</mat-checkbox></div>
+         </mat-menu>
+         <button matRipple class="contItemsButtoms" (click)="changeType()">
+            <span class="material-icons iconitemtextbutton">preview</span>
+            <span *ngIf="false" class="textitemtextbutton">Buscar por:</span>
+            <span class="titleitemtextbutton">{{istext ? 'Fecha': 'Texto'}}</span>
+         </button>
+      </div>
+      <div class="inpput_cont" [class.width]="mobile" *ngIf="istext">
+         <span class="material-icons iconinput">search</span>
+         <input type="text" placeholder="Buscar por Usuario o Descripción" class="input" [formControl]="text" (keyup)="writing()">
+      </div> 
+      <div class="inpput_cont" [class.width]="mobile" *ngIf="!istext">
+         <span class="material-icons iconinput">search</span>
+         <mat-date-range-input [rangePicker]="picker">
+            <input (dateChange)="changedate()" matStartDate placeholder="Fecha Inicio" [formControl]="start">
+            <input (dateChange)="changedate()" matEndDate placeholder="Fecha Fin" [formControl]="end">
+          </mat-date-range-input>
+          <mat-datepicker-toggle style="transform: scale(0.8);" matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+      </div> 
+   </div>
+   <div class="body">
+      <div class="bhead backcolor_light" style="min-width: 790px;">
+         <div matRipple (click)="changeOrder('name_user')" class="title_head_point size200">Usuario<span class="material-icons iconorderhead" *ngIf="property == 'name_user'">{{order == 'asc' ? 'expand_more' : 'expand_less'}}</span></div>
+         <div matRipple (click)="changeOrder('audit_date')" class="title_head_point size160">Fecha<span class="material-icons iconorderhead" *ngIf="property == 'audit_date'">{{order == 'asc' ? 'expand_more' : 'expand_less'}}</span></div>
+         <div matRipple (click)="changeOrder('action')" class="title_head_point size120">Acción<span class="material-icons iconorderhead" *ngIf="property == 'action'">{{order == 'asc' ? 'expand_more' : 'expand_less'}}</span></div>
+         <div class="title_head size200" style="min-width: calc(100% - 590px);">Descripción</div>
+         <div matRipple class="title_head size100">Modulo</div>
+      </div>
+      <div class="bbody" style="min-width: 790px;">
+         <div class="bitems" *ngFor="let audit of audits; let i = index"  [style]="'animation-delay:'+(i/60)+'s'">
+            <div class="size200 text_head">{{audit.name_user | titlecase}}</div>
+            <div class="size160 text_head">{{audit.audit_date | date: 'short'}}</div>
+            <div class="size120 text_head">{{audit.action}}</div>
+            <div class="size200 text_head" style="min-width: calc(100% - 580px);">{{audit.audit_description}}</div>
+            <div class="size100 text_head">{{audit.module}}</div>
+         </div>
+      </div>
+   </div>
+</div>

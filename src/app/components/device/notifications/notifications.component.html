@@ -1,0 +1,35 @@
+<div class="cont background1">
+   <div class="head">
+      <button matRipple class="contItemsButtoms bg_color" style="padding: 0px 8px;" (click)="setEvent()">
+         <span class="material-icons iconitemtextbutton color3">add</span>
+         <span class="textitemtextbutton color1">Agregar</span>
+      </button>
+   </div>
+   <div class="body">
+      <div class="tdhead background" style="min-width: 1120px;">
+         <div class="tbtitle color3 tbwidth200">Destino</div>
+         <div class="tbtitle color3 tbwidth300">Mensaje</div>
+         <div class="tbtitle color3 tbwidth200">Desde</div>
+         <div class="tbtitle color3 tbwidth200">Hasta</div>
+         <div class="tbtitle color3">Estado</div>
+         <div class="tbtitle color3 tbwidth50"></div>
+      </div>
+      <mat-progress-bar style="width: 100%;" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+      <div class="tbbody" style="min-width: 1120px;">
+         <div class="tbitem" style="min-width: 1110px;" *ngFor="let x of events; let i = index" [style]="'animation-delay:'+(i/20)+'s;'">
+            <div class="tbtext color1 tbleft tbwidth200">{{x.for_user}}</div>
+            <div class="tbtext color1 tbleft tbwidth300">{{x.details}}</div>
+            <div class="tbtext color1 tbwidth200">{{x.desde}}</div>
+            <div class="tbtext color1 tbwidth200">{{x.hasta}}</div>
+            <div class="tbtext color1">{{x.estado}}</div>
+            <div class="tbtext color1 tbwidth50">
+               <button matRipple class="btn_delete" *ngIf="x.isDelete" (click)="remove(x)">
+                  <mat-spinner *ngIf="x.loading" diameter="18" strokeWidth="3" class="loading_white"></mat-spinner>
+                  <span *ngIf="!x.loading" class="material-icons btn_delete_icon">delete</span>
+               </button>
+            </div>
+         </div>
+         <div class="noresult color3" *ngIf="!loading && events.length == 0">Sin mensajes todavía</div>
+      </div>
+   </div>
+</div>

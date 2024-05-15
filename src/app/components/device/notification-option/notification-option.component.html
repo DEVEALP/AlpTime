@@ -1,0 +1,86 @@
+<div class="cont">
+   <div class="title color1" *ngIf="!hidden_title">{{title}}</div>
+   <div class="body" [class.body_calendar]="tab >= 3">
+      <div class="card" [class.card_view]="tab  == 1" [class.card_old]="tab  > 1" [formGroup]="notification">
+         <mat-form-field class="input_n">
+            <mat-label>Destinatarios</mat-label>
+            <mat-select formControlName="type" class="color">
+                <mat-option *ngFor="let type of types" [value]="type.codigo">{{type.nombre}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="input_n">
+            <mat-label>Minutos</mat-label>
+            <input type="text" class="color" matInput formControlName="time" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of timeOptions | async;" [value]="option">{{option}}</mat-option>
+            </mat-autocomplete>
+            <span matSuffix class="color3">Minutos</span>
+            <mat-error *ngIf="notification.controls.time.hasError('pattern')">Solo se permiten números</mat-error>
+          </mat-form-field>
+          <mat-form-field class="input_n">
+            <mat-label>Detalle/motivo</mat-label>
+            <textarea matInput formControlName="observation" class="color"></textarea>
+            <mat-error *ngIf="notification.controls.observation.hasError('required')">Este campo es requerido</mat-error>
+            <mat-error *ngIf="notification.controls.observation.hasError('minlength')">Este campo debe tener al menos 3 caracteres</mat-error>
+          </mat-form-field>
+      </div>
+      <div class="card" [class.card_view]="tab  == 2" [class.card_old]="tab  > 2">
+         <div class="search background">
+            <span class="material-icons search_icon color3">search</span>
+            <input type="text" class="search_input color" [(ngModel)]="search" (keyup)="writing()" (keyup.enter)="getUsers()" placeholder="Buscar usuarios">
+         </div>
+         <div class="cont_users">
+            <button class="user" matRipple *ngFor="let x of users" [class.background]="x.selected" [class.user_Seleted]="x.selected" (click)="userSeleted(x)"> 
+               <span class="material-icons user_seleted_icon text_color" *ngIf="x.selected">check_circle</span>
+               <img [src]="x.imagen ? ('data:image/png;base64,' + x.imagen) : '../../../../assets/notprofile.jpg'" class="user_img">
+               <div class="user_texts">
+                  <div class="user_name color1">{{x.name}}</div>
+                  <div class="user_id color2">{{x.userid}}</div>
+               </div>
+            </button>
+         </div>
+      </div>
+      <div class="card" [class.card_view]="tab  == 3" [class.card_old]="tab  > 3">
+         <div class="datetime">
+            <div class="subtitle color2">Fecha</div>
+            <mat-calendar style="transform: scale(1.06);margin-top: -10px;" #calendar [minDate]="max_date" [selected]="selectedValue" (selectedChange)="onselectedChange($event)" ></mat-calendar>
+            <div class="subtitle color2" style="margin-top: 15px;">Hora</div>
+            <div class="time">
+               <input type="number" class="valor_time color" placeholder="00" value="00" (click)="selectedTime($event)" (blur)="validTime($event, 'hour')">
+               <span class="separator_time color3">:</span>
+               <input type="number" class="valor_time color" placeholder="00" value="00" (click)="selectedTime($event)" (blur)="validTime($event, 'min')">
+               <span class="Hora_Type_time color3">{{time.hour > 12 ? 'PM' : 'AM'}}</span>
+            </div>
+         </div>
+      </div>
+      <div class="card" [class.card_view]="tab  == 4" [class.card_old]="tab  > 4">
+         <div class="view_observation background">
+            <span class="view_observation_text color">{{notification.controls.observation.value}}</span>
+            <div class="view_observation_detail">
+               <span class="material-icons view_observation_detail_icon color1">event</span>
+               <span class="view_observation_detail_text color1">Fecha: {{selectedValue | date: 'dd/MM/yyyy'}}</span>
+            </div>
+            <div class="view_observation_detail">
+               <span class="material-icons view_observation_detail_icon color1">schedule</span>
+               <span class="view_observation_detail_text color1">Hora: {{getTime()}}</span>
+            </div>
+            <div class="view_observation_detail">
+               <span class="material-icons view_observation_detail_icon color1">hourglass_top</span>
+               <span class="view_observation_detail_text color1">Duración: {{notification.controls.time.value}} Minutos</span>
+            </div>
+            <div class="view_observation_detail">
+               <span class="material-icons view_observation_detail_icon color1">person</span>
+               <span class="view_observation_detail_text color1">Destinatarios: {{getNameUsers()}}</span>
+            </div>
+         </div>
+         <div class="warning color">Advertencia: Este proceso es irreversible y una vez guardado ya no se podrá cancelar</div>
+      </div>
+   </div>
+   <div class="btns">
+      <button class="btn color3" matRipple (click)="onCancel()" [disabled]="loading">{{tab ==  0 ? 'Cerrar' : 'Regresar'}}</button>
+      <button class="btn bg_color" matRipple (click)="onSave()">
+         <span *ngIf="!loading">{{tab ==  4 ? 'Guardar' : 'Siguiente'}}</span>
+         <mat-spinner *ngIf="loading" diameter="18" strokeWidth="3" class="loading_white"></mat-spinner>
+      </button>
+   </div>
+</div>

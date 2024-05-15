@@ -1,0 +1,56 @@
+<div class="cont">
+   <div class="head">
+      <span class="title color2" [class.title_animation]="title_animation">{{title}}</span>
+   </div>
+   <div class="body">
+      <div class="cont_body" [class.tab_view]="tab == 1" [class.tab_next]="tab < 1" [class.tab_old]="tab > 1">
+         <div class="contCalendar">
+            <div class="calendarSugerences">
+               <button class="sugerence color1" (click)="seletedSugerence('7days')" [class.sugerence_selected]="selection_sugerence == '7days'" [class.background]="selection_sugerence == '7days'">7 Dias</button>
+               <button class="sugerence color1" (click)="seletedSugerence('week')" [class.sugerence_selected]="selection_sugerence == 'week'" [class.background]="selection_sugerence == 'week'">Sig. Semana</button>
+               <button class="sugerence color1" (click)="seletedSugerence('15days')" [class.sugerence_selected]="selection_sugerence == '15days'" [class.background]="selection_sugerence == '15days'">15 Dias</button>
+               <button class="sugerence color1" (click)="seletedSugerence('month')" [class.sugerence_selected]="selection_sugerence == 'month'" [class.background]="selection_sugerence == 'month'">1 Mes</button>
+               <button class="sugerence color1" (click)="seletedSugerence('3months')" [class.sugerence_selected]="selection_sugerence == '3months'" [class.background]="selection_sugerence == '3months'">3 Meses</button>
+               <button class="sugerence color1" (click)="seletedSugerence('3months')" [class.sugerence_selected]="selection_sugerence == '3months'" [class.background]="selection_sugerence == '3months'">6 Meses</button>
+               <button class="sugerence color1" (click)="seletedSugerence('year')" [class.sugerence_selected]="selection_sugerence == 'year'" [class.background]="selection_sugerence == 'year'">1 Año</button>
+               <button class="sugerence color1" (click)="seletedSugerence('infinite')" [class.sugerence_selected]="selection_sugerence == 'infinite'" [class.background]="selection_sugerence == 'infinite'">Todo</button>
+            </div>
+            <mat-calendar *ngIf="load_holidays" [dateClass]="dateClass" #calendar style="margin-top: -10px;" [minDate]="max_date" [selected]="selectedRangeValue" (selectedChange)="onselectedChange($event)" ></mat-calendar>
+         </div>
+      </div>
+      <div class="cont_body" *ngIf="tab > 1" [class.tab_view]="tab == 2" [class.tab_next]="tab < 2" [class.tab_old]="tab > 2">
+         <div class="contData">
+            <div class="contRange">
+               <div class="range">
+                  <div class="range_div bg_color"><span class="material-icons range_icon">event</span></div>
+                  <div class="range_texts">
+                     <span class="range_title color3">Fecha de inicio</span>
+                     <span class="range_value color">{{formatearFecha(selectedRangeValue?.start)}}</span>
+                  </div>
+               </div>
+               <div class="range">
+                  <div class="range_div" style="background: white;"><span class="material-icons range_icon" style="color: #666;">event</span></div>
+                  <div class="range_texts">
+                     <span class="range_title color3">Fecha Fin</span>
+                     <span class="range_value color">{{ selectedRangeValue?.end ? (formatearFecha(selectedRangeValue?.end)) : 'Todo' }}</span>
+                  </div>
+               </div>
+            </div>
+            <div class="itemUsers">
+               <div class="itemUsersImages">
+                  <img *ngFor="let x of getImageProfile(); let i = index" [src]="x.imagen ? ('data:image/png;base64,' + x.imagen) : '../../../assets/notprofile.jpg'"  [style]="'z-index:' + (5 - i) + ';margin-left: -' + (7 + (i * 2)) + 'px'" class="itemUsersImage">
+               </div>  
+               <span class="itemUserstexts color">{{users.length}} Usuarios selecionados</span> 
+            </div>
+            <div class="info_d color2">Los usuarios seleccionados quedarán sin turno durante el rango de fechas seleccionado</div>
+         </div>
+      </div>
+   </div>
+   <div class="buttons">
+      <button class="btn_back" matRipple [disabled]="loading" (click)="back()">{{tab == 1 ? 'Salir' : 'Atras'}}</button>
+      <button class="btn_nect bg_color" matRipple (click)="save()">
+         <span *ngIf="!loading">{{tab == 4 ? 'Guardar' : 'Siguiente'}}</span>
+         <mat-spinner *ngIf="loading" diameter="18" class="loading_white"></mat-spinner>
+      </button>
+   </div>
+</div>

@@ -1,0 +1,111 @@
+<div class="cont background1">
+   <div class="head" [class.head_mobile]="mobile">
+      <div class="profile" [class.profile_mobile]="mobile">
+         <img [src]="image ? ('data:image/png;base64,' + image) : '../../../assets/notprofile.jpg'" class="imagen" [class.imagen_mobile]="mobile">
+      </div>
+      <button class="options" [class.options_mobile]="mobile" matRipple [class.option_seleted]="view == 'info'" (click)="changeTab('info')">
+         <span class="material-icons options_icon color3" [class.options_icon_mobile]="mobile" [class.text_color]="view == 'info'">badge</span>
+         <span class="options_name color1" *ngIf="!mobile" [class.text_color]="view == 'info'">Informacion</span>
+      </button>
+      <button class="options" [class.options_mobile]="mobile" matRipple [class.option_seleted]="view == 'fingerprint'" *ngIf="form.controls.id.value" (click)="changeTab('fingerprint')">
+         <span class="material-icons options_icon color3" [class.options_icon_mobile]="mobile" [class.text_color]="view == 'fingerprint'">fingerprint</span>
+         <span class="options_name color1" *ngIf="!mobile" [class.text_color]="view == 'fingerprint'">Huella</span>
+      </button>
+      <button class="options" [class.options_mobile]="mobile" matRipple [class.option_seleted]="view == 'face'" *ngIf="form.controls.id.value" (click)="changeTab('face')">
+         <span class="material-icons options_icon color3" [class.options_icon_mobile]="mobile" [class.text_color]="view == 'face'">emoji_emotions</span>
+         <span class="options_name color1" *ngIf="!mobile" [class.text_color]="view == 'face'">Rostro</span>
+      </button>
+   </div>
+   <div class="body" [class.body_mobile]="mobile">
+      <div class="subbody" *ngIf="view == 'info'">
+         <div class="title color2">Información del biometrico</div>
+         <div class="form" [formGroup]="form">
+            <mat-form-field class="input">
+               <mat-label>Nombres</mat-label>
+               <input matInput formControlName="name" class="color1">
+               <mat-error *ngIf="form.get('name')?.hasError('required')">Este campo es requerido</mat-error>
+               <mat-error *ngIf="form.get('name')?.hasError('minlength')">Este campo no puede tener menos de 3 caracteres</mat-error>
+               <mat-error *ngIf="form.get('name')?.hasError('maxlength')">Este campo no puede tener más de 50 caracteres</mat-error>
+               <mat-error *ngIf="form.get('name')?.hasError('pattern')">Este campo solo puede contener letras y espacios</mat-error>
+             </mat-form-field>
+             <mat-form-field class="input">
+               <mat-label>Contraseña (Opcional)</mat-label>
+               <input matInput formControlName="password" class="color1">
+               <mat-error *ngIf="form.get('password')?.hasError('pattern')">Este campo solo puede contener números</mat-error>
+             </mat-form-field>
+             <mat-form-field class="input">
+               <mat-label>Tarjeta (Opcional)</mat-label>
+               <input matInput formControlName="card" class="color1">
+               <mat-error *ngIf="form.get('cad')?.hasError('pattern')">Este campo solo puede contener números</mat-error>
+             </mat-form-field>
+             <mat-form-field class="input">
+               <mat-label>Tipo de usuario</mat-label>
+               <mat-select formControlName="type">
+                 <mat-option *ngFor="let x of types" [value]="x.codigo">{{x.nombre}}</mat-option>
+               </mat-select>
+               <mat-error *ngIf="form.get('type')?.hasError('required')">Este campo es requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field class="input">
+               <mat-label>Tipo de validación</mat-label>
+               <mat-select formControlName="valid">
+                  <mat-option *ngFor="let x of validation" [value]="x.codigo">{{x.nombre}}</mat-option>
+               </mat-select>
+               <mat-error *ngIf="form.get('type')?.hasError('required')">Este campo es requerido</mat-error>
+             </mat-form-field>
+         </div>
+         <div class="buttons">
+            <button class="btn color3" (click)="onNoClick()" [disabled]="loading || loading_delete">Cerrar</button>
+            <button class="btn red_color" *ngIf="data.id" (click)="remove()" [disabled]="loading || loading_delete">
+               <span *ngIf="!loading_delete">Eliminar</span>
+               <mat-spinner *ngIf="loading_delete" diameter="18" strokeWidth="3" class="loading_white"></mat-spinner>
+            </button>
+            <button class="btn bg_color" (click)="save_info()" [disabled]="form.invalid || loading_delete">
+               <span *ngIf="!loading">Actualizar</span>
+               <mat-spinner *ngIf="loading" diameter="18" strokeWidth="3" class="loading_white"></mat-spinner>
+            </button>
+         </div>
+      </div>
+      <div class="subbody" *ngIf="view == 'fingerprint'">
+         <div class="title color2">Ver y agregar huellas</div>
+         <div class="hands">
+            <svg version="1.1" style="wid" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	          viewBox="0 0 300 300" style="width: 150px;enable-background:new 0 0 300 300;" xml:space="preserve">
+               <path class="st0 hand_line" id="Finger0"  d="M84,175h-5.33c-8.1,0-14.67-6.57-14.67-14.67V83c0-11.05,8.95-20,20-20h0c11.05,0,20,8.95,20,20v72C104,166.05,95.05,175,84,175z"/>
+               <path class="st0 hand_line" id="Finger1"  d="M120,170h-5.33c-8.1,0-14.67-6.57-14.67-14.67V56c0-11.05,8.95-20,20-20h0c11.05,0,20,8.95,20,20v94C140,161.05,131.05,170,120,170z"/>
+               <path class="st0 hand_line" id="Finger2"  d="M158.5,170h-5.33c-8.93,0-16.17-7.24-16.17-16.17V33.5c0-11.87,9.63-21.5,21.5-21.5h0c11.87,0,21.5,9.63,21.5,21.5v115C180,160.37,170.37,170,158.5,170z"/>
+               <path class="st0 hand_line" id="Finger3"  d="M195.5,177h-5.33c-8.93,0-16.17-7.24-16.17-16.17V58.5c0-11.87,9.63-21.5,21.5-21.5h0c11.87,0,21.5,9.63,21.5,21.5v97C217,167.37,207.37,177,195.5,177z"/>
+               <path class="st0 hand_line" id="Finger4"  d="M183.56,257.8l-3.84-3.7c-7.08-6.81-7.3-18.08-0.49-25.16l54.55-56.7c8.85-9.2,23.5-9.49,32.7-0.63l0,0c9.2,8.85,9.49,23.5,0.63,32.7l-50.85,52.86C207.4,266.38,192.76,266.66,183.56,257.8z"/>
+               <path class="st0 hand_line fill_background" d="M167.36,287h-36.9C92.65,287,62,256.35,62,218.54V178.3c0-21.15,17.15-38.3,38.3-38.3h78.4c21.15,0,38.3,17.15,38.3,38.3v59.06C217,264.78,194.78,287,167.36,287z"/>
+               <path class="st1 hand_line fill_background" d="M147,220c0,0-3.59-50.62,55-35c15,4,15,5.64,15,5.64"/>
+            </svg>
+            <svg version="1.1" style="wid" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	          viewBox="0 0 300 300" style="width: 150px;enable-background:new 0 0 300 300;" xml:space="preserve">
+               <path class="st0 hand_line" id="Finger5"  d="M120.79,257.8l3.7-3.7c6.83-6.81,7.04-18.08,0.47-25.16l-52.6-56.7c-8.54-9.2-22.65-9.49-31.53-0.63l0,0c-8.88,8.85-9.15,23.5-0.61,32.7l49.03,52.86C97.8,266.38,111.92,266.66,120.79,257.8z"/>
+               <path class="st0 hand_line" id="Finger6"  d="M107.75,177h7.81c7.98,0,14.45-6.47,14.45-14.45V56.21c0-10.61-8.6-19.21-19.21-19.21h-3.05c-10.61,0-19.21,8.6-19.21,19.21v101.59C88.55,168.4,97.15,177,107.75,177z"/>
+               <path class="st0 hand_line" id="Finger7"  d="M143.43,170h7.81c7.98,0,14.45-6.47,14.45-14.45V31.21c0-10.61-8.6-19.21-19.21-19.21h-3.05c-10.61,0-19.21,8.6-19.21,19.21v119.59C124.22,161.4,132.82,170,143.43,170z"/>
+               <path class="st0 hand_line" id="Finger8"  d="M180.66,170h7.6c7.24,0,13.11-5.87,13.11-13.11V53.87c0-9.87-8-17.87-17.87-17.87h-2.84c-9.87,0-17.87,8-17.87,17.87v98.27C162.79,162,170.79,170,180.66,170z"/>
+               <path class="st0 hand_line" id="Finger9" d="M215.37,175h7.6c7.24,0,13.11-5.87,13.11-13.11V80.87c0-9.87-8-17.87-17.87-17.87h-2.84c-9.87,0-17.87,8-17.87,17.87v76.27C197.5,167,205.5,175,215.37,175z"/>
+               <path class="st0 hand_line fill_background" d="M138.18,287h31.36c37.81,0,68.46-30.65,68.46-68.46V178.3c0-21.15-17.15-38.3-38.3-38.3h-72.86c-21.15,0-38.3,17.15-38.3,38.3v59.06C88.55,264.78,110.77,287,138.18,287z"/>
+               <path class="st1 hand_line fill_background" d="M156.04,220c0,0,3.46-50.62-53.03-35c-14.46,4-14.46,5.64-14.46,5.64"/>
+            </svg>
+            <div class="loading_fingers" *ngIf="loading_fingers"><mat-spinner diameter="30" strokeWidth="3" class="loading_color"></mat-spinner></div>
+         </div>
+         <div class="warning color">Advertencia: Esta característica solamente es admitida por los nuevos modelos biométricos.</div>
+         <div class="buttons">
+            <button class="btn color3" (click)="onNoClick()" [disabled]="loading">Cerrar</button>
+            <button class="btn bg_color" (click)="save_fingerprint()" [disabled]="!id_finger">
+               <span *ngIf="!loading">Tomar huella</span>
+               <mat-spinner *ngIf="loading" diameter="18" strokeWidth="3" class="loading_white"></mat-spinner>
+            </button>
+         </div>
+      </div>
+      <div class="subbody" *ngIf="view == 'face'" id="face">
+         <div class="cont_face" [style]="'width:'+size +'px;height:'+size+'px;'">
+            <img [src]="image ? ('data:image/png;base64,' + image) : '../../../assets/notprofile.jpg'" class="imagen_face">
+         </div>
+         <div class="buttons">
+            <button class="btn color3" (click)="onNoClick()" [disabled]="loading">Cerrar</button>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="cont background1">
+   <div class="card" [class.card_active]="tab == 1" [class.card_old]="tab > 1">
+      <div class="title color2">Seleccione el dispositivo biométrico</div>
+      <div class="devices" [class.devices_scroll]="devices.length > 5">
+         <button class="device" [class.bg_color]="x.id == device?.id" *ngFor="let x of devices" (click)="selectDevice(x)">
+            <span class="material-icons color1 device_icon" [class.color_white]="x.id == device?.id" *ngIf="!x.image">camera_front</span>
+            <img class="device_image" [src]="'data:image/png;base64,' + x.image" *ngIf="x.image" alt="device image">
+            <span class="device_name color1" [class.color_white]="x.id == device?.id">{{x.name}}</span>
+            <span class="material-icons device_check" *ngIf="x.id == device?.id">done</span>
+            <span class="material-icons device_warning" *ngIf="x.id != device?.id && x.warning == 1" [title]="x.id != device?.id && x.warning == 1 ? 'Este dispositivo tiene problemas de comunicación' : ''">warning</span>
+         </button>
+      </div>
+      <div class="buttons">
+         <button class="btn color3" (click)="back()" [disabled]="loading">Cancelar</button>
+         <button class="btn bg_color" (click)="next_tab()" [disabled]="!device">
+            <span *ngIf="!loading">Asignar</span>
+            <mat-spinner *ngIf="loading" diameter="18" strokeWidth="3" class="loading_white"></mat-spinner>
+         </button>
+      </div>
+   </div>
+   <div class="card" [class.card_active]="tab == 2" [class.card_old]="tab > 2">
+      <div class="title color2">Configuración del empleado en el biométrico</div>
+      <div class="form" [formGroup]="form">
+         <mat-form-field class="input">
+            <mat-label>Nombres</mat-label>
+            <input matInput formControlName="name" class="color1">
+            <mat-error *ngIf="form.get('name')?.hasError('required')">Este campo es requerido</mat-error>
+            <mat-error *ngIf="form.get('name')?.hasError('minlength')">Este campo no puede tener menos de 3 caracteres</mat-error>
+            <mat-error *ngIf="form.get('name')?.hasError('maxlength')">Este campo no puede tener más de 50 caracteres</mat-error>
+            <mat-error *ngIf="form.get('name')?.hasError('pattern')">Este campo solo puede contener letras y espacios</mat-error>
+          </mat-form-field>
+          <mat-form-field class="input">
+            <mat-label>Contraseña (Opcional)</mat-label>
+            <input matInput formControlName="password" class="color1">
+            <mat-error *ngIf="form.get('password')?.hasError('pattern')">Este campo solo puede contener números</mat-error>
+          </mat-form-field>
+          <mat-form-field class="input">
+            <mat-label>Tarjeta (Opcional)</mat-label>
+            <input matInput formControlName="card" class="color1">
+            <mat-error *ngIf="form.get('cad')?.hasError('pattern')">Este campo solo puede contener números</mat-error>
+          </mat-form-field>
+          <mat-form-field class="input">
+            <mat-label>Tipo de usuario</mat-label>
+            <mat-select formControlName="type">
+              <mat-option *ngFor="let x of types" [value]="x.codigo">{{x.nombre}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('type')?.hasError('required')">Este campo es requerido</mat-error>
+         </mat-form-field>
+         <mat-form-field class="input">
+            <mat-label>Tipo de validación</mat-label>
+            <mat-select formControlName="valid">
+               <mat-option *ngFor="let x of validation" [value]="x.codigo">{{x.nombre}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('type')?.hasError('required')">Este campo es requerido</mat-error>
+          </mat-form-field>
+      </div>
+      <div class="buttons">
+         <button class="btn color3" (click)="back()" [disabled]="loading">Regresar</button>
+         <button class="btn bg_color" (click)="next_tab()" [disabled]="form.invalid">
+            <span *ngIf="!loading">Asignar</span>
+            <mat-spinner *ngIf="loading" diameter="18" strokeWidth="3" class="loading_white"></mat-spinner>
+         </button>
+      </div>
+   </div>
+</div>

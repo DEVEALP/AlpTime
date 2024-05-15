@@ -1,0 +1,172 @@
+.cont{
+   width: calc(100% - 20px);
+   padding: 5px 10px;
+   height: calc(100% - 10px);
+   max-height: calc(100% - 10px);
+   overflow-y: scroll;
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   align-items: flex-start;
+   justify-content: flex-start;
+}
+.calendar{
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+}
+.calendar_header{
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   height: 50px;
+}
+.calendar_header_text{
+   font-size: 16px;
+   font-weight: 500;
+   margin-left: 10px;
+}
+.calendar_header_btns{
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+.calendar_header_btn{
+   width: 40px;
+   height: 40px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   border-radius: 50%;
+   cursor: pointer;
+   border: none;
+   outline: none;
+   background: transparent;
+   margin: 5px;
+}
+.calendar_header_btn_icon{
+   font-size: 22px;
+}
+.calendar_body{
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   min-height: 400px;
+   max-height: 600px;
+}
+.body{
+   width: 100%;
+   padding-bottom: 15px;
+   display: flex;
+   flex-direction: column;
+}
+.calendar_days{
+   padding: 0px 5px;
+   width: calc(100% - 10px);
+   height: 40px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+}
+.calendar_day{
+   font-size: 14px;
+   font-style: italic;
+   font-weight: 500;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+.body_title{
+   width: 100%;
+   height: 40px;
+   min-height: 30px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: flex-start;
+   font-size: 14px;
+   font-weight: 500;
+   color: #333;
+}
+.turn{
+   margin: 3px 0px;
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   position: relative;
+}
+.turn_btn{
+   padding: 0px 30px;
+   width: 100%;
+   height: 60px;
+   min-height: 60px;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   justify-content: center;
+   border: none;
+   outline: none;
+   cursor: pointer;
+   position: relative;
+   border-radius: 10px;
+   -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.08);
+-moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.08);
+box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.08);
+}
+.turn_btn_title{
+   font-size: 13px;
+   font-weight: 500;
+}
+.turn_btn_text{
+   margin-top: 5px;
+   font-size: 11px;
+   font-weight: 500;
+}
+.turn_btn_color{
+   width: 8px;
+   height: 8px;
+   border-radius: 50%;
+   position: absolute;
+   top: 16px;
+   left: 12px;
+   background: red;
+}
+.turn_view{
+   width: 40px;
+   height: 40px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   border-radius: 50%;
+   cursor: pointer;
+   position: absolute;
+   right: 5px;
+   top: 5px;
+   background: transparent;
+   outline: none;
+   border: none;
+}
+.turn_view_icon{
+   font-size: 18px;
+}
+.novisible{
+   opacity: .5;
+}
+.noresult{
+   width: 100%;
+   height: 100%;
+   height: 150px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   font-size: 14px;
+   font-weight: 500;
+   font-style: italic;
+   color: #666;
+}

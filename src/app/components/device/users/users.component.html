@@ -1,0 +1,27 @@
+<div class="cont background1">
+   <div class="cont_head">
+      <button class="btn_color" matRipple title="No disponible al momento" [disabled]="true">Asignar empleados</button>
+      <div class="row">
+         <div class="inpput_cont background">
+            <span class="material-icons iconinput color3">search</span>
+            <input type="text" placeholder="Buscar por Nombre o id" class="input color1" [formControl]="text" (keyup)="writing()">
+         </div> 
+      </div>
+   </div>
+   <div class="bodyx">
+      <div class="bhead backcolor_light" style="min-width: 1220px;padding-right: 10px;">
+         <div class="title_head size60">Imagen</div>
+         <div title="Ordenar por Nombres" class="title_head_point size200" matRipple (click)="changeOrder('name')" style="min-width: calc(100% - 700px);">Nombres<span class="material-icons iconorderhead" *ngIf="property == 'name'">{{order == 'asc' ? 'expand_more' : 'expand_less'}}</span></div>
+         <div title="" class="title_head size160">Cedula</div>
+         <div title="Ordenar por Id del usuario" class="title_head_point size160" matRipple (click)="changeOrder('userid')">Id del usuario<span class="material-icons iconorderhead" *ngIf="property == 'userid'">{{order == 'asc' ? 'expand_more' : 'expand_less'}}</span></div>
+      </div>
+      <div class="bodyy" style="min-width: 1230px;">
+         <div class="bitems" *ngFor="let user of users; let i = index" (click)="view_user(user)" [style]="'animation-delay:'+(i/60)+'s'">
+            <div class="text_head size60"><img [src]=" user.imagen ? user.imagen : '../../../../assets/notprofile.jpg'" class="profile"> </div>
+            <div class="text_head size200 color1" style="min-width: calc(100% - 700px);text-align: start;justify-content: flex-start;">{{user.name | titlecase}}</div>
+            <div class="text_head size160 color1">{{user.cedula}}</div>
+            <div class="text_head size160 color1">{{user.userid}}</div>
+         </div>
+      </div>
+   </div>
+</div>

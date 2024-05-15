@@ -1,0 +1,23 @@
+<div class="cont">
+   <div class="title">Turnos del dia:</div>
+   <div class="subtitle">{{data.day  | titlecase }}</div>
+   <div class="contsItem">
+      <div class="contItem" *ngFor="let turn of data.turns">
+         <div class="turnname" [style]="'background:' + turn.color ">
+            <div class="turnnametitle">{{turn.turn}}</div>
+            <div class="turnnametext">{{turn.entrada}} - {{turn.salida}}</div>
+         </div>
+         <div class="turnuser" *ngFor="let user of turn.records">
+            <div class="row">
+               <div class="turnusercolor" [style]="'background:' + turn.color "></div>
+               <span class="material-icons turnusericon">person</span>
+               <div class="columna">
+                  <div class="turnusername">{{user.nombre | titlecase}}</div>
+                  <div class="turnusercedula">{{user.cedula}}</div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <button class="closedbtn" (click)="closed()" matRipple><span class="material-icons closedbtnicon">clear</span></button>
+</div>

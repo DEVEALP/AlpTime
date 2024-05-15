@@ -1,0 +1,54 @@
+<div class="cont">
+   <div class="title color1">Nuevo familiar</div>
+   <div class="form" [formGroup]="family">
+      <mat-form-field class="input">
+         <mat-label>Nombres</mat-label>
+         <input matInput class="color1" formControlName="nombres">
+         <mat-error *ngIf="family.controls.nombres.hasError('required')">Este campo es requerido</mat-error>
+         <mat-error *ngIf="family.controls.nombres.hasError('minlength')">Este campo debe tener al menos 3 caracteres</mat-error>
+         <mat-error *ngIf="family.controls.nombres.hasError('maxlength')">Este campo debe tener menos de 100 caracteres</mat-error>
+         <mat-error *ngIf="family.controls.nombres.hasError('pattern')">Este campo solo acepta letras</mat-error>
+       </mat-form-field>
+       <mat-form-field class="input">
+         <mat-label>Apellidos</mat-label>
+         <input matInput class="color1" formControlName="apellidos">
+         <mat-error *ngIf="family.controls.apellidos.hasError('required')">Este campo es requerido</mat-error>
+         <mat-error *ngIf="family.controls.apellidos.hasError('minlength')">Este campo debe tener al menos 3 caracteres</mat-error>
+         <mat-error *ngIf="family.controls.apellidos.hasError('maxlength')">Este campo debe tener menos de 100 caracteres</mat-error>
+         <mat-error *ngIf="family.controls.apellidos.hasError('pattern')">Este campo solo acepta letras</mat-error>
+       </mat-form-field>
+       <mat-form-field class="input">
+         <mat-label>Cedula (opcional)</mat-label>
+         <input matInput class="color1" formControlName="cedula">
+         <mat-error *ngIf="family.controls.cedula.hasError('minlength')">Este campo debe tener al menos 10 caracteres</mat-error>
+         <mat-error *ngIf="family.controls.cedula.hasError('maxlength')">Este campo debe tener menos de 10 caracteres</mat-error>
+         <mat-error *ngIf="family.controls.cedula.hasError('pattern')">Este campo solo acepta Numeros</mat-error>
+       </mat-form-field>
+       <mat-form-field class="input50" style="margin-right: 5px;">
+         <mat-label>Fecha de nacimiento</mat-label>
+         <input matInput [matDatepicker]="picker" class="color1" formControlName="fecha_nac"> 
+         <mat-hint>MM/DD/YYYY</mat-hint>
+         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+         <mat-datepicker #picker startView="multi-year"></mat-datepicker>
+         <mat-error *ngIf="family.controls.fecha_nac.hasError('required')">Este campo es requerido</mat-error>
+       </mat-form-field>
+       <mat-form-field class="input50" style="margin-left: 5px;">
+         <mat-label>Parentezco</mat-label>
+         <mat-select class="color1" formControlName="parentezco">
+             <mat-option *ngFor="let x of parentezcos" [value]="x">{{x}}</mat-option>
+         </mat-select>
+         <mat-error *ngIf="family.controls.parentezco.hasError('required')">Este campo es requerido</mat-error>
+       </mat-form-field>
+   </div>
+   <div class="btns">
+      <button class="btn color3" (click)="cancel()" [disabled]="loading">Cancelar</button>
+      <button class="btn red_color" (click)="remove()" *ngIf="data.family?.id" [disabled]="loading">
+         <span *ngIf="!loading">Eliminar</span>
+         <mat-spinner *ngIf="loading" diameter="18" strokeWidth="3" class="loading_white"></mat-spinner>
+      </button>
+      <button class="btn bg_color" (click)="save()" [disabled]="loading">
+         <span *ngIf="!loading">{{data.family?.id ? 'Actualizar' : 'Guardar'}}</span>
+         <mat-spinner *ngIf="loading" diameter="18" strokeWidth="3" class="loading_white"></mat-spinner>
+      </button>
+   </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="cont background1">
+   <div class="cont_head">
+      <button class="btn_color" matRipple (click)="add()" [disabled]="true">Nuevo turno</button>
+      <div class=""></div>
+      <div class="row">
+         <div class="inpput_cont background" [class.width]="mobile">
+            <span class="material-icons iconinput color3">search</span>
+            <input type="text" placeholder="Buscar por Nombre" class="input" [formControl]="text" (keyup)="writing()">
+         </div> 
+      </div>
+   </div>
+   <div class="bodyx" *ngIf="true">
+      <div class="bhead backcolor_light background" style="min-width: 850px;">
+         <div title="Ordenar por Nombre turno" (click)="changeOrder('turn_name')" class="title_head_point size200 color3" style="width: calc(100% - 650px);">Nombre turno<span class="material-icons iconorderhead" *ngIf="property == 'turn_name'">{{order == 'asc' ? 'expand_more' : 'expand_less'}}</span></div>
+         <div title="Ordenar por Rotativo" (click)="changeOrder('rotative')" class="title_head_point size80 color3">Rotativo<span class="material-icons iconorderhead" *ngIf="property == 'rotative'">{{order == 'asc' ? 'expand_more' : 'expand_less'}}</span></div>
+         <div title="Ordenar por Hora inicio de turno" (click)="changeOrder('he1')" class="title_head_point size160 color3">Hora inicio de turno<span class="material-icons iconorderhead" *ngIf="property == 'he1'">{{order == 'asc' ? 'expand_more' : 'expand_less'}}</span></div>
+         <div title="Ordenar por Hora fin de turno" (click)="changeOrder('hs2')" class="title_head_point size160 color3">Hora fin de turno<span class="material-icons iconorderhead" *ngIf="property == 'hs2'">{{order == 'asc' ? 'expand_more' : 'expand_less'}}</span></div>
+         <div title="Ordenar por Tolerancia" (click)="changeOrder('tolerance')" class="title_head_point size80 color3">Tolerancia<span class="material-icons iconorderhead" *ngIf="property == 'tolerance'">{{order == 'asc' ? 'expand_more' : 'expand_less'}}</span></div>
+         <div class="title_head size80 color3">Empleados asignados</div>
+         <div class="title_head size80 color3">Tiempo de Almuerzo</div>
+      </div>
+      <div class="bodyy" style="min-width: 850px;">
+         <button class="bitems" *ngFor="let turn of list">
+            <div class="size200 text_head color1"  style="width: calc(100% - 640px);">{{turn.turn_name}}</div>
+            <div class="size80 text_head color1">{{turn.rotative ? 'Si' : 'No'}}</div>
+            <div class="size160 text_head color1">{{turn.he1}}</div>
+            <div class="size160 text_head color1">{{turn.hs2}}</div>
+            <div class="size80 text_head color1">{{turn.tolerance}}</div>
+            <div class="size80 text_head color1">{{turn.users}}</div>
+            <div class="size80 text_head color1">{{turn.lunch}}</div>
+         </button>
+      </div>
+   </div>
+</div>
